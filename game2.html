@@ -663,7 +663,7 @@ const keys={
 const player={
     x:95,
     y:615,
-    speed:215,
+    speed:180,
     size:18
 };
 
@@ -753,7 +753,7 @@ const hearts=[
 ];
 
 
-let collected=[];
+let collected = new Array(hearts.length).fill(false);
 
 
 /* ============================= */
@@ -2492,59 +2492,102 @@ function update(dt){
 
     /* collect hearts */
 
-    for(
-        let i=0;
-        i<hearts.length;
-        i++
-    ){
+    /* ============================= */
+/* COLLECT HEARTS                */
+/* ============================= */
 
-        if(collected[i]) continue;
+for(let i=0; i<hearts.length; i++){
+
+    if(collected[i] === true){
+        continue;
+    }
+
+    const heart = hearts[i];
+
+    const d = distance(
+        player,
+        heart
+    );
+
+    /* Larger, forgiving collection radius */
+
+    if(d < 55){
+
+        collected[i] = true;
+
+        spawnParticles(
+            heart.x,
+            heart.y,
+            18
+        );
+
+        showMessage(
+            heart.text
+        );
 
 
-        if(
-            distance(
-                player,
-                hearts[i]
-            )<34
-        ){
-
-            collected[i]=true;
+        const collectedCount =
+            collected.filter(Boolean).length;
 
 
-            spawnParticles(
-                hearts[i].x,
-                hearts[i].y,
-                18
-            );
+        document
+            .getElementById("heartCounter")
+            .textContent =
+            "♡ " +
+            collectedCount +
+            " / " +
+            hearts.length;
 
 
-            showMessage(
-                hearts[i].text
-            );
+        /* Small heart burst */
 
+        for(let p=0; p<5; p++){
 
-            document
-                .getElementById(
-                    "heartCounter"
-                )
-                .textContent=
-                "♡ "+
-                collected.filter(Boolean).length+
-                " / "+
-                hearts.length;
+            particles.push({
+
+                x:heart.x,
+                y:heart.y,
+
+                vx:(Math.random()-.5)*35,
+
+                vy:
+                    -25-
+                    Math.random()*30,
+
+                life:
+                    0.8+
+                    Math.random()*.5,
+
+                heart:true,
+
+                size:
+                    .18+
+                    Math.random()*.12
+
+            });
 
         }
 
     }
 
+}
+
 
     /* reach Tom */
 
-    if(
-        collected.length>=10 &&
-        collected.every(Boolean) &&
-        distance(player,tom)<48
-    ){
+    const allHeartsCollected =
+    collected.length === hearts.length &&
+    collected.every(Boolean);
+
+
+if(
+    allHeartsCollected &&
+    distance(player,tom) < 55
+){
+
+    startFinalSequence();
+
+}
 
         startFinalSequence();
 
@@ -2691,7 +2734,7 @@ function startGame(){
     player.y=615;
 
 
-    collected=[];
+    collected = new Array(hearts.length).fill(false);
 
     particles.length=0;
 
