@@ -214,6 +214,27 @@ button:hover{
     pointer-events:auto;
     cursor:pointer;
 }
+
+.control.center.heartPulse{
+    animation:heartPulse .45s ease-out;
+}
+
+@keyframes heartPulse{
+    0%{
+        transform:scale(1);
+    }
+
+    45%{
+        transform:scale(1.25);
+        background:rgba(160,55,80,.72);
+        color:#fff;
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+    
 #photoPlaceholder{
     width:100%;
     min-height:180px;
@@ -440,7 +461,59 @@ for(let i=0;i<80;i++){
 
 const particles = [];
 
-let heartButtonCooldown = false;
+let heartButtonCooldown=false;
+
+function heartButtonEffect(){
+
+    if(!running || finished || heartButtonCooldown) return;
+
+    heartButtonCooldown=true;
+
+    const button=document.getElementById("heartButton");
+
+    // Herz im D-Pad pulsieren lassen
+    button.classList.remove("heartPulse");
+
+    // Neustart der Animation
+    void button.offsetWidth;
+
+    button.classList.add("heartPulse");
+
+    // Kleine Herzen über Maëva
+    for(let i=0;i<9;i++){
+
+        particles.push({
+            x:player.x+(Math.random()-.5)*18,
+            y:player.y-35,
+            vx:(Math.random()-.5)*28,
+            vy:-35-Math.random()*35,
+            life:1.1+Math.random()*.5,
+            heart:true,
+            size:.20+Math.random()*.18
+        });
+    }
+
+    // Ein paar größere Herzen
+    for(let i=0;i<3;i++){
+
+        particles.push({
+            x:player.x+(Math.random()-.5)*12,
+            y:player.y-42,
+            vx:(Math.random()-.5)*18,
+            vy:-50-Math.random()*20,
+            life:1.3+Math.random()*.4,
+            heart:true,
+            size:.35
+        });
+    }
+
+    setTimeout(()=>{
+        heartButtonCooldown=false;
+    },500);
+}
+
+let phoneCooldown=false;
+let phoneMessageTimer=null;
 
 function heartButtonEffect(){
 
@@ -919,6 +992,111 @@ function drawTom(x,y){
 
 function drawPhone(x,y,time){
 
+    const pulse=.7+.15*Math.sin(time*.004);
+
+    // glow
+    ctx.fillStyle=`rgba(203,86,115,${.06*pulse})`;
+
+    ctx.beginPath();
+    ctx.arc(x,y,65,0,Math.PI*2);
+    ctx.fill();
+
+    // extra glow while calling
+    if(phoneCooldown){
+
+        const callGlow=ctx.createRadialGradient(
+            x,y,5,
+            x,y,75
+        );
+
+        callGlow.addColorStop(
+            0,
+            "rgba(255,120,150,.22)"
+        );
+
+        callGlow.addColorStop(
+            1,
+            "rgba(255,120,150,0)"
+        );
+
+        ctx.fillStyle=callGlow;
+
+        ctx.beginPath();
+        ctx.arc(x,y,75,0,Math.PI*2);
+        ctx.fill();
+    }
+
+    // phone frame
+    ctx.strokeStyle=phoneCooldown
+        ? "#d87591"
+        : "#7e4051";
+
+    ctx.lineWidth=4;
+
+    ctx.strokeRect(
+        x-17,
+        y-28,
+        34,
+        58
+    );
+
+    // display
+    ctx.fillStyle=phoneCooldown
+        ? "#f7b7c6"
+        : "#c86a80";
+
+    ctx.fillRect(
+        x-11,
+        y-20,
+        22,
+        34
+    );
+
+    // normal display
+    ctx.fillStyle="#f4dce0";
+
+    for(let i=0;i<3;i++){
+
+        ctx.fillRect(
+            x-7+i*6,
+            y-13,
+            3,
+            3
+        );
+    }
+
+    ctx.fillRect(
+        x-5,
+        y+2,
+        10,
+        3
+    );
+
+    // call animation
+    if(phoneCooldown){
+
+        ctx.fillStyle="#fff1f4";
+        ctx.font="7px Arial";
+        ctx.textAlign="center";
+        ctx.fillText(
+            "CALLING",
+            x,
+            y+25
+        );
+
+    }else{
+
+        ctx.fillStyle="#d8b3ba";
+        ctx.font="12px Georgia";
+        ctx.textAlign="center";
+        ctx.fillText(
+            "call me",
+            x,
+            y+48
+        );
+    }
+}
+
     // little phone booth / phone glow
     const pulse=.7+.15*Math.sin(time*.004);
 
@@ -1031,12 +1209,14 @@ function drawParticles(){
         ctx.globalAlpha=Math.max(0,p.life);
 
         if(p.heart){
+
     drawHeart(
         p.x,
         p.y,
         p.size || .25,
         "#f18ca0"
     );
+
 }else{
             ctx.fillStyle="#f4b3c0";
             ctx.fillRect(p.x,p.y,3,3);
@@ -1284,6 +1464,80 @@ heartButton.addEventListener("click",(e)=>{
     heartButtonEffect();
 });
 
+canvas.addEventListener("touchstart",(e)=>{
+
+    if(!running || finished) return;
+
+    const touch=e.touches[0];
+
+    const rect=canvas.getBoundingClientRect();
+
+    const scaleX=W/rect.width;
+    const scaleY=H/rect.height;
+
+    const x=(touch.clientX-rect.left)*scaleX;
+    const y=(touch.clientY-rect.top)*scaleY;
+
+    const phoneX=335;
+    const phoneY=250;
+
+    const distanceToPhone=Math.sqrt(
+        Math.pow(x-phoneX,2)+
+        Math.pow(y-phoneY,2)
+    );
+
+    if(distanceToPhone<65){
+
+        phoneEffect();
+    }
+
+},{passive:true});
+    
+const heartButton=document.getElementById("heartButton");
+
+heartButton.addEventListener("touchstart",(e)=>{
+    e.preventDefault();
+    heartButtonEffect();
+},{passive:false});
+
+heartButton.addEventListener("click",(e)=>{
+    e.preventDefault();
+    heartButtonEffect();
+});
+
+function phoneEffect(){
+
+    if(!running || finished || phoneCooldown) return;
+
+    phoneCooldown=true;
+
+    // Kleine Herzen vom Handy aufsteigen lassen
+    for(let i=0;i<7;i++){
+
+        particles.push({
+            x:335+(Math.random()-.5)*18,
+            y:250,
+            vx:(Math.random()-.5)*20,
+            vy:-30-Math.random()*35,
+            life:1.1+Math.random()*.6,
+            heart:true,
+            size:.18+Math.random()*.16
+        });
+    }
+
+    // Persönliche Nachricht
+    showMessage(
+        "I'd never get tired of talking to you. ♡"
+    );
+
+    clearTimeout(phoneMessageTimer);
+
+    phoneMessageTimer=setTimeout(()=>{
+
+        phoneCooldown=false;
+
+    },2600);
+}
 
 // Start animation
 
