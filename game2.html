@@ -1,113 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta charset="utf-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#090708">
+
 <title>A Little Journey to You ♡</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
     margin:0;
-    padding:0;
     width:100%;
     height:100%;
     overflow:hidden;
     background:#090708;
     font-family:Georgia,serif;
-    color:#fff5f2;
 }
 
 body{
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 }
 
-#gameWrap{
+#game{
     position:relative;
     width:100vw;
     height:100vh;
-    max-width:1200px;
-    max-height:850px;
     overflow:hidden;
     background:#090708;
 }
 
 canvas{
-    display:block;
-    width:100%;
-    height:100%;
-    image-rendering:pixelated;
-    image-rendering:crisp-edges;
-}
-
-.overlay{
     position:absolute;
     inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:24px;
-    background:rgba(8,5,7,.78);
-    backdrop-filter:blur(4px);
-    z-index:10;
-}
-
-.card{
-    width:min(520px,92vw);
-    padding:34px 28px;
-    text-align:center;
-    border:1px solid rgba(235,150,165,.35);
-    background:linear-gradient(
-        180deg,
-        rgba(55,17,28,.94),
-        rgba(17,7,12,.97)
-    );
-    box-shadow:
-        0 0 45px rgba(180,55,85,.18),
-        inset 0 0 25px rgba(255,120,150,.04);
-}
-
-.card h1{
-    margin:0 0 12px;
-    font-size:clamp(27px,7vw,42px);
-    color:#ffe9ed;
-    font-weight:500;
-}
-
-.card p{
-    margin:10px 0;
-    line-height:1.65;
-    color:#d8c3c5;
-    font-size:15px;
-}
-
-.small{
-    font-size:13px!important;
-    color:#a99397!important;
-}
-
-button{
-    margin-top:22px;
-    border:1px solid rgba(255,180,195,.45);
-    background:#8e3047;
-    color:#fff5f5;
-    padding:13px 24px;
-    font-family:Georgia,serif;
-    font-size:15px;
-    cursor:pointer;
-    transition:.2s;
-    box-shadow:0 0 18px rgba(190,60,90,.22);
-}
-
-button:hover{
-    background:#a73c55;
-    transform:translateY(-1px);
+    width:100%;
+    height:100%;
+    display:block;
+    touch-action:manipulation;
 }
 
 #hud{
@@ -118,54 +59,215 @@ button:hover{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    pointer-events:none;
-    z-index:5;
+
+    color:#f8e8ec;
     font-size:14px;
-    color:#f4dfe2;
-    text-shadow:0 2px 5px #000;
+
+    pointer-events:none;
+    z-index:500;
 }
 
-.hudBox{
+#heartCounter{
     padding:7px 11px;
-    background:rgba(20,8,13,.62);
-    border:1px solid rgba(255,180,195,.16);
+
+    background:rgba(18,7,12,.55);
+    border:1px solid rgba(255,170,190,.18);
+    border-radius:10px;
+
+    backdrop-filter:blur(4px);
 }
+
+#journeyText{
+    opacity:.72;
+    font-size:13px;
+}
+
+/* -------------------------------- */
+/* OVERLAYS                         */
+/* -------------------------------- */
+
+.overlay{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(93,27,49,.34),
+            rgba(5,3,5,.94)
+        );
+
+    z-index:20000;
+
+    pointer-events:auto;
+}
+
+.overlay.hidden{
+    display:none !important;
+}
+
+.card{
+    width:min(520px,90vw);
+
+    padding:34px 28px;
+
+    text-align:center;
+
+    background:rgba(17,7,12,.90);
+
+    border:1px solid rgba(255,174,195,.25);
+
+    border-radius:18px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.55),
+        inset 0 0 40px rgba(170,50,80,.04);
+
+    color:#f9edf0;
+}
+
+.card h1{
+    margin:0 0 12px;
+
+    font-size:30px;
+    font-weight:normal;
+
+    color:#fff1f4;
+}
+
+.card h2{
+    margin:0 0 18px;
+
+    font-size:25px;
+    font-weight:normal;
+}
+
+.card p{
+    margin:10px 0;
+
+    color:#d9c4ca;
+
+    line-height:1.6;
+    font-size:15px;
+}
+
+.card .small{
+    margin-top:22px;
+
+    font-size:12px;
+    opacity:.65;
+}
+
+#startBtn,
+#againBtn{
+    margin-top:22px;
+
+    padding:12px 24px;
+
+    border:1px solid rgba(255,180,200,.38);
+    border-radius:12px;
+
+    background:rgba(125,37,63,.48);
+
+    color:#fff0f4;
+
+    font-family:Georgia,serif;
+    font-size:15px;
+
+    cursor:pointer;
+
+    pointer-events:auto;
+    touch-action:manipulation;
+
+    transition:
+        transform .12s,
+        background .12s;
+}
+
+#startBtn:hover,
+#againBtn:hover{
+    background:rgba(155,48,77,.62);
+}
+
+#startBtn:active,
+#againBtn:active{
+    transform:scale(.96);
+}
+
+/* -------------------------------- */
+/* MESSAGE                          */
+/* -------------------------------- */
 
 #message{
     position:absolute;
+
     left:50%;
     bottom:145px;
+
     transform:translateX(-50%);
+
     width:min(500px,88vw);
+
     padding:11px 16px;
+
     text-align:center;
+
     background:rgba(18,7,12,.86);
+
     border:1px solid rgba(255,160,180,.25);
+
+    border-radius:10px;
+
     color:#ffe9ed;
+
     opacity:0;
+
     transition:.3s;
+
     pointer-events:none;
+
     z-index:10000;
+
     font-size:14px;
     line-height:1.45;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.3);
 }
+
 #message.show{
     opacity:1;
 }
 
+/* -------------------------------- */
+/* D-PAD                            */
+/* -------------------------------- */
+
 #controls{
     position:fixed;
+
     left:14px;
+
     bottom:calc(14px + env(safe-area-inset-bottom));
-    z-index:9999;
+
+    z-index:15000;
+
     pointer-events:auto;
 }
 
 .dpad{
     display:grid;
+
     grid-template-columns:44px 44px 44px;
     grid-template-rows:44px 44px 44px;
+
     gap:3px;
+
     pointer-events:auto;
 }
 
@@ -174,21 +276,26 @@ button:hover{
     height:44px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     border:1px solid rgba(255,185,205,.28);
+
     border-radius:11px;
 
     background:rgba(35,10,20,.52);
 
     color:rgba(255,230,236,.78);
+
     font-family:Arial,sans-serif;
+
     font-size:20px;
     font-weight:normal;
 
     user-select:none;
     -webkit-user-select:none;
+
     touch-action:none;
 
     box-shadow:
@@ -203,91 +310,113 @@ button:hover{
 
 .control:active{
     background:rgba(150,50,78,.72);
+
     color:#fff;
+
     transform:scale(.91);
 }
 
 .control.center{
     background:rgba(100,30,50,.38);
+
     color:rgba(236,116,145,.85);
+
     font-size:17px;
+
     pointer-events:auto;
+
     cursor:pointer;
 }
 
 .control.center.heartPulse{
-    animation:heartPulse .45s ease-out;
+    animation:heartButtonPulse .5s ease;
 }
 
-@keyframes heartPulse{
+@keyframes heartButtonPulse{
+
     0%{
         transform:scale(1);
     }
 
-    45%{
+    35%{
         transform:scale(1.25);
-        background:rgba(160,55,80,.72);
+        background:rgba(180,50,85,.7);
         color:#fff;
+    }
+
+    70%{
+        transform:scale(.92);
     }
 
     100%{
         transform:scale(1);
     }
 }
-    
-#photoPlaceholder{
-    width:100%;
-    min-height:180px;
-    margin-top:20px;
-    border:1px dashed rgba(255,170,190,.35);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#ad969b;
-    font-size:13px;
-    line-height:1.5;
-    padding:20px;
+
+/* -------------------------------- */
+/* MOBILE                          */
+/* -------------------------------- */
+
+@media(max-width:600px){
+
+    .card{
+        padding:27px 21px;
+    }
+
+    .card h1{
+        font-size:25px;
+    }
+
+    .card h2{
+        font-size:22px;
+    }
+
+    .card p{
+        font-size:14px;
+    }
+
+    #journeyText{
+        display:none;
+    }
+
 }
 
-.hidden{
-    display:none!important;
-}
 </style>
+
 </head>
+
 
 <body>
 
-<div id="gameWrap">
+<div id="game">
 
 <canvas id="canvas" width="1100" height="750"></canvas>
 
+
+<!-- HUD -->
+
 <div id="hud">
-    <div class="hudBox" id="heartCounter">♡ 0 / 10</div>
-    <div class="hudBox">A little journey…</div>
-</div>
 
-<div id="message"></div>
-
-<div id="controls">
-    <div class="dpad">
-
-        <div></div>
-        <div class="control" id="up">↑</div>
-        <div></div>
-
-        <div class="control" id="left">←</div>
-        <div class="control center" id="heartButton">♡</div>
-        <div class="control" id="right">→</div>
-
-        <div></div>
-        <div class="control" id="down">↓</div>
-        <div></div>
-
+    <div id="heartCounter">
+        ♡ 0 / 10
     </div>
+
+    <div id="journeyText">
+        A little journey…
+    </div>
+
 </div>
-<div class="overlay" id="startOverlay">
+
+
+<!-- START SCREEN -->
+
+<div id="startOverlay" class="overlay">
+
     <div class="card">
-        <h1>A Little Journey to You ♡</h1>
+
+        <h1>
+            A Little Journey to You ♡
+        </h1>
 
         <p>
             A tiny world made for Maëva.
@@ -295,48 +424,70 @@ button:hover{
 
         <p>
             Follow the path, collect the little hearts,
-            and maybe you'll find someone waiting for you
-            at the end.
+            and find someone waiting for you at the end.
         </p>
 
         <p class="small">
             Made with love, somewhere between Germany and France.
         </p>
 
-        <button id="startBtn">Begin the journey</button>
+        <button id="startBtn">
+            Begin the journey
+        </button>
+
     </div>
+
 </div>
 
-<div class="overlay hidden" id="finishOverlay">
+
+<!-- MESSAGE -->
+
+<div id="message"></div>
+
+
+<!-- FINISH SCREEN -->
+
+<div id="finishOverlay" class="overlay hidden">
+
     <div class="card">
 
-        <h1>You found me. ♡</h1>
+        <h2>
+            You found me. ♡
+        </h2>
 
         <p>
-            Every little step was worth it.
+            A few hundred kilometers can't change
+            how close you can feel.
         </p>
 
         <p>
-            A few hundred kilometers can separate two people...
-            but somehow, you can still feel incredibly close.
+            I love our conversations,
+            our laughs,
+            and all the little things about you
+            that somehow make my days better.
         </p>
 
         <p>
-            Thank you for every laugh, every conversation,
-            every little thing you notice,
-            and every moment you make brighter.
+            I hope you know how beautiful your smile is.
         </p>
 
         <p>
-            And yes...
-            I would probably still talk to you for hours.
+            And maybe one day,
+            there won't be a screen between us anymore.
         </p>
 
-        <p>
-            Especially if you keep smiling at me like that.
-        </p>
-
-        <div id="photoPlaceholder">
+        <div style="
+            margin:24px auto;
+            width:min(330px,80vw);
+            aspect-ratio:1.4;
+            border:1px solid rgba(255,170,190,.22);
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#c9aeb6;
+            font-size:13px;
+        ">
             ♡ Our real photo goes here someday. ♡
         </div>
 
@@ -344,12 +495,58 @@ button:hover{
             For Maëva — with love, Tom ♡
         </p>
 
-        <button id="againBtn">Play again</button>
+        <button id="againBtn">
+            Play again
+        </button>
 
     </div>
-</div>
 
 </div>
+
+
+<!-- D-PAD -->
+
+<div id="controls">
+
+    <div class="dpad">
+
+        <div></div>
+
+        <div class="control" id="up">
+            ↑
+        </div>
+
+        <div></div>
+
+
+        <div class="control" id="left">
+            ←
+        </div>
+
+        <div class="control center" id="heartButton">
+            ♡
+        </div>
+
+        <div class="control" id="right">
+            →
+        </div>
+
+
+        <div></div>
+
+        <div class="control" id="down">
+            ↓
+        </div>
+
+        <div></div>
+
+    </div>
+
+</div>
+
+
+</div>
+
 
 <script>
 
@@ -358,6 +555,11 @@ const ctx = canvas.getContext("2d");
 
 const W = canvas.width;
 const H = canvas.height;
+
+
+/* -------------------------------- */
+/* GAME STATE                       */
+/* -------------------------------- */
 
 let running = false;
 let finished = false;
@@ -370,644 +572,1168 @@ const keys = {
     right:false
 };
 
+
 const player = {
+
     x:95,
     y:615,
+
     speed:215,
+
     size:18
+
 };
+
 
 const tom = {
+
     x:950,
     y:125
+
 };
 
+
+/* -------------------------------- */
+/* HEARTS                           */
+/* -------------------------------- */
+
 const hearts = [
+
     {
         x:170,
         y:565,
         text:"Every conversation with you makes my day a little brighter."
     },
+
     {
         x:290,
         y:635,
         text:"I love the way you make me smile."
     },
+
     {
         x:410,
         y:550,
         text:"You notice the little things. I notice that about you."
     },
+
     {
         x:520,
         y:640,
         text:"I hope you know how beautiful your smile is."
     },
+
     {
         x:640,
         y:540,
         text:"You could probably talk to me for hours... and honestly, I wouldn't mind."
     },
+
     {
         x:735,
         y:430,
         text:"Maybe sushi tastes even better when we can share it someday."
     },
+
     {
         x:655,
         y:315,
         text:"You make it very difficult not to compliment you."
     },
+
     {
         x:760,
         y:245,
         text:"You look cute. Seriously."
     },
+
     {
         x:855,
         y:180,
         text:"Even from far away, you somehow make everything feel closer."
     },
+
     {
         x:905,
         y:125,
         text:"Okay... one last step. Go find me. ♡"
     }
+
 ];
 
+
 let collected = [];
+
+
+/* -------------------------------- */
+/* EFFECTS                          */
+/* -------------------------------- */
+
+const particles = [];
+
+let heartButtonCooldown = false;
+
+let phoneCooldown = false;
+
+let phoneMessageTimer = null;
+
+
+/* -------------------------------- */
+/* FIREFLIES                        */
+/* -------------------------------- */
 
 const fireflies = [];
 
 for(let i=0;i<45;i++){
+
     fireflies.push({
+
         x:Math.random()*W,
+
         y:Math.random()*H,
+
         phase:Math.random()*Math.PI*2,
+
         speed:.5+Math.random()*1.4
+
     });
+
 }
+
+
+/* -------------------------------- */
+/* STARS                            */
+/* -------------------------------- */
 
 const stars = [];
 
 for(let i=0;i<80;i++){
+
     stars.push({
+
         x:Math.random()*W,
+
         y:Math.random()*390,
-        size:Math.random()<.8?1:2,
+
+        size:Math.random()<.8 ? 1 : 2,
+
         twinkle:Math.random()*Math.PI*2
+
     });
+
 }
 
-const particles = [];
 
-let heartButtonCooldown=false;
-
-function heartButtonEffect(){
-
-    if(!running || finished || heartButtonCooldown) return;
-
-    heartButtonCooldown=true;
-
-    const button=document.getElementById("heartButton");
-
-    // Herz im D-Pad pulsieren lassen
-    button.classList.remove("heartPulse");
-
-    // Neustart der Animation
-    void button.offsetWidth;
-
-    button.classList.add("heartPulse");
-
-    // Kleine Herzen über Maëva
-    for(let i=0;i<9;i++){
-
-        particles.push({
-            x:player.x+(Math.random()-.5)*18,
-            y:player.y-35,
-            vx:(Math.random()-.5)*28,
-            vy:-35-Math.random()*35,
-            life:1.1+Math.random()*.5,
-            heart:true,
-            size:.20+Math.random()*.18
-        });
-    }
-
-    // Ein paar größere Herzen
-    for(let i=0;i<3;i++){
-
-        particles.push({
-            x:player.x+(Math.random()-.5)*12,
-            y:player.y-42,
-            vx:(Math.random()-.5)*18,
-            vy:-50-Math.random()*20,
-            life:1.3+Math.random()*.4,
-            heart:true,
-            size:.35
-        });
-    }
-
-    setTimeout(()=>{
-        heartButtonCooldown=false;
-    },500);
-}
-
-let phoneCooldown=false;
-let phoneMessageTimer=null;
-
-function heartButtonEffect(){
-
-    if(!running || finished || heartButtonCooldown) return;
-
-    heartButtonCooldown = true;
-
-    // Kleine Herzexplosion direkt über Maëva
-    for(let i=0;i<8;i++){
-
-        particles.push({
-            x:player.x + (Math.random()-.5)*16,
-            y:player.y - 38,
-            vx:(Math.random()-.5)*25,
-            vy:-35-Math.random()*30,
-            life:1.1+Math.random()*.5,
-            heart:true,
-            size:.22+Math.random()*.18
-        });
-    }
-
-    // Etwas größere Herzen
-    for(let i=0;i<3;i++){
-
-        particles.push({
-            x:player.x + (Math.random()-.5)*12,
-            y:player.y - 42,
-            vx:(Math.random()-.5)*15,
-            vy:-50-Math.random()*20,
-            life:1.4+Math.random()*.4,
-            heart:true,
-            size:.35
-        });
-    }
-
-    setTimeout(()=>{
-        heartButtonCooldown=false;
-    },500);
-}
-
-function resizeCanvas(){
-    // CSS handles visual scaling.
-}
+/* -------------------------------- */
+/* HELPERS                          */
+/* -------------------------------- */
 
 function roundedRect(x,y,w,h,r){
+
     ctx.beginPath();
+
     ctx.moveTo(x+r,y);
+
     ctx.lineTo(x+w-r,y);
-    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+
+    ctx.quadraticCurveTo(
+        x+w,y,
+        x+w,y+r
+    );
+
     ctx.lineTo(x+w,y+h-r);
-    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+
+    ctx.quadraticCurveTo(
+        x+w,y+h,
+        x+w-r,y+h
+    );
+
     ctx.lineTo(x+r,y+h);
-    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+
+    ctx.quadraticCurveTo(
+        x,y+h,
+        x,y+h-r
+    );
+
     ctx.lineTo(x,y+r);
-    ctx.quadraticCurveTo(x,y,x+r,y);
+
+    ctx.quadraticCurveTo(
+        x,y,
+        x+r,y
+    );
+
     ctx.closePath();
+
 }
+
+
+function distance(a,b){
+
+    return Math.sqrt(
+
+        Math.pow(a.x-b.x,2) +
+        Math.pow(a.y-b.y,2)
+
+    );
+
+}
+
+
+/* -------------------------------- */
+/* BACKGROUND                       */
+/* -------------------------------- */
 
 function drawBackground(time){
 
-    const gradient = ctx.createLinearGradient(0,0,0,H);
+    const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        H
+    );
 
-    gradient.addColorStop(0,"#090711");
-    gradient.addColorStop(.48,"#160b18");
-    gradient.addColorStop(1,"#260d18");
+    gradient.addColorStop(
+        0,
+        "#08070d"
+    );
+
+    gradient.addColorStop(
+        .55,
+        "#160b16"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#2a0d1a"
+    );
 
     ctx.fillStyle=gradient;
-    ctx.fillRect(0,0,W,H);
 
-    // moon
-    ctx.fillStyle="#ffe8d5";
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* moon */
+
+    ctx.fillStyle="#f4dce3";
+
+    ctx.globalAlpha=.88;
+
     ctx.beginPath();
-    ctx.arc(900,105,48,0,Math.PI*2);
+
+    ctx.arc(
+        890,
+        95,
+        43,
+        0,
+        Math.PI*2
+    );
+
     ctx.fill();
 
-    ctx.fillStyle="#090711";
-    ctx.beginPath();
-    ctx.arc(920,92,43,0,Math.PI*2);
-    ctx.fill();
+    ctx.globalAlpha=1;
 
-    // stars
+
+    /* stars */
+
     for(const s of stars){
 
-        const alpha=.35+.35*Math.sin(time*.001+s.twinkle);
+        const alpha=
+            .35+
+            .35*
+            Math.sin(
+                time*.001+
+                s.twinkle
+            );
 
         ctx.globalAlpha=alpha;
-        ctx.fillStyle="#fff2df";
-        ctx.fillRect(s.x,s.y,s.size,s.size);
+
+        ctx.fillStyle="#f7dce5";
+
+        ctx.fillRect(
+            s.x,
+            s.y,
+            s.size,
+            s.size
+        );
 
     }
 
     ctx.globalAlpha=1;
 
-    // distant hills
+
+    /* distant hills */
+
     ctx.fillStyle="#100a13";
+
     ctx.beginPath();
-    ctx.moveTo(0,470);
-    ctx.quadraticCurveTo(160,360,310,455);
-    ctx.quadraticCurveTo(500,320,690,450);
-    ctx.quadraticCurveTo(850,350,1100,455);
+
+    ctx.moveTo(0,460);
+
+    ctx.quadraticCurveTo(
+        180,
+        380,
+        360,
+        465
+    );
+
+    ctx.quadraticCurveTo(
+        550,
+        350,
+        760,
+        465
+    );
+
+    ctx.quadraticCurveTo(
+        940,
+        370,
+        1100,
+        450
+    );
+
     ctx.lineTo(1100,H);
+
     ctx.lineTo(0,H);
+
     ctx.closePath();
+
     ctx.fill();
+
 
     drawPath();
     drawTrees();
     drawLanterns();
     drawLilies();
+
 }
+
+
+/* -------------------------------- */
+/* PATH                             */
+/* -------------------------------- */
 
 function drawPath(){
 
-    ctx.lineWidth=145;
+    ctx.save();
+
+    ctx.strokeStyle="#42202d";
+
+    ctx.lineWidth=125;
+
     ctx.lineCap="round";
-    ctx.strokeStyle="#331621";
 
     ctx.beginPath();
-    ctx.moveTo(60,635);
+
+    ctx.moveTo(70,650);
+
     ctx.bezierCurveTo(
-        250,690,
-        310,520,
-        465,585
+        230,650,
+        240,550,
+        400,585
     );
+
     ctx.bezierCurveTo(
-        610,650,
-        560,385,
-        730,360
+        570,620,
+        570,440,
+        690,420
     );
+
     ctx.bezierCurveTo(
-        845,345,
-        770,165,
-        955,125
+        820,400,
+        750,250,
+        950,125
     );
+
     ctx.stroke();
 
-    ctx.lineWidth=3;
-    ctx.strokeStyle="rgba(255,190,200,.09)";
+
+    ctx.strokeStyle="#592b3c";
+
+    ctx.lineWidth=2;
 
     ctx.beginPath();
-    ctx.moveTo(60,635);
+
+    ctx.moveTo(70,650);
+
     ctx.bezierCurveTo(
-        250,690,
-        310,520,
-        465,585
+        230,650,
+        240,550,
+        400,585
     );
+
     ctx.bezierCurveTo(
-        610,650,
-        560,385,
-        730,360
+        570,620,
+        570,440,
+        690,420
     );
+
     ctx.bezierCurveTo(
-        845,345,
-        770,165,
-        955,125
+        820,400,
+        750,250,
+        950,125
     );
+
     ctx.stroke();
+
+    ctx.restore();
+
 }
+
+
+/* -------------------------------- */
+/* TREES                            */
+/* -------------------------------- */
 
 function drawTrees(){
 
     const trees=[
-        [70,430,1.1],
-        [190,370,.85],
-        [330,430,1.2],
-        [470,360,.8],
-        [580,420,1],
-        [820,400,1.15],
-        [1030,310,.9],
-        [1010,520,1.25],
-        [240,180,.9]
+
+        [80,350,1.1],
+        [170,290,.8],
+        [260,390,1.2],
+        [455,330,1],
+        [550,250,.85],
+        [830,330,1.1],
+        [1020,300,1.2]
+
     ];
 
-    for(const [x,y,s] of trees){
 
-        ctx.fillStyle="#160d11";
-        ctx.fillRect(x-9*s,y,18*s,95*s);
+    for(const t of trees){
 
-        ctx.fillStyle="#241017";
+        const x=t[0];
+        const y=t[1];
+        const scale=t[2];
+
+        ctx.fillStyle="#100b12";
+
+        ctx.fillRect(
+            x-7*scale,
+            y,
+            14*scale,
+            90*scale
+        );
+
+
+        ctx.fillStyle="#130b16";
 
         for(let i=0;i<5;i++){
 
             ctx.beginPath();
+
             ctx.arc(
-                x+(i-2)*19*s,
-                y+(i%2)*15*s,
-                38*s,
+                x+
+                Math.sin(i*1.7)*30*scale,
+                y-
+                i*15*scale,
+                35*scale,
                 0,
                 Math.PI*2
             );
+
             ctx.fill();
+
         }
+
     }
+
 }
+
+
+/* -------------------------------- */
+/* LANTERNS                         */
+/* -------------------------------- */
 
 function drawLanterns(){
 
     const lanterns=[
-        [215,505],
-        [385,570],
-        [570,510],
-        [700,330],
-        [810,220],
-        [900,160]
+
+        [215,520],
+        [475,565],
+        [585,450],
+        [820,275]
+
     ];
 
-    for(const [x,y] of lanterns){
 
-        ctx.strokeStyle="#291218";
-        ctx.lineWidth=3;
+    for(const l of lanterns){
 
-        ctx.beginPath();
-        ctx.moveTo(x,y);
-        ctx.lineTo(x,y+55);
-        ctx.stroke();
+        const x=l[0];
+        const y=l[1];
 
-        const glow=ctx.createRadialGradient(x,y,2,x,y,35);
-        glow.addColorStop(0,"rgba(255,174,110,.35)");
-        glow.addColorStop(1,"rgba(255,174,110,0)");
+        const glow=ctx.createRadialGradient(
+            x,
+            y,
+            2,
+            x,
+            y,
+            38
+        );
+
+        glow.addColorStop(
+            0,
+            "rgba(255,160,130,.28)"
+        );
+
+        glow.addColorStop(
+            1,
+            "rgba(255,160,130,0)"
+        );
 
         ctx.fillStyle=glow;
+
         ctx.beginPath();
-        ctx.arc(x,y,35,0,Math.PI*2);
+
+        ctx.arc(
+            x,
+            y,
+            38,
+            0,
+            Math.PI*2
+        );
+
         ctx.fill();
 
-        ctx.fillStyle="#ffc98f";
-        ctx.fillRect(x-5,y-5,10,11);
+
+        ctx.strokeStyle="#56333b";
+
+        ctx.lineWidth=2;
+
+        ctx.beginPath();
+
+        ctx.moveTo(x,y+8);
+
+        ctx.lineTo(x,y+40);
+
+        ctx.stroke();
+
+
+        ctx.fillStyle="#f1b59d";
+
+        ctx.fillRect(
+            x-4,
+            y-5,
+            8,
+            11
+        );
+
     }
+
 }
+
+
+/* -------------------------------- */
+/* LILIES                           */
+/* -------------------------------- */
 
 function drawLilies(){
 
     const flowers=[
-        [125,575],
-        [350,650],
-        [470,500],
-        [700,470],
-        [785,295],
-        [850,150]
+
+        [125,570],
+        [350,515],
+        [470,610],
+        [715,500],
+        [875,235]
+
     ];
 
-    for(const [x,y] of flowers){
 
-        ctx.strokeStyle="#53663d";
-        ctx.lineWidth=3;
+    for(const f of flowers){
+
+        const x=f[0];
+        const y=f[1];
+
+        ctx.strokeStyle="#3d5a3b";
+
+        ctx.lineWidth=2;
 
         ctx.beginPath();
-        ctx.moveTo(x,y+18);
-        ctx.lineTo(x,y+45);
+
+        ctx.moveTo(x,y);
+
+        ctx.lineTo(x,y+18);
+
         ctx.stroke();
 
-        ctx.fillStyle="#b85b78";
+
+        ctx.fillStyle="#e5b8c7";
 
         for(let i=0;i<5;i++){
 
-            const a=(Math.PI*2/5)*i;
+            const a=
+                i*Math.PI*2/5;
 
             ctx.beginPath();
+
             ctx.ellipse(
-                x+Math.cos(a)*7,
-                y+Math.sin(a)*7,
+                x+Math.cos(a)*6,
+                y+Math.sin(a)*6,
                 5,
-                10,
+                9,
                 a,
                 0,
                 Math.PI*2
             );
+
             ctx.fill();
+
         }
 
-        ctx.fillStyle="#ffd58d";
-        ctx.fillRect(x-2,y-2,4,4);
+
+        ctx.fillStyle="#f2d28c";
+
+        ctx.fillRect(
+            x-2,
+            y-2,
+            4,
+            4
+        );
+
     }
+
 }
 
-function drawHeart(x,y,scale=1,color="#ed7187"){
+
+/* -------------------------------- */
+/* HEART DRAWING                    */
+/* -------------------------------- */
+
+function drawHeart(
+    x,
+    y,
+    scale=1,
+    color="#ed7187"
+){
 
     ctx.save();
+
     ctx.translate(x,y);
+
     ctx.scale(scale,scale);
 
     ctx.fillStyle=color;
 
     ctx.beginPath();
-    ctx.moveTo(0,12);
+
+    ctx.moveTo(0,10);
+
     ctx.bezierCurveTo(
-        -28,-5,
-        -18,-24,
-        -5,-20
+        -18,-2,
+        -12,-16,
+        -4,-13
     );
-    ctx.bezierCurveTo(
-        0,-18,
-        0,-12,
-        0,-9
-    );
+
     ctx.bezierCurveTo(
         0,-12,
-        0,-18,
-        5,-20
+        0,-7,
+        0,-5
     );
+
     ctx.bezierCurveTo(
-        18,-24,
-        28,-5,
-        0,12
+        0,-7,
+        0,-12,
+        4,-13
     );
+
+    ctx.bezierCurveTo(
+        12,-16,
+        18,-2,
+        0,10
+    );
+
     ctx.fill();
 
     ctx.restore();
+
 }
+
+
+/* -------------------------------- */
+/* MAËVA                            */
+/* -------------------------------- */
 
 function drawMaeva(x,y){
 
-    const s=1.35;
-
     ctx.save();
+
     ctx.translate(x,y);
-    ctx.scale(s,s);
 
-    // shadow
-    ctx.fillStyle="rgba(0,0,0,.3)";
-    ctx.fillRect(-13,27,26,5);
 
-    // legs
-    ctx.fillStyle="#251b20";
-    ctx.fillRect(-10,13,8,17);
-    ctx.fillRect(2,13,8,17);
+    /* shadow */
 
-    // white Adidas-style shoes
-    ctx.fillStyle="#f3eeee";
-    ctx.fillRect(-12,28,11,5);
-    ctx.fillRect(2,28,11,5);
+    ctx.fillStyle="rgba(0,0,0,.35)";
 
-    // pink cardigan
-    ctx.fillStyle="#b84e68";
-    ctx.fillRect(-17,-7,34,25);
+    ctx.beginPath();
 
-    // cardigan highlights
-    ctx.fillStyle="#d76d83";
-    ctx.fillRect(-16,-4,4,18);
-    ctx.fillRect(12,-4,4,18);
+    ctx.ellipse(
+        0,
+        24,
+        22,
+        7,
+        0,
+        0,
+        Math.PI*2
+    );
 
-    // light shirt
-    ctx.fillStyle="#f2ddd5";
-    ctx.fillRect(-7,-4,14,13);
+    ctx.fill();
 
-    // neck
-    ctx.fillStyle="#d9a28e";
-    ctx.fillRect(-5,-12,10,7);
 
-    // face
-    ctx.fillStyle="#d9a28e";
-    ctx.fillRect(-13,-27,26,20);
+    /* legs */
 
-    // ears
-    ctx.fillRect(-15,-20,3,8);
-    ctx.fillRect(12,-20,3,8);
+    ctx.fillStyle="#161217";
 
-    // dark long hair
+    ctx.fillRect(
+        -11,
+        3,
+        8,
+        21
+    );
+
+    ctx.fillRect(
+        3,
+        3,
+        8,
+        21
+    );
+
+
+    /* shoes */
+
+    ctx.fillStyle="#f2f0ef";
+
+    ctx.fillRect(
+        -14,
+        21,
+        12,
+        6
+    );
+
+    ctx.fillRect(
+        2,
+        21,
+        12,
+        6
+    );
+
+
+    /* cardigan */
+
+    ctx.fillStyle="#b94f6b";
+
+    roundedRect(
+        -19,
+        -16,
+        38,
+        27,
+        7
+    );
+
+    ctx.fill();
+
+
+    /* shirt */
+
+    ctx.fillStyle="#f1e8e5";
+
+    ctx.fillRect(
+        -8,
+        -14,
+        16,
+        19
+    );
+
+
+    /* neck */
+
+    ctx.fillStyle="#a96c56";
+
+    ctx.fillRect(
+        -5,
+        -22,
+        10,
+        8
+    );
+
+
+    /* face */
+
+    ctx.fillStyle="#b97961";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -32,
+        14,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* long dark hair */
+
     ctx.fillStyle="#21151a";
 
-    ctx.fillRect(-16,-34,32,12);
-    ctx.fillRect(-18,-29,7,30);
-    ctx.fillRect(11,-29,7,30);
+    ctx.beginPath();
 
-    // hair strands
-    ctx.fillRect(-14,-38,7,8);
-    ctx.fillRect(-5,-40,7,10);
-    ctx.fillRect(5,-39,7,9);
+    ctx.arc(
+        0,
+        -37,
+        17,
+        Math.PI,
+        Math.PI*2
+    );
 
-    // eyes
-    ctx.fillStyle="#3a2024";
-    ctx.fillRect(-8,-18,3,3);
-    ctx.fillRect(5,-18,3,3);
+    ctx.fill();
 
-    // tiny blush
-    ctx.fillStyle="#c77882";
-    ctx.fillRect(-10,-13,4,2);
-    ctx.fillRect(6,-13,4,2);
+    ctx.fillRect(
+        -16,
+        -37,
+        7,
+        29
+    );
 
-    // small smile
-    ctx.fillStyle="#71333d";
-    ctx.fillRect(-4,-9,8,2);
+    ctx.fillRect(
+        9,
+        -37,
+        7,
+        30
+    );
+
+
+    /* eyes */
+
+    ctx.fillStyle="#351d22";
+
+    ctx.fillRect(
+        -6,
+        -34,
+        3,
+        3
+    );
+
+    ctx.fillRect(
+        3,
+        -34,
+        3,
+        3
+    );
+
+
+    /* tiny smile */
+
+    ctx.strokeStyle="#7c3846";
+
+    ctx.lineWidth=1.4;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -28,
+        5,
+        .15,
+        Math.PI-.15
+    );
+
+    ctx.stroke();
+
+
+    /* blush */
+
+    ctx.fillStyle="rgba(210,91,112,.35)";
+
+    ctx.fillRect(
+        -11,
+        -29,
+        5,
+        3
+    );
+
+    ctx.fillRect(
+        6,
+        -29,
+        5,
+        3
+    );
+
 
     ctx.restore();
+
 }
+
+
+/* -------------------------------- */
+/* TOM                              */
+/* -------------------------------- */
 
 function drawTom(x,y){
 
-    const s=1.35;
-
     ctx.save();
+
     ctx.translate(x,y);
-    ctx.scale(s,s);
 
-    // shadow
-    ctx.fillStyle="rgba(0,0,0,.35)";
-    ctx.fillRect(-15,28,30,5);
 
-    // legs / baggy pants
-    ctx.fillStyle="#111014";
-    ctx.fillRect(-13,9,11,22);
-    ctx.fillRect(2,9,11,22);
+    /* shadow */
 
-    // shoes
-    ctx.fillStyle="#eee8e5";
-    ctx.fillRect(-15,29,13,5);
-    ctx.fillRect(2,29,13,5);
+    ctx.fillStyle="rgba(0,0,0,.4)";
 
-    // oversized shirt
-    ctx.fillStyle="#101014";
-    ctx.fillRect(-19,-8,38,27);
-
-    // sleeves
-    ctx.fillRect(-23,-5,7,17);
-    ctx.fillRect(16,-5,7,17);
-
-    // neck
-    ctx.fillStyle="#efd0c4";
-    ctx.fillRect(-5,-14,10,7);
-
-    // face
-    ctx.fillStyle="#efd0c4";
-    ctx.fillRect(-13,-28,26,20);
-
-    // hair
-    ctx.fillStyle="#21191a";
-
-    ctx.fillRect(-15,-35,30,12);
-    ctx.fillRect(-18,-30,7,22);
-    ctx.fillRect(11,-30,7,22);
-
-    // mullet back
-    ctx.fillRect(-15,-25,6,18);
-    ctx.fillRect(9,-25,6,18);
-
-    // eyes
-    ctx.fillStyle="#2b1c1e";
-    ctx.fillRect(-8,-18,3,3);
-    ctx.fillRect(5,-18,3,3);
-
-    // smile
-    ctx.fillStyle="#6b3339";
-    ctx.fillRect(-4,-9,8,2);
-
-    // lily in hand
-    ctx.strokeStyle="#53663d";
-    ctx.lineWidth=2;
     ctx.beginPath();
-    ctx.moveTo(18,11);
-    ctx.lineTo(27,0);
+
+    ctx.ellipse(
+        0,
+        27,
+        24,
+        7,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* legs */
+
+    ctx.fillStyle="#111014";
+
+    ctx.fillRect(
+        -13,
+        3,
+        10,
+        25
+    );
+
+    ctx.fillRect(
+        3,
+        3,
+        10,
+        25
+    );
+
+
+    /* shoes */
+
+    ctx.fillStyle="#e6e3e3";
+
+    ctx.fillRect(
+        -16,
+        25,
+        14,
+        6
+    );
+
+    ctx.fillRect(
+        2,
+        25,
+        14,
+        6
+    );
+
+
+    /* oversized shirt */
+
+    ctx.fillStyle="#111014";
+
+    roundedRect(
+        -23,
+        -17,
+        46,
+        31,
+        5
+    );
+
+    ctx.fill();
+
+
+    /* neck */
+
+    ctx.fillStyle="#e3c0ae";
+
+    ctx.fillRect(
+        -5,
+        -23,
+        10,
+        7
+    );
+
+
+    /* face */
+
+    ctx.fillStyle="#e3c0ae";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -34,
+        15,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* dark hair / mullet */
+
+    ctx.fillStyle="#24181b";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -39,
+        18,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.fillRect(
+        -17,
+        -39,
+        7,
+        34
+    );
+
+    ctx.fillRect(
+        10,
+        -39,
+        7,
+        34
+    );
+
+
+    /* eyes */
+
+    ctx.fillStyle="#2a1a1d";
+
+    ctx.fillRect(
+        -6,
+        -35,
+        3,
+        3
+    );
+
+    ctx.fillRect(
+        3,
+        -35,
+        3,
+        3
+    );
+
+
+    /* lily in hand */
+
+    ctx.strokeStyle="#4f7048";
+
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        17,
+        5
+    );
+
+    ctx.lineTo(
+        28,
+        -8
+    );
+
     ctx.stroke();
 
-    ctx.fillStyle="#c45e7b";
+
+    ctx.fillStyle="#e5b8c7";
 
     for(let i=0;i<5;i++){
 
-        const a=(Math.PI*2/5)*i;
+        const a=i*Math.PI*2/5;
 
         ctx.beginPath();
+
         ctx.ellipse(
-            27+Math.cos(a)*4,
-            Math.sin(a)*4,
-            3,
-            6,
+            28+Math.cos(a)*5,
+            -10+Math.sin(a)*5,
+            4,
+            7,
             a,
             0,
             Math.PI*2
         );
+
         ctx.fill();
+
     }
+
+
+    /* heart */
+
+    drawHeart(
+        0,
+        -62,
+        .65,
+        "#f17991"
+    );
+
 
     ctx.restore();
 
-    drawHeart(x,y-58,.65,"#f17991");
 }
+
+
+/* -------------------------------- */
+/* PHONE                            */
+/* -------------------------------- */
 
 function drawPhone(x,y,time){
 
-    const pulse=.7+.15*Math.sin(time*.004);
+    const pulse=
+        .7+
+        .15*
+        Math.sin(time*.004);
 
-    // glow
-    ctx.fillStyle=`rgba(203,86,115,${.06*pulse})`;
+
+    /* normal glow */
+
+    ctx.fillStyle=
+        `rgba(203,86,115,${.06*pulse})`;
 
     ctx.beginPath();
-    ctx.arc(x,y,65,0,Math.PI*2);
+
+    ctx.arc(
+        x,
+        y,
+        65,
+        0,
+        Math.PI*2
+    );
+
     ctx.fill();
 
-    // extra glow while calling
+
+    /* CALLING glow */
+
     if(phoneCooldown){
 
-        const callGlow=ctx.createRadialGradient(
-            x,y,5,
-            x,y,75
-        );
+        const callGlow=
+            ctx.createRadialGradient(
+                x,
+                y,
+                5,
+                x,
+                y,
+                75
+            );
 
         callGlow.addColorStop(
             0,
@@ -1022,12 +1748,24 @@ function drawPhone(x,y,time){
         ctx.fillStyle=callGlow;
 
         ctx.beginPath();
-        ctx.arc(x,y,75,0,Math.PI*2);
+
+        ctx.arc(
+            x,
+            y,
+            75,
+            0,
+            Math.PI*2
+        );
+
         ctx.fill();
+
     }
 
-    // phone frame
-    ctx.strokeStyle=phoneCooldown
+
+    /* booth */
+
+    ctx.strokeStyle=
+        phoneCooldown
         ? "#d87591"
         : "#7e4051";
 
@@ -1040,8 +1778,11 @@ function drawPhone(x,y,time){
         58
     );
 
-    // display
-    ctx.fillStyle=phoneCooldown
+
+    /* screen */
+
+    ctx.fillStyle=
+        phoneCooldown
         ? "#f7b7c6"
         : "#c86a80";
 
@@ -1052,7 +1793,9 @@ function drawPhone(x,y,time){
         34
     );
 
-    // normal display
+
+    /* screen dots */
+
     ctx.fillStyle="#f4dce0";
 
     for(let i=0;i<3;i++){
@@ -1063,7 +1806,9 @@ function drawPhone(x,y,time){
             3,
             3
         );
+
     }
+
 
     ctx.fillRect(
         x-5,
@@ -1072,12 +1817,17 @@ function drawPhone(x,y,time){
         3
     );
 
-    // call animation
+
+    /* CALLING text */
+
     if(phoneCooldown){
 
         ctx.fillStyle="#fff1f4";
+
         ctx.font="7px Arial";
+
         ctx.textAlign="center";
+
         ctx.fillText(
             "CALLING",
             x,
@@ -1087,70 +1837,39 @@ function drawPhone(x,y,time){
     }else{
 
         ctx.fillStyle="#d8b3ba";
+
         ctx.font="12px Georgia";
+
         ctx.textAlign="center";
+
         ctx.fillText(
             "call me",
             x,
             y+48
         );
-    }
-}
 
-    // little phone booth / phone glow
-    const pulse=.7+.15*Math.sin(time*.004);
-
-    ctx.fillStyle=`rgba(203,86,115,${.06*pulse})`;
-
-    ctx.beginPath();
-    ctx.arc(x,y,65,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.strokeStyle="#7e4051";
-    ctx.lineWidth=4;
-
-    ctx.strokeRect(x-17,y-28,34,58);
-
-    ctx.fillStyle="#c86a80";
-    ctx.fillRect(x-11,y-20,22,34);
-
-    ctx.fillStyle="#f4dce0";
-
-    for(let i=0;i<3;i++){
-        ctx.fillRect(x-7+i*6,y-13,3,3);
     }
 
-    ctx.fillRect(x-5,y+2,10,3);
-
-    ctx.fillStyle="#d8b3ba";
-    ctx.font="12px Georgia";
-    ctx.textAlign="center";
-    ctx.fillText("call me",x,y+48);
 }
+
+
+/* -------------------------------- */
+/* PLAYER                           */
+/* -------------------------------- */
 
 function drawPlayer(time){
 
-    // subtle glow
-    const glow=ctx.createRadialGradient(
+    drawMaeva(
         player.x,
-        player.y,
-        2,
-        player.x,
-        player.y,
-        40
+        player.y
     );
 
-    glow.addColorStop(0,"rgba(255,120,150,.18)");
-    glow.addColorStop(1,"rgba(255,120,150,0)");
-
-    ctx.fillStyle=glow;
-    ctx.beginPath();
-    ctx.arc(player.x,player.y,40,0,Math.PI*2);
-    ctx.fill();
-
-    // Maëva
-    drawMaeva(player.x,player.y);
 }
+
+
+/* -------------------------------- */
+/* HEARTS IN WORLD                  */
+/* -------------------------------- */
 
 function drawHearts(time){
 
@@ -1160,146 +1879,490 @@ function drawHearts(time){
 
         const h=hearts[i];
 
-        const bob=Math.sin(time*.003+i)*5;
+        const float=
+            Math.sin(
+                time*.003+
+                i
+            )*4;
+
+        const pulse=
+            .92+
+            Math.sin(
+                time*.004+
+                i
+            )*.08;
 
         drawHeart(
             h.x,
-            h.y+bob,
-            .72,
-            "#e96f88"
+            h.y+float,
+            .55*pulse,
+            "#ed7187"
         );
 
-        ctx.fillStyle="rgba(255,150,170,.15)";
-        ctx.beginPath();
-        ctx.arc(h.x,h.y+bob,25,0,Math.PI*2);
-        ctx.fill();
     }
+
 }
+
+
+/* -------------------------------- */
+/* FIREFLIES                        */
+/* -------------------------------- */
 
 function drawFireflies(time){
 
     for(const f of fireflies){
 
-        const alpha=.25+.3*Math.sin(time*.001*f.speed+f.phase);
+        const alpha=
+            .2+
+            .3*
+            Math.sin(
+                time*.001*f.speed+
+                f.phase
+            );
 
-        ctx.globalAlpha=alpha;
-        ctx.fillStyle="#f5c4a0";
+        ctx.globalAlpha=
+            Math.max(.05,alpha);
+
+        ctx.fillStyle="#eeb5c1";
 
         ctx.fillRect(
-            f.x+Math.sin(time*.0005+f.phase)*8,
-            f.y+Math.cos(time*.0004+f.phase)*5,
+            f.x,
+            f.y,
             3,
             3
         );
+
     }
 
     ctx.globalAlpha=1;
+
 }
+
+
+/* -------------------------------- */
+/* PARTICLES                        */
+/* -------------------------------- */
 
 function drawParticles(){
 
-    for(let i=particles.length-1;i>=0;i--){
+    for(
+        let i=particles.length-1;
+        i>=0;
+        i--
+    ){
 
         const p=particles[i];
 
-        p.x+=p.vx;
-        p.y+=p.vy;
+
+        p.x+=p.vx*.016;
+
+        p.y+=p.vy*.016;
+
+        p.vy+=8*.016;
+
         p.life-=.016;
 
-        ctx.globalAlpha=Math.max(0,p.life);
+
+        ctx.globalAlpha=
+            Math.max(
+                0,
+                p.life
+            );
+
 
         if(p.heart){
 
-    drawHeart(
-        p.x,
-        p.y,
-        p.size || .25,
-        "#f18ca0"
-    );
+            drawHeart(
+                p.x,
+                p.y,
+                p.size || .25,
+                "#f18ca0"
+            );
 
-}else{
+        }else{
+
             ctx.fillStyle="#f4b3c0";
-            ctx.fillRect(p.x,p.y,3,3);
+
+            ctx.fillRect(
+                p.x,
+                p.y,
+                3,
+                3
+            );
+
         }
+
 
         if(p.life<=0){
+
             particles.splice(i,1);
+
         }
+
     }
 
     ctx.globalAlpha=1;
+
 }
 
-function spawnParticles(x,y,count=10){
+
+/* -------------------------------- */
+/* PARTICLE SPAWNER                 */
+/* -------------------------------- */
+
+function spawnParticles(
+    x,
+    y,
+    count=10
+){
 
     for(let i=0;i<count;i++){
 
         particles.push({
-            x,
-            y,
+
+            x:x,
+            y:y,
+
             vx:(Math.random()-.5)*60,
+
             vy:(Math.random()-.5)*60,
-            life:.8+Math.random()*.7,
-            heart:Math.random()>.45
+
+            life:.8+
+                 Math.random()*.7,
+
+            heart:
+                Math.random()>.45,
+
+            size:
+                .18+
+                Math.random()*.2
+
         });
+
     }
+
 }
 
-function distance(a,b){
 
-    return Math.sqrt(
-        Math.pow(a.x-b.x,2)+
-        Math.pow(a.y-b.y,2)
-    );
-}
+/* -------------------------------- */
+/* MESSAGE                          */
+/* -------------------------------- */
 
 function showMessage(text){
 
-    const box=document.getElementById("message");
+    const box=
+        document.getElementById(
+            "message"
+        );
+
 
     box.textContent=text;
+
     box.classList.add("show");
 
-    clearTimeout(showMessage.timer);
 
-    showMessage.timer=setTimeout(()=>{
-        box.classList.remove("show");
-    },4300);
+    clearTimeout(
+        showMessage.timer
+    );
+
+
+    showMessage.timer=
+        setTimeout(()=>{
+
+            box.classList.remove("show");
+
+        },4300);
+
 }
+
+
+/* -------------------------------- */
+/* HEART BUTTON                     */
+/* -------------------------------- */
+
+function heartButtonEffect(){
+
+    if(
+        !running ||
+        finished ||
+        heartButtonCooldown
+    ){
+
+        return;
+
+    }
+
+
+    heartButtonCooldown=true;
+
+
+    const button=
+        document.getElementById(
+            "heartButton"
+        );
+
+
+    button.classList.remove(
+        "heartPulse"
+    );
+
+
+    void button.offsetWidth;
+
+
+    button.classList.add(
+        "heartPulse"
+    );
+
+
+    /* small hearts above Maëva */
+
+    for(let i=0;i<9;i++){
+
+        particles.push({
+
+            x:
+                player.x+
+                (Math.random()-.5)*18,
+
+            y:
+                player.y-35,
+
+            vx:
+                (Math.random()-.5)*28,
+
+            vy:
+                -35-
+                Math.random()*35,
+
+            life:
+                1.1+
+                Math.random()*.5,
+
+            heart:true,
+
+            size:
+                .20+
+                Math.random()*.18
+
+        });
+
+    }
+
+
+    /* bigger hearts */
+
+    for(let i=0;i<3;i++){
+
+        particles.push({
+
+            x:
+                player.x+
+                (Math.random()-.5)*12,
+
+            y:
+                player.y-42,
+
+            vx:
+                (Math.random()-.5)*18,
+
+            vy:
+                -50-
+                Math.random()*20,
+
+            life:
+                1.3+
+                Math.random()*.4,
+
+            heart:true,
+
+            size:.35
+
+        });
+
+    }
+
+
+    setTimeout(()=>{
+
+        heartButtonCooldown=false;
+
+    },500);
+
+}
+
+
+/* -------------------------------- */
+/* PHONE EFFECT                     */
+/* -------------------------------- */
+
+function phoneEffect(){
+
+    if(
+        !running ||
+        finished ||
+        phoneCooldown
+    ){
+
+        return;
+
+    }
+
+
+    phoneCooldown=true;
+
+
+    /* hearts from phone */
+
+    for(let i=0;i<7;i++){
+
+        particles.push({
+
+            x:
+                335+
+                (Math.random()-.5)*18,
+
+            y:250,
+
+            vx:
+                (Math.random()-.5)*20,
+
+            vy:
+                -30-
+                Math.random()*35,
+
+            life:
+                1.1+
+                Math.random()*.6,
+
+            heart:true,
+
+            size:
+                .18+
+                Math.random()*.16
+
+        });
+
+    }
+
+
+    showMessage(
+        "I'd never get tired of talking to you. ♡"
+    );
+
+
+    clearTimeout(
+        phoneMessageTimer
+    );
+
+
+    phoneMessageTimer=
+        setTimeout(()=>{
+
+            phoneCooldown=false;
+
+        },2600);
+
+}
+
+
+/* -------------------------------- */
+/* GAME UPDATE                      */
+/* -------------------------------- */
 
 function update(dt){
 
-    if(!running || finished) return;
+    if(
+        !running ||
+        finished
+    ){
+
+        return;
+
+    }
+
 
     let dx=0;
     let dy=0;
 
+
     if(keys.left) dx--;
     if(keys.right) dx++;
+
     if(keys.up) dy--;
     if(keys.down) dy++;
 
-    if(dx!==0 || dy!==0){
 
-        const len=Math.sqrt(dx*dx+dy*dy);
+    if(
+        dx!==0 ||
+        dy!==0
+    ){
+
+        const len=
+            Math.sqrt(
+                dx*dx+
+                dy*dy
+            );
+
 
         dx/=len;
         dy/=len;
 
-        player.x+=dx*player.speed*dt;
-        player.y+=dy*player.speed*dt;
 
-        player.x=Math.max(35,Math.min(W-35,player.x));
-        player.y=Math.max(65,Math.min(H-40,player.y));
+        player.x+=
+            dx*
+            player.speed*
+            dt;
+
+
+        player.y+=
+            dy*
+            player.speed*
+            dt;
+
+
+        player.x=
+            Math.max(
+                35,
+                Math.min(
+                    W-35,
+                    player.x
+                )
+            );
+
+
+        player.y=
+            Math.max(
+                65,
+                Math.min(
+                    H-40,
+                    player.y
+                )
+            );
+
     }
 
-    for(let i=0;i<hearts.length;i++){
+
+    /* collect hearts */
+
+    for(
+        let i=0;
+        i<hearts.length;
+        i++
+    ){
 
         if(collected[i]) continue;
 
-        if(distance(player,hearts[i])<34){
+
+        if(
+            distance(
+                player,
+                hearts[i]
+            )<34
+        ){
 
             collected[i]=true;
+
 
             spawnParticles(
                 hearts[i].x,
@@ -1307,241 +2370,725 @@ function update(dt){
                 18
             );
 
-            showMessage(hearts[i].text);
 
-            document.getElementById("heartCounter").textContent=
-                "♡ "+collected.filter(Boolean).length+" / "+hearts.length;
+            showMessage(
+                hearts[i].text
+            );
+
+
+            document
+                .getElementById(
+                    "heartCounter"
+                )
+                .textContent=
+                "♡ "+
+                collected.filter(Boolean).length+
+                " / "+
+                hearts.length;
+
         }
+
     }
+
+
+    /* finish */
 
     if(
+
         collected.every(Boolean) &&
-        distance(player,tom)<48
+
+        distance(
+            player,
+            tom
+        )<48
+
     ){
+
         finishGame();
+
     }
+
 }
+
+
+/* -------------------------------- */
+/* FINISH                           */
+/* -------------------------------- */
 
 function finishGame(){
 
     finished=true;
 
-    spawnParticles(tom.x,tom.y,50);
+
+    spawnParticles(
+        tom.x,
+        tom.y,
+        50
+    );
+
 
     setTimeout(()=>{
 
-        document.getElementById("finishOverlay")
-            .classList.remove("hidden");
+        document
+            .getElementById(
+                "finishOverlay"
+            )
+            .classList.remove(
+                "hidden"
+            );
 
     },900);
+
 }
+
+
+/* -------------------------------- */
+/* DRAW                              */
+/* -------------------------------- */
 
 function draw(time){
 
-    ctx.clearRect(0,0,W,H);
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
 
     drawBackground(time);
+
     drawFireflies(time);
+
     drawHearts(time);
 
-    // phone detail
-    drawPhone(335,250,time);
 
-    drawTom(tom.x,tom.y);
+    /* phone */
+
+    drawPhone(
+        335,
+        250,
+        time
+    );
+
+
+    /* Tom */
+
+    drawTom(
+        tom.x,
+        tom.y
+    );
+
+
+    /* Maëva */
+
     drawPlayer(time);
 
+
+    /* particles */
+
     drawParticles();
+
 }
+
+
+/* -------------------------------- */
+/* GAME LOOP                        */
+/* -------------------------------- */
 
 function loop(time){
 
-    const dt=Math.min((time-lastTime)/1000,.035);
+    const dt=
+        Math.min(
+            (time-lastTime)/1000,
+            .035
+        );
+
 
     lastTime=time;
 
+
     update(dt);
+
     draw(time);
 
-    requestAnimationFrame(loop);
+
+    requestAnimationFrame(
+        loop
+    );
+
 }
+
+
+/* -------------------------------- */
+/* START GAME                       */
+/* -------------------------------- */
 
 function startGame(){
 
-    document.getElementById("startOverlay")
-        .classList.add("hidden");
+    document
+        .getElementById(
+            "startOverlay"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "finishOverlay"
+        )
+        .classList.add(
+            "hidden"
+        );
+
 
     running=true;
+
     finished=false;
 
+
     player.x=95;
+
     player.y=615;
 
+
     collected=[];
+
     particles.length=0;
 
-    document.getElementById("heartCounter").textContent="♡ 0 / 10";
+
+    heartButtonCooldown=false;
+
+    phoneCooldown=false;
+
+
+    document
+        .getElementById(
+            "heartCounter"
+        )
+        .textContent=
+        "♡ 0 / 10";
+
 }
+
+
+/* -------------------------------- */
+/* RESTART                          */
+/* -------------------------------- */
 
 function restartGame(){
 
-    document.getElementById("finishOverlay")
-        .classList.add("hidden");
-
     startGame();
+
 }
 
-document.getElementById("startBtn")
-    .addEventListener("click",startGame);
 
-document.getElementById("againBtn")
-    .addEventListener("click",restartGame);
+/* -------------------------------- */
+/* START BUTTON                     */
+/* -------------------------------- */
 
-
-// Keyboard controls
-
-window.addEventListener("keydown",(e)=>{
-
-    const key=e.key.toLowerCase();
-
-    if(key==="arrowup" || key==="w") keys.up=true;
-    if(key==="arrowdown" || key==="s") keys.down=true;
-    if(key==="arrowleft" || key==="a") keys.left=true;
-    if(key==="arrowright" || key==="d") keys.right=true;
-
-});
-
-window.addEventListener("keyup",(e)=>{
-
-    const key=e.key.toLowerCase();
-
-    if(key==="arrowup" || key==="w") keys.up=false;
-    if(key==="arrowdown" || key==="s") keys.down=false;
-    if(key==="arrowleft" || key==="a") keys.left=false;
-    if(key==="arrowright" || key==="d") keys.right=false;
-
-});
+const startBtn=
+    document.getElementById(
+        "startBtn"
+    );
 
 
-// Touch controls
+startBtn.addEventListener(
+    "click",
+    function(e){
 
-function bindControl(id,direction){
+        e.preventDefault();
 
-    const element=document.getElementById(id);
+        e.stopPropagation();
+
+        startGame();
+
+    }
+);
+
+
+startBtn.addEventListener(
+    "touchend",
+    function(e){
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        startGame();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* -------------------------------- */
+/* AGAIN BUTTON                     */
+/* -------------------------------- */
+
+const againBtn=
+    document.getElementById(
+        "againBtn"
+    );
+
+
+againBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        restartGame();
+
+    }
+);
+
+
+againBtn.addEventListener(
+    "touchend",
+    function(e){
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        restartGame();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* -------------------------------- */
+/* KEYBOARD CONTROLS                */
+/* -------------------------------- */
+
+window.addEventListener(
+    "keydown",
+    (e)=>{
+
+        const key=
+            e.key.toLowerCase();
+
+
+        if(
+            key==="arrowup" ||
+            key==="w"
+        ){
+
+            keys.up=true;
+
+        }
+
+
+        if(
+            key==="arrowdown" ||
+            key==="s"
+        ){
+
+            keys.down=true;
+
+        }
+
+
+        if(
+            key==="arrowleft" ||
+            key==="a"
+        ){
+
+            keys.left=true;
+
+        }
+
+
+        if(
+            key==="arrowright" ||
+            key==="d"
+        ){
+
+            keys.right=true;
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    "keyup",
+    (e)=>{
+
+        const key=
+            e.key.toLowerCase();
+
+
+        if(
+            key==="arrowup" ||
+            key==="w"
+        ){
+
+            keys.up=false;
+
+        }
+
+
+        if(
+            key==="arrowdown" ||
+            key==="s"
+        ){
+
+            keys.down=false;
+
+        }
+
+
+        if(
+            key==="arrowleft" ||
+            key==="a"
+        ){
+
+            keys.left=false;
+
+        }
+
+
+        if(
+            key==="arrowright" ||
+            key==="d"
+        ){
+
+            keys.right=false;
+
+        }
+
+    }
+);
+
+
+/* -------------------------------- */
+/* D-PAD                            */
+/* -------------------------------- */
+
+function bindControl(
+    id,
+    direction
+){
+
+    const element=
+        document.getElementById(
+            id
+        );
+
+
+    if(!element) return;
+
 
     const start=(e)=>{
+
         e.preventDefault();
+
+        e.stopPropagation();
+
         keys[direction]=true;
+
     };
+
 
     const end=(e)=>{
+
         e.preventDefault();
+
+        e.stopPropagation();
+
         keys[direction]=false;
+
     };
 
-    element.addEventListener("touchstart",start,{passive:false});
-    element.addEventListener("touchend",end,{passive:false});
-    element.addEventListener("touchcancel",end,{passive:false});
 
-    element.addEventListener("mousedown",start);
-    element.addEventListener("mouseup",end);
-    element.addEventListener("mouseleave",end);
-}
-
-bindControl("up","up");
-bindControl("down","down");
-bindControl("left","left");
-bindControl("right","right");
-
-const heartButton=document.getElementById("heartButton");
-
-heartButton.addEventListener("touchstart",(e)=>{
-    e.preventDefault();
-    heartButtonEffect();
-},{passive:false});
-
-heartButton.addEventListener("click",(e)=>{
-    e.preventDefault();
-    heartButtonEffect();
-});
-
-canvas.addEventListener("touchstart",(e)=>{
-
-    if(!running || finished) return;
-
-    const touch=e.touches[0];
-
-    const rect=canvas.getBoundingClientRect();
-
-    const scaleX=W/rect.width;
-    const scaleY=H/rect.height;
-
-    const x=(touch.clientX-rect.left)*scaleX;
-    const y=(touch.clientY-rect.top)*scaleY;
-
-    const phoneX=335;
-    const phoneY=250;
-
-    const distanceToPhone=Math.sqrt(
-        Math.pow(x-phoneX,2)+
-        Math.pow(y-phoneY,2)
+    element.addEventListener(
+        "touchstart",
+        start,
+        {
+            passive:false
+        }
     );
 
-    if(distanceToPhone<65){
 
-        phoneEffect();
-    }
-
-},{passive:true});
-    
-const heartButton=document.getElementById("heartButton");
-
-heartButton.addEventListener("touchstart",(e)=>{
-    e.preventDefault();
-    heartButtonEffect();
-},{passive:false});
-
-heartButton.addEventListener("click",(e)=>{
-    e.preventDefault();
-    heartButtonEffect();
-});
-
-function phoneEffect(){
-
-    if(!running || finished || phoneCooldown) return;
-
-    phoneCooldown=true;
-
-    // Kleine Herzen vom Handy aufsteigen lassen
-    for(let i=0;i<7;i++){
-
-        particles.push({
-            x:335+(Math.random()-.5)*18,
-            y:250,
-            vx:(Math.random()-.5)*20,
-            vy:-30-Math.random()*35,
-            life:1.1+Math.random()*.6,
-            heart:true,
-            size:.18+Math.random()*.16
-        });
-    }
-
-    // Persönliche Nachricht
-    showMessage(
-        "I'd never get tired of talking to you. ♡"
+    element.addEventListener(
+        "touchend",
+        end,
+        {
+            passive:false
+        }
     );
 
-    clearTimeout(phoneMessageTimer);
 
-    phoneMessageTimer=setTimeout(()=>{
+    element.addEventListener(
+        "touchcancel",
+        end,
+        {
+            passive:false
+        }
+    );
 
-        phoneCooldown=false;
 
-    },2600);
+    element.addEventListener(
+        "mousedown",
+        start
+    );
+
+
+    element.addEventListener(
+        "mouseup",
+        end
+    );
+
+
+    element.addEventListener(
+        "mouseleave",
+        end
+    );
+
 }
 
-// Start animation
 
-requestAnimationFrame(loop);
+bindControl(
+    "up",
+    "up"
+);
+
+bindControl(
+    "down",
+    "down"
+);
+
+bindControl(
+    "left",
+    "left"
+);
+
+bindControl(
+    "right",
+    "right"
+);
+
+
+/* -------------------------------- */
+/* HEART D-PAD BUTTON               */
+/* -------------------------------- */
+
+const heartButton=
+    document.getElementById(
+        "heartButton"
+    );
+
+
+heartButton.addEventListener(
+    "touchstart",
+    (e)=>{
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        heartButtonEffect();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+heartButton.addEventListener(
+    "click",
+    (e)=>{
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        heartButtonEffect();
+
+    }
+);
+
+
+/* -------------------------------- */
+/* PHONE CLICK - PC                 */
+/* -------------------------------- */
+
+canvas.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            !running ||
+            finished
+        ){
+
+            return;
+
+        }
+
+
+        const rect=
+            canvas.getBoundingClientRect();
+
+
+        const scaleX=
+            W/rect.width;
+
+
+        const scaleY=
+            H/rect.height;
+
+
+        const x=
+            (e.clientX-
+             rect.left)*
+            scaleX;
+
+
+        const y=
+            (e.clientY-
+             rect.top)*
+            scaleY;
+
+
+        const phoneX=335;
+
+        const phoneY=250;
+
+
+        const distanceToPhone=
+            Math.sqrt(
+
+                Math.pow(
+                    x-phoneX,
+                    2
+                )+
+
+                Math.pow(
+                    y-phoneY,
+                    2
+                )
+
+            );
+
+
+        if(
+            distanceToPhone<65
+        ){
+
+            phoneEffect();
+
+        }
+
+    }
+);
+
+
+/* -------------------------------- */
+/* PHONE TOUCH - IPHONE             */
+/* -------------------------------- */
+
+canvas.addEventListener(
+    "touchstart",
+    (e)=>{
+
+        if(
+            !running ||
+            finished
+        ){
+
+            return;
+
+        }
+
+
+        const touch=
+            e.touches[0];
+
+
+        if(!touch) return;
+
+
+        const rect=
+            canvas.getBoundingClientRect();
+
+
+        const scaleX=
+            W/rect.width;
+
+
+        const scaleY=
+            H/rect.height;
+
+
+        const x=
+            (touch.clientX-
+             rect.left)*
+            scaleX;
+
+
+        const y=
+            (touch.clientY-
+             rect.top)*
+            scaleY;
+
+
+        const phoneX=335;
+
+        const phoneY=250;
+
+
+        const distanceToPhone=
+            Math.sqrt(
+
+                Math.pow(
+                    x-phoneX,
+                    2
+                )+
+
+                Math.pow(
+                    y-phoneY,
+                    2
+                )
+
+            );
+
+
+        if(
+            distanceToPhone<65
+        ){
+
+            phoneEffect();
+
+        }
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* -------------------------------- */
+/* INITIAL DRAW                     */
+/* -------------------------------- */
+
+requestAnimationFrame(
+    loop
+);
 
 </script>
 
