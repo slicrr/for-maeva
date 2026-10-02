@@ -641,14 +641,6 @@ resize();
    LARGE WORLD
 ===================================================== */
 
-/*
-   The world is much larger than the screen.
-   The camera follows Maëva.
-
-   At 80 px/s the complete path is
-   approximately two minutes long.
-*/
-
 const WORLD_W=7000;
 const WORLD_H=3200;
 
@@ -660,41 +652,23 @@ const WORLD_H=3200;
 const pathPoints=[
 
     [180,2700],
-
     [650,2850],
-
     [1100,2600],
-
     [1450,2200],
-
     [1100,1800],
-
     [700,1500],
-
     [1200,1250],
-
     [1800,1450],
-
     [2250,1100],
-
     [2700,750],
-
     [3200,1000],
-
     [3650,1350],
-
     [4100,1050],
-
     [4500,700],
-
     [5000,900],
-
     [5450,600],
-
     [5900,800],
-
     [6250,500],
-
     [6700,450]
 
 ];
@@ -734,7 +708,6 @@ const hearts=[
     {x:1300,y:2300},
     {x:930,y:1650},
     {x:1050,y:1280},
-
     {x:1750,y:1400},
     {x:2500,y:900},
     {x:3350,y:1110},
@@ -758,6 +731,61 @@ const phone={
 
 let phoneCooldown=false;
 let phoneTaps=0;
+let phoneSecretFound=false;
+
+
+/* =====================================================
+   SPECIAL LILIES
+===================================================== */
+
+const lilies=[
+
+    {x:1260,y:2340,found:false},
+    {x:820,y:1510,found:false},
+    {x:1810,y:1370,found:false},
+    {x:2860,y:780,found:false},
+    {x:4100,y:1010,found:false},
+    {x:5450,y:620,found:false}
+
+];
+
+let liliesFound=false;
+
+
+/* =====================================================
+   SUSHI
+===================================================== */
+
+const sushiPieces=[
+
+    {x:1500,y:2160,found:false},
+    {x:3200,y:1040,found:false},
+    {x:5350,y:650,found:false}
+
+];
+
+let sushiFound=false;
+
+
+/* =====================================================
+   DATE NIGHT
+===================================================== */
+
+const dateNight={
+    x:5950,
+    y:735,
+    found:false
+};
+
+let dateNightFound=false;
+
+
+/* =====================================================
+   SECRET HEART
+===================================================== */
+
+let secretHeartTaps=0;
+let secretHeartFound=false;
 
 
 /* =====================================================
@@ -940,8 +968,6 @@ document
 const heartButton=
     document.getElementById("heartButton");
 
-let secretHeartTaps=0;
-
 heartButton.addEventListener(
     "pointerdown",
     e=>{
@@ -969,6 +995,8 @@ heartButton.addEventListener(
         }
 
         if(secretHeartTaps===7){
+
+            secretHeartFound=true;
 
             showMessage(
                 "You found the secret heart. ♡",
@@ -1428,8 +1456,6 @@ function drawLongPath(){
     };
 
 
-    /* shadow */
-
     ctx.strokeStyle=
         "rgba(0,0,0,.32)";
 
@@ -1440,8 +1466,6 @@ function drawLongPath(){
     drawSmoothPath();
     ctx.stroke();
 
-
-    /* outer path */
 
     const path=
         ctx.createLinearGradient(
@@ -1479,8 +1503,6 @@ function drawLongPath(){
     ctx.stroke();
 
 
-    /* soft center */
-
     ctx.strokeStyle=
         "rgba(224,157,174,.075)";
 
@@ -1489,8 +1511,6 @@ function drawLongPath(){
     drawSmoothPath();
     ctx.stroke();
 
-
-    /* tiny road specks */
 
     ctx.fillStyle=
         "rgba(240,191,203,.08)";
@@ -1880,6 +1900,163 @@ function drawFlowers(){
 
 
 /* =====================================================
+   SPECIAL LILIES
+===================================================== */
+
+function drawLily(x,y,found=false){
+
+    if(found)
+        return;
+
+    const t=
+        performance.now()/1000;
+
+    const pulse=
+        1+
+        Math.sin(t*2.2+x*.01)*.06;
+
+    ctx.save();
+
+    ctx.translate(x,y);
+    ctx.scale(pulse,pulse);
+
+
+    const glow=
+        ctx.createRadialGradient(
+            0,
+            0,
+            2,
+            0,
+            0,
+            34
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(255,190,220,.20)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(255,190,220,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        -38,
+        -38,
+        76,
+        76
+    );
+
+
+    ctx.strokeStyle="#5b7751";
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,4);
+
+    ctx.quadraticCurveTo(
+        -2,
+        13,
+        -5,
+        25
+    );
+
+    ctx.stroke();
+
+
+    ctx.fillStyle="#607d55";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        -7,
+        16,
+        10,
+        3,
+        -.4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        6,
+        19,
+        9,
+        3,
+        .4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle="#f0d9e5";
+
+    for(let i=0;i<6;i++){
+
+        const a=
+            i*Math.PI*2/6;
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            Math.cos(a)*8,
+            Math.sin(a)*6,
+            6,
+            12,
+            a,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.fillStyle="#e0a36e";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        0,
+        3,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+}
+
+
+function drawLilies(){
+
+    lilies.forEach(
+        lily=>
+            drawLily(
+                lily.x,
+                lily.y,
+                lily.found
+            )
+    );
+
+}
+
+
+/* =====================================================
    LANTERNS
 ===================================================== */
 
@@ -1992,6 +2169,235 @@ function drawLanterns(){
             l[1],
             l[2]
         )
+    );
+
+}
+
+
+/* =====================================================
+   SUSHI
+===================================================== */
+
+function drawSushi(x,y,found=false){
+
+    if(found)
+        return;
+
+    const t=
+        performance.now()/1000;
+
+    const pulse=
+        1+
+        Math.sin(t*2+x)*.08;
+
+    ctx.save();
+
+    ctx.translate(x,y);
+    ctx.scale(pulse,pulse);
+
+
+    const glow=
+        ctx.createRadialGradient(
+            0,
+            0,
+            2,
+            0,
+            0,
+            30
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(255,190,150,.20)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(255,190,150,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        -35,
+        -35,
+        70,
+        70
+    );
+
+
+    ctx.fillStyle="#eee2dc";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -13,
+        -9,
+        26,
+        18,
+        6
+    );
+
+    ctx.fill();
+
+
+    ctx.strokeStyle="#262026";
+    ctx.lineWidth=3;
+
+    ctx.strokeRect(
+        -13,
+        -9,
+        26,
+        18
+    );
+
+
+    ctx.fillStyle="#df8b87";
+
+    ctx.fillRect(
+        -8,
+        -5,
+        16,
+        10
+    );
+
+    ctx.restore();
+
+}
+
+
+function drawSushiPieces(){
+
+    sushiPieces.forEach(
+        sushi=>
+            drawSushi(
+                sushi.x,
+                sushi.y,
+                sushi.found
+            )
+    );
+
+}
+
+
+/* =====================================================
+   DATE NIGHT
+===================================================== */
+
+function drawDateNight(){
+
+    const x=dateNight.x;
+    const y=dateNight.y;
+
+
+    const glow=
+        ctx.createRadialGradient(
+            x,
+            y,
+            20,
+            x,
+            y,
+            170
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(142,65,102,.16)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(142,65,102,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        x-180,
+        y-180,
+        360,
+        360
+    );
+
+
+    /* table */
+
+    ctx.fillStyle="#2b1821";
+
+    ctx.fillRect(
+        x-32,
+        y-4,
+        64,
+        8
+    );
+
+    ctx.fillRect(
+        x-3,
+        y+4,
+        6,
+        32
+    );
+
+
+    /* plate */
+
+    ctx.fillStyle="#d9c9c9";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        x,
+        y-9,
+        25,
+        7,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* chairs */
+
+    ctx.fillStyle="#432631";
+
+    ctx.fillRect(
+        x-65,
+        y+4,
+        25,
+        8
+    );
+
+    ctx.fillRect(
+        x+40,
+        y+4,
+        25,
+        8
+    );
+
+
+    drawLantern(
+        x-55,
+        y-55,
+        .8
+    );
+
+    drawLantern(
+        x+55,
+        y-55,
+        .8
+    );
+
+
+    /* tiny hearts above the table */
+
+    ctx.fillStyle="#e89ab2";
+
+    drawHeart(
+        x,
+        y-72,
+        6
     );
 
 }
@@ -2550,7 +2956,9 @@ function drawPlayer(){
     );
 
 
-    ctx.fillStyle="#c88b79";
+    /* Maëva's slightly darker skin tone */
+
+    ctx.fillStyle="#9b604f";
 
     ctx.fillRect(
         -20,
@@ -2818,12 +3226,6 @@ function update(dt){
             dt;
 
 
-        /*
-           Keep Maëva on the road.
-           This prevents cutting directly
-           across the huge world.
-        */
-
         if(
             nearestPathDistance(
                 player.x,
@@ -2856,7 +3258,9 @@ function update(dt){
     );
 
 
-    /* hearts */
+    /* =================================================
+       HEARTS
+    ================================================= */
 
     hearts.forEach(
         (heart,i)=>{
@@ -2919,6 +3323,154 @@ function update(dt){
     );
 
 
+    /* =================================================
+       LILIES
+    ================================================= */
+
+    lilies.forEach(
+        lily=>{
+
+            if(lily.found)
+                return;
+
+            if(
+                distance(
+                    player,
+                    lily
+                )<45
+            ){
+
+                lily.found=true;
+
+                spawnParticles(
+                    lily.x,
+                    lily.y,
+                    14
+                );
+
+                showMessage(
+                    "A little lily... because you notice the little things. ♡",
+                    2500
+                );
+
+            }
+
+        }
+    );
+
+
+    if(
+        !liliesFound&&
+        lilies.every(
+            lily=>lily.found
+        )
+    ){
+
+        liliesFound=true;
+
+        showMessage(
+            "You really do notice the little things. ♡",
+            3500
+        );
+
+    }
+
+
+    /* =================================================
+       SUSHI
+    ================================================= */
+
+    sushiPieces.forEach(
+        sushi=>{
+
+            if(sushi.found)
+                return;
+
+            if(
+                distance(
+                    player,
+                    sushi
+                )<48
+            ){
+
+                sushi.found=true;
+
+                spawnParticles(
+                    sushi.x,
+                    sushi.y,
+                    18
+                );
+
+
+                const foundCount=
+                    sushiPieces.filter(
+                        s=>s.found
+                    ).length;
+
+
+                showMessage(
+                    foundCount===3
+                        ? "Maybe sushi tastes even better when we can share it someday. ♡"
+                        : "A little sushi... I wonder who this reminds you of.",
+                    2800
+                );
+
+            }
+
+        }
+    );
+
+
+    if(
+        !sushiFound&&
+        sushiPieces.every(
+            sushi=>sushi.found
+        )
+    ){
+
+        sushiFound=true;
+
+        showMessage(
+            "You found all the sushi. ♡",
+            2800
+        );
+
+    }
+
+
+    /* =================================================
+       DATE NIGHT
+    ================================================= */
+
+    if(
+        !dateNight.found&&
+        distance(
+            player,
+            dateNight
+        )<75
+    ){
+
+        dateNight.found=true;
+        dateNightFound=true;
+
+        spawnParticles(
+            dateNight.x,
+            dateNight.y,
+            25
+        );
+
+        showMessage(
+            "The place we'll visit someday. ♡",
+            3500
+        );
+
+    }
+
+
+    /* =================================================
+       NORMAL END
+    ================================================= */
+
     if(
         collected.every(Boolean)&&
         distance(player,tom)<65
@@ -2973,19 +3525,31 @@ function phoneEffect(){
     ];
 
 
+    const currentIndex=
+        Math.min(
+            phoneTaps-1,
+            phoneMessages.length-1
+        );
+
+
     showMessage(
-        phoneMessages[
-            Math.min(
-                phoneTaps-1,
-                phoneMessages.length-1
-            )
-        ],
+        phoneMessages[currentIndex],
         2700
     );
 
 
-    if(phoneTaps>=4)
+    if(phoneTaps>=4){
+
+        phoneSecretFound=true;
+
+        /*
+           The fourth message is already shown above.
+           We simply mark the phone secret as completed.
+        */
+
         phoneTaps=0;
+
+    }
 
 
     setTimeout(
@@ -2993,6 +3557,23 @@ function phoneEffect(){
             phoneCooldown=false;
         },
         2700
+    );
+
+}
+
+
+/* =====================================================
+   ALL SECRETS
+===================================================== */
+
+function allSecretsFound(){
+
+    return(
+        secretHeartFound&&
+        liliesFound&&
+        phoneSecretFound&&
+        sushiFound&&
+        dateNightFound
     );
 
 }
@@ -3074,7 +3655,13 @@ function drawWorld(){
 
     drawFlowers();
 
+    drawLilies();
+
     drawLanterns();
+
+    drawSushiPieces();
+
+    drawDateNight();
 
     drawFireflies();
 
@@ -3115,6 +3702,85 @@ function draw(){
 
 
 /* =====================================================
+   SECRET FINAL SEQUENCE
+===================================================== */
+
+function startSecretEnding(){
+
+    finalScene.style.display="flex";
+
+    finalText.style.opacity="0";
+
+
+    const secretWords=[
+
+        "You found everything.",
+
+        "Well... almost everything.",
+
+        "There's still one thing missing.",
+
+        "Us. ❤️",
+
+        "Maybe someday."
+
+    ];
+
+
+    let index=0;
+
+
+    function nextSecret(){
+
+        if(index>=secretWords.length){
+
+            setTimeout(
+                ()=>{
+
+                    finalScene.style.display="none";
+
+                    finishScreen.style.display="flex";
+
+                },
+                2200
+            );
+
+            return;
+
+        }
+
+
+        finalText.style.opacity="0";
+
+
+        setTimeout(
+            ()=>{
+
+                finalText.textContent=
+                    secretWords[index];
+
+                finalText.style.opacity="1";
+
+                index++;
+
+                setTimeout(
+                    nextSecret,
+                    3000
+                );
+
+            },
+            600
+        );
+
+    }
+
+
+    nextSecret();
+
+}
+
+
+/* =====================================================
    FINAL SEQUENCE
 ===================================================== */
 
@@ -3123,12 +3789,14 @@ function startFinalSequence(){
     if(finalSequenceStarted)
         return;
 
+
     finalSequenceStarted=true;
     finished=true;
 
     stopMovement();
 
     finalScene.style.display="flex";
+
 
     const words=[
 
@@ -3155,7 +3823,25 @@ function startFinalSequence(){
 
                     finalScene.style.display="none";
 
-                    finishScreen.style.display="flex";
+
+                    if(allSecretsFound()){
+
+                        /*
+                           All normal final lines have now played.
+                           If every secret was found, continue with
+                           the hidden ending instead of immediately
+                           showing the finish screen.
+                        */
+
+                        finished=false;
+
+                        startSecretEnding();
+
+                    }else{
+
+                        finishScreen.style.display="flex";
+
+                    }
 
                 },
                 1800
@@ -3206,31 +3892,71 @@ function startGame(){
     finished=false;
     finalSequenceStarted=false;
 
+
     player.x=pathPoints[0][0];
     player.y=pathPoints[0][1];
 
+
     camera.x=0;
     camera.y=0;
+
 
     collected=
         new Array(
             hearts.length
         ).fill(false);
 
+
     heartCount.textContent="0";
 
     particles.length=0;
 
+
     phoneTaps=0;
+    phoneCooldown=false;
+
+
     secretHeartTaps=0;
+    secretHeartFound=false;
+
+
+    liliesFound=false;
+
+    lilies.forEach(
+        lily=>{
+            lily.found=false;
+        }
+    );
+
+
+    phoneSecretFound=false;
+
+
+    sushiFound=false;
+
+    sushiPieces.forEach(
+        sushi=>{
+            sushi.found=false;
+        }
+    );
+
+
+    dateNightFound=false;
+    dateNight.found=false;
+
 
     stopMovement();
 
+
     finalScene.style.display="none";
+
     finishScreen.style.display="none";
+
     startScreen.style.display="none";
 
+
     hud.style.opacity="1";
+
 
     showMessage(
         "France 🇫🇷 → Germany 🇩🇪",
@@ -3281,17 +4007,21 @@ function loop(time){
     if(!lastTime)
         lastTime=time;
 
+
     const dt=
         Math.min(
             (time-lastTime)/1000,
             .05
         );
 
+
     lastTime=time;
+
 
     update(dt);
 
     draw();
+
 
     requestAnimationFrame(loop);
 
@@ -3308,6 +4038,7 @@ window.addEventListener(
     "blur",
     stopMovement
 );
+
 
 document.addEventListener(
     "visibilitychange",
