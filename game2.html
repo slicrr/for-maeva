@@ -2916,80 +2916,106 @@ window.addEventListener(
 /* D-PAD                       */
 /* ============================= */
 
-function bindControl(
-    id,
-    direction
-){
+/* ============================= */
+/* D-PAD - HOLD TO MOVE         */
+/* ============================= */
 
-    const element=
+function bindControl(id, direction){
+
+    const element =
         document.getElementById(id);
-
 
     if(!element) return;
 
 
-    const start=(e)=>{
+    /* Start movement */
+
+    function start(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
-        keys[direction]=true;
+        keys[direction] = true;
 
-    };
+        /* Keep receiving the touch/finger */
+        if(e.pointerId !== undefined){
+
+            try{
+                element.setPointerCapture(e.pointerId);
+            }catch(err){}
+
+        }
+
+    }
 
 
-    const end=(e)=>{
+    /* Stop movement */
+
+    function stop(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
-        keys[direction]=false;
+        keys[direction] = false;
 
-    };
+    }
 
+
+    /* Modern touch + mouse control */
 
     element.addEventListener(
-        "touchstart",
+        "pointerdown",
         start,
         {passive:false}
     );
 
 
     element.addEventListener(
-        "touchend",
-        end,
+        "pointerup",
+        stop,
         {passive:false}
     );
 
 
     element.addEventListener(
-        "touchcancel",
-        end,
+        "pointercancel",
+        stop,
         {passive:false}
     );
 
 
     element.addEventListener(
-        "mousedown",
-        start
+        "lostpointercapture",
+        stop,
+        {passive:false}
     );
 
 
     element.addEventListener(
-        "mouseup",
-        end
-    );
+        "pointerleave",
+        (e)=>{
 
+            /*
+             * On touch devices we DON'T stop
+             * when the finger moves slightly.
+             *
+             * The pointer is captured above.
+             */
 
-    element.addEventListener(
-        "mouseleave",
-        end
+            if(e.pointerType === "mouse"){
+
+                stop(e);
+
+            }
+
+        },
+        {passive:false}
     );
 
 }
 
+
+/* Connect D-Pad */
 
 bindControl("up","up");
 
@@ -2998,6 +3024,30 @@ bindControl("down","down");
 bindControl("left","left");
 
 bindControl("right","right");
+
+
+/* Safety:
+   releasing the finger anywhere stops movement */
+
+window.addEventListener(
+    "pointerup",
+    ()=>{
+        keys.up=false;
+        keys.down=false;
+        keys.left=false;
+        keys.right=false;
+    }
+);
+
+window.addEventListener(
+    "pointercancel",
+    ()=>{
+        keys.up=false;
+        keys.down=false;
+        keys.left=false;
+        keys.right=false;
+    }
+);
 
 
 /* ============================= */
