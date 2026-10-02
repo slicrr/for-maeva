@@ -48,7 +48,7 @@ canvas{
     width:100%;
     height:100%;
     display:block;
-    touch-action:manipulation;
+    touch-action:none;
 }
 
 #hud{
@@ -83,7 +83,7 @@ canvas{
 
 
 /* ============================= */
-/* OVERLAYS                      */
+/* OVERLAYS                     */
 /* ============================= */
 
 .overlay{
@@ -194,7 +194,7 @@ canvas{
 
 
 /* ============================= */
-/* FINAL SCENE                   */
+/* FINAL SCENE                  */
 /* ============================= */
 
 #finalScene{
@@ -260,13 +260,9 @@ canvas{
 
 #finalContinue{
     margin-top:25px;
-
     font-size:12px;
-
     color:#b99da6;
-
     opacity:0;
-
     transition:opacity 1s;
 }
 
@@ -319,7 +315,7 @@ canvas{
 
 
 /* ============================= */
-/* D-PAD                        */
+/* D-PAD                       */
 /* ============================= */
 
 #controls{
@@ -388,7 +384,6 @@ canvas{
     background:rgba(100,30,50,.38);
     color:rgba(236,116,145,.85);
     font-size:17px;
-
     pointer-events:auto;
     cursor:pointer;
 }
@@ -399,7 +394,9 @@ canvas{
 
 @keyframes heartButtonPulse{
 
-    0%{transform:scale(1)}
+    0%{
+        transform:scale(1);
+    }
 
     35%{
         transform:scale(1.25);
@@ -407,15 +404,19 @@ canvas{
         color:#fff;
     }
 
-    70%{transform:scale(.92)}
+    70%{
+        transform:scale(.92);
+    }
 
-    100%{transform:scale(1)}
+    100%{
+        transform:scale(1);
+    }
 
 }
 
 
 /* ============================= */
-/* MOBILE                       */
+/* MOBILE                      */
 /* ============================= */
 
 @media(max-width:600px){
@@ -518,9 +519,7 @@ canvas{
 <div id="message"></div>
 
 
-<!-- ========================= -->
-<!-- FINAL CINEMATIC SCENE     -->
-<!-- ========================= -->
+<!-- FINAL SCENE -->
 
 <div id="finalScene">
 
@@ -543,9 +542,7 @@ canvas{
 </div>
 
 
-<!-- ========================= -->
-<!-- FINISH SCREEN             -->
-<!-- ========================= -->
+<!-- FINISH SCREEN -->
 
 <div id="finishOverlay" class="overlay hidden">
 
@@ -587,9 +584,7 @@ canvas{
 </div>
 
 
-<!-- ========================= -->
-<!-- D-PAD                    -->
-<!-- ========================= -->
+<!-- D-PAD -->
 
 <div id="controls">
 
@@ -644,15 +639,14 @@ const canvas =
 const ctx =
     canvas.getContext("2d");
 
-const W=canvas.width;
-const H=canvas.height;
+const W = canvas.width;
+const H = canvas.height;
 
+let running = false;
+let finished = false;
+let lastTime = 0;
 
-let running=false;
-let finished=false;
-let lastTime=0;
-
-const keys={
+const keys = {
     up:false,
     down:false,
     left:false,
@@ -660,7 +654,7 @@ const keys={
 };
 
 
-const player={
+const player = {
     x:95,
     y:615,
     speed:180,
@@ -668,7 +662,7 @@ const player={
 };
 
 
-const tom={
+const tom = {
     x:950,
     y:125
 };
@@ -678,7 +672,7 @@ const tom={
 /* HEARTS                       */
 /* ============================= */
 
-const hearts=[
+const hearts = [
 
     {
         x:170,
@@ -753,50 +747,48 @@ const hearts=[
 ];
 
 
-let collected = new Array(hearts.length).fill(false);
+let collected =
+    new Array(hearts.length).fill(false);
 
 
 /* ============================= */
 /* PARTICLES                    */
 /* ============================= */
 
-const particles=[];
+const particles = [];
 
-let heartButtonCooldown=false;
-
-let phoneCooldown=false;
-
-let phoneMessageTimer=null;
+let heartButtonCooldown = false;
+let phoneCooldown = false;
+let phoneMessageTimer = null;
 
 
 /* ============================= */
-/* FINAL SCENE STATE             */
+/* FINAL SCENE                  */
 /* ============================= */
 
-let finalSequenceStarted=false;
-
-let finalSequenceTimer=null;
-
-let finalHearts=[];
+let finalSequenceStarted = false;
+let finalHearts = [];
 
 
 /* ============================= */
 /* FIREFLIES                    */
 /* ============================= */
 
-const fireflies=[];
+const fireflies = [];
 
 for(let i=0;i<45;i++){
 
     fireflies.push({
 
         x:Math.random()*W,
-
         y:Math.random()*H,
 
-        phase:Math.random()*Math.PI*2,
+        phase:
+            Math.random()*Math.PI*2,
 
-        speed:.5+Math.random()*1.4
+        speed:
+            .5+
+            Math.random()*1.4
 
     });
 
@@ -807,19 +799,22 @@ for(let i=0;i<45;i++){
 /* STARS                        */
 /* ============================= */
 
-const stars=[];
+const stars = [];
 
 for(let i=0;i<80;i++){
 
     stars.push({
 
         x:Math.random()*W,
-
         y:Math.random()*390,
 
-        size:Math.random()<.8?1:2,
+        size:
+            Math.random()<.8
+            ? 1
+            : 2,
 
-        twinkle:Math.random()*Math.PI*2
+        twinkle:
+            Math.random()*Math.PI*2
 
     });
 
@@ -880,12 +875,50 @@ function distance(a,b){
 
 
 /* ============================= */
+/* PARTICLE SPAWNER             */
+/* ============================= */
+
+function spawnParticles(x,y,count=12){
+
+    for(let i=0;i<count;i++){
+
+        particles.push({
+
+            x:x,
+            y:y,
+
+            vx:
+                (Math.random()-.5)*55,
+
+            vy:
+                -20-
+                Math.random()*45,
+
+            life:
+                .7+
+                Math.random()*.5,
+
+            heart:
+                Math.random()<.7,
+
+            size:
+                .18+
+                Math.random()*.16
+
+        });
+
+    }
+
+}
+
+
+/* ============================= */
 /* BACKGROUND                   */
 /* ============================= */
 
 function drawBackground(time){
 
-    const gradient=
+    const gradient =
         ctx.createLinearGradient(
             0,0,0,H
         );
@@ -905,7 +938,7 @@ function drawBackground(time){
         "#2a0d1a"
     );
 
-    ctx.fillStyle=gradient;
+    ctx.fillStyle = gradient;
 
     ctx.fillRect(
         0,0,W,H
@@ -937,7 +970,7 @@ function drawBackground(time){
 
     for(const s of stars){
 
-        const alpha=
+        const alpha =
             .35+
             .35*
             Math.sin(
@@ -1078,7 +1111,7 @@ function drawPath(){
 
 function drawTrees(){
 
-    const trees=[
+    const trees = [
 
         [80,350,1.1],
         [170,290,.8],
@@ -1115,8 +1148,12 @@ function drawTrees(){
             ctx.arc(
                 x+
                 Math.sin(i*1.7)*30*scale,
-                y-i*15*scale,
+
+                y-
+                i*15*scale,
+
                 35*scale,
+
                 0,
                 Math.PI*2
             );
@@ -1136,7 +1173,7 @@ function drawTrees(){
 
 function drawLanterns(){
 
-    const lanterns=[
+    const lanterns = [
 
         [215,520],
         [475,565],
@@ -1152,7 +1189,7 @@ function drawLanterns(){
         const y=l[1];
 
 
-        const glow=
+        const glow =
             ctx.createRadialGradient(
                 x,y,2,
                 x,y,38
@@ -1214,7 +1251,7 @@ function drawLanterns(){
 
 function drawLilies(){
 
-    const flowers=[
+    const flowers = [
 
         [125,570],
         [350,515],
@@ -1283,7 +1320,7 @@ function drawLilies(){
 
 
 /* ============================= */
-/* HEART                         */
+/* HEART                        */
 /* ============================= */
 
 function drawHeart(
@@ -1337,7 +1374,7 @@ function drawHeart(
 
 
 /* ============================= */
-/* MAËVA                        */
+/* MAËVA                       */
 /* ============================= */
 
 function drawMaeva(x,y){
@@ -1496,7 +1533,7 @@ function drawMaeva(x,y){
 
 
 /* ============================= */
-/* TOM                           */
+/* TOM                          */
 /* ============================= */
 
 function drawTom(x,y){
@@ -1660,24 +1697,26 @@ function drawTom(x,y){
 
 
 /* ============================= */
-/* PHONE                        */
+/* PHONE                       */
 /* ============================= */
 
 function drawPhone(x,y,time){
 
-    const pulse=
+    const pulse =
         .7+
-        .15*Math.sin(time*.004);
+        .15*
+        Math.sin(time*.004);
 
 
-    ctx.fillStyle=
+    ctx.fillStyle =
         `rgba(203,86,115,${.06*pulse})`;
 
     ctx.beginPath();
 
     ctx.arc(
         x,y,65,
-        0,Math.PI*2
+        0,
+        Math.PI*2
     );
 
     ctx.fill();
@@ -1685,7 +1724,7 @@ function drawPhone(x,y,time){
 
     if(phoneCooldown){
 
-        const glow=
+        const glow =
             ctx.createRadialGradient(
                 x,y,5,
                 x,y,75
@@ -1707,7 +1746,8 @@ function drawPhone(x,y,time){
 
         ctx.arc(
             x,y,75,
-            0,Math.PI*2
+            0,
+            Math.PI*2
         );
 
         ctx.fill();
@@ -1715,7 +1755,7 @@ function drawPhone(x,y,time){
     }
 
 
-    ctx.strokeStyle=
+    ctx.strokeStyle =
         phoneCooldown
         ? "#d87591"
         : "#7e4051";
@@ -1730,7 +1770,7 @@ function drawPhone(x,y,time){
     );
 
 
-    ctx.fillStyle=
+    ctx.fillStyle =
         phoneCooldown
         ? "#f7b7c6"
         : "#c86a80";
@@ -1797,10 +1837,10 @@ function drawPhone(x,y,time){
 
 
 /* ============================= */
-/* PLAYER                       */
+/* PLAYER                      */
 /* ============================= */
 
-function drawPlayer(time){
+function drawPlayer(){
 
     drawMaeva(
         player.x,
@@ -1811,7 +1851,7 @@ function drawPlayer(time){
 
 
 /* ============================= */
-/* HEARTS                       */
+/* HEARTS                      */
 /* ============================= */
 
 function drawHearts(time){
@@ -1822,12 +1862,12 @@ function drawHearts(time){
 
         const h=hearts[i];
 
-        const float=
+        const float =
             Math.sin(
                 time*.003+i
             )*4;
 
-        const pulse=
+        const pulse =
             .92+
             Math.sin(
                 time*.004+i
@@ -1846,14 +1886,14 @@ function drawHearts(time){
 
 
 /* ============================= */
-/* FIREFLIES                    */
+/* FIREFLIES                   */
 /* ============================= */
 
 function drawFireflies(time){
 
     for(const f of fireflies){
 
-        let alpha=
+        let alpha =
             .2+
             .3*
             Math.sin(
@@ -1862,14 +1902,16 @@ function drawFireflies(time){
             );
 
 
-        /* During finale, make them brighter */
-
         if(finalSequenceStarted){
 
             const dx=f.x-tom.x;
             const dy=f.y-tom.y;
 
-            const d=Math.sqrt(dx*dx+dy*dy);
+            const d=
+                Math.sqrt(
+                    dx*dx+
+                    dy*dy
+                );
 
             if(d<250){
 
@@ -1880,8 +1922,11 @@ function drawFireflies(time){
         }
 
 
-        ctx.globalAlpha=
-            Math.max(.05,Math.min(1,alpha));
+        ctx.globalAlpha =
+            Math.max(
+                .05,
+                Math.min(1,alpha)
+            );
 
         ctx.fillStyle="#eeb5c1";
 
@@ -1913,16 +1958,16 @@ function drawParticles(){
         const p=particles[i];
 
 
-        p.x+=p.vx*.016;
+        p.x += p.vx*.016;
 
-        p.y+=p.vy*.016;
+        p.y += p.vy*.016;
 
-        p.vy+=8*.016;
+        p.vy += 8*.016;
 
-        p.life-=.016;
+        p.life -= .016;
 
 
-        ctx.globalAlpha=
+        ctx.globalAlpha =
             Math.max(
                 0,
                 p.life
@@ -2018,7 +2063,7 @@ function drawFinalHearts(){
         h.life-=.016;
 
 
-        ctx.globalAlpha=
+        ctx.globalAlpha =
             Math.min(
                 1,
                 h.life
@@ -2047,12 +2092,12 @@ function drawFinalHearts(){
 
 
 /* ============================= */
-/* MESSAGE                      */
+/* MESSAGE                     */
 /* ============================= */
 
 function showMessage(text){
 
-    const box=
+    const box =
         document.getElementById(
             "message"
         );
@@ -2068,7 +2113,7 @@ function showMessage(text){
     );
 
 
-    showMessage.timer=
+    showMessage.timer =
         setTimeout(()=>{
 
             box.classList.remove("show");
@@ -2079,7 +2124,7 @@ function showMessage(text){
 
 
 /* ============================= */
-/* HEART BUTTON                 */
+/* HEART BUTTON                */
 /* ============================= */
 
 function heartButtonEffect(){
@@ -2098,7 +2143,7 @@ function heartButtonEffect(){
     heartButtonCooldown=true;
 
 
-    const button=
+    const button =
         document.getElementById(
             "heartButton"
         );
@@ -2189,7 +2234,7 @@ function heartButtonEffect(){
 
 
 /* ============================= */
-/* PHONE                        */
+/* PHONE                       */
 /* ============================= */
 
 function phoneEffect(){
@@ -2250,7 +2295,7 @@ function phoneEffect(){
     );
 
 
-    phoneMessageTimer=
+    phoneMessageTimer =
         setTimeout(()=>{
 
             phoneCooldown=false;
@@ -2261,12 +2306,17 @@ function phoneEffect(){
 
 
 /* ============================= */
-/* FINAL SEQUENCE               */
+/* FINAL SEQUENCE              */
 /* ============================= */
 
 function startFinalSequence(){
 
-    if(finalSequenceStarted) return;
+    if(finalSequenceStarted){
+
+        return;
+
+    }
+
 
     finalSequenceStarted=true;
 
@@ -2275,15 +2325,11 @@ function startFinalSequence(){
     finalHearts=[];
 
 
-    /* stop movement */
-
     keys.up=false;
     keys.down=false;
     keys.left=false;
     keys.right=false;
 
-
-    /* create some initial hearts */
 
     for(let i=0;i<8;i++){
 
@@ -2292,31 +2338,22 @@ function startFinalSequence(){
     }
 
 
-    const scene=
+    const scene =
         document.getElementById(
             "finalScene"
         );
 
-
-    const text=
+    const text =
         document.getElementById(
             "finalText"
         );
 
-
-    const title=
-        document.getElementById(
-            "finalTitle"
-        );
-
-
-    const message=
+    const message =
         document.getElementById(
             "finalMessage"
         );
 
-
-    const continueText=
+    const continueText =
         document.getElementById(
             "finalContinue"
         );
@@ -2325,8 +2362,6 @@ function startFinalSequence(){
     scene.classList.add("active");
 
 
-    /* First message */
-
     setTimeout(()=>{
 
         text.classList.add("show");
@@ -2334,15 +2369,13 @@ function startFinalSequence(){
     },800);
 
 
-    /* Second message */
-
     setTimeout(()=>{
 
         message.style.opacity="0";
 
         setTimeout(()=>{
 
-            message.textContent=
+            message.textContent =
                 "One day, we'll actually get to stand next to each other.";
 
             message.style.opacity="1";
@@ -2352,15 +2385,13 @@ function startFinalSequence(){
     },3800);
 
 
-    /* Third message */
-
     setTimeout(()=>{
 
         message.style.opacity="0";
 
         setTimeout(()=>{
 
-            message.textContent=
+            message.textContent =
                 "Until then, I'll keep making you smile from here.";
 
             message.style.opacity="1";
@@ -2370,15 +2401,13 @@ function startFinalSequence(){
     },7000);
 
 
-    /* Final message */
-
     setTimeout(()=>{
 
         message.style.opacity="0";
 
         setTimeout(()=>{
 
-            message.textContent=
+            message.textContent =
                 "Maybe this is only the beginning. ♡";
 
             message.style.opacity="1";
@@ -2389,8 +2418,6 @@ function startFinalSequence(){
 
     },10300);
 
-
-    /* Finish screen */
 
     setTimeout(()=>{
 
@@ -2412,7 +2439,7 @@ function startFinalSequence(){
 
 
 /* ============================= */
-/* UPDATE                       */
+/* UPDATE                      */
 /* ============================= */
 
 function update(dt){
@@ -2445,7 +2472,7 @@ function update(dt){
         dy!==0
     ){
 
-        const len=
+        const len =
             Math.sqrt(
                 dx*dx+
                 dy*dy
@@ -2456,19 +2483,19 @@ function update(dt){
         dy/=len;
 
 
-        player.x+=
+        player.x +=
             dx*
             player.speed*
             dt;
 
 
-        player.y+=
+        player.y +=
             dy*
             player.speed*
             dt;
 
 
-        player.x=
+        player.x =
             Math.max(
                 35,
                 Math.min(
@@ -2478,7 +2505,7 @@ function update(dt){
             );
 
 
-        player.y=
+        player.y =
             Math.max(
                 65,
                 Math.min(
@@ -2490,104 +2517,112 @@ function update(dt){
     }
 
 
-    /* collect hearts */
-
     /* ============================= */
-/* COLLECT HEARTS                */
-/* ============================= */
+    /* COLLECT HEARTS               */
+    /* ============================= */
 
-for(let i=0; i<hearts.length; i++){
+    for(
+        let i=0;
+        i<hearts.length;
+        i++
+    ){
 
-    if(collected[i] === true){
-        continue;
-    }
+        if(collected[i]){
 
-    const heart = hearts[i];
+            continue;
 
-    const d = distance(
-        player,
-        heart
-    );
-
-    /* Larger, forgiving collection radius */
-
-    if(d < 55){
-
-        collected[i] = true;
-
-        spawnParticles(
-            heart.x,
-            heart.y,
-            18
-        );
-
-        showMessage(
-            heart.text
-        );
+        }
 
 
-        const collectedCount =
-            collected.filter(Boolean).length;
+        const heart=hearts[i];
+
+        if(
+            distance(player,heart)<55
+        ){
+
+            collected[i]=true;
 
 
-        document
-            .getElementById("heartCounter")
-            .textContent =
-            "♡ " +
-            collectedCount +
-            " / " +
-            hearts.length;
+            /* Particle effect */
+
+            spawnParticles(
+                heart.x,
+                heart.y,
+                18
+            );
 
 
-        /* Small heart burst */
+            /* Message */
 
-        for(let p=0; p<5; p++){
+            showMessage(
+                heart.text
+            );
 
-            particles.push({
 
-                x:heart.x,
-                y:heart.y,
+            /* Counter */
 
-                vx:(Math.random()-.5)*35,
+            const count =
+                collected.filter(Boolean).length;
 
-                vy:
-                    -25-
-                    Math.random()*30,
 
-                life:
-                    0.8+
-                    Math.random()*.5,
+            document
+                .getElementById(
+                    "heartCounter"
+                )
+                .textContent =
+                "♡ "+
+                count+
+                " / "+
+                hearts.length;
 
-                heart:true,
 
-                size:
-                    .18+
-                    Math.random()*.12
+            /* Extra little hearts */
 
-            });
+            for(let p=0;p<5;p++){
+
+                particles.push({
+
+                    x:heart.x,
+                    y:heart.y,
+
+                    vx:
+                        (Math.random()-.5)*35,
+
+                    vy:
+                        -25-
+                        Math.random()*30,
+
+                    life:
+                        .8+
+                        Math.random()*.5,
+
+                    heart:true,
+
+                    size:
+                        .18+
+                        Math.random()*.12
+
+                });
+
+            }
 
         }
 
     }
 
-}
 
-
-    /* reach Tom */
+    /* ============================= */
+    /* REACH TOM                    */
+    /* ============================= */
 
     const allHeartsCollected =
-    collected.length === hearts.length &&
-    collected.every(Boolean);
+        collected.every(Boolean);
 
 
-if(
-    allHeartsCollected &&
-    distance(player,tom) < 55
-){
-
-    startFinalSequence();
-
-}
+    if(
+        allHeartsCollected &&
+        distance(player,tom)<55
+    ){
 
         startFinalSequence();
 
@@ -2597,7 +2632,7 @@ if(
 
 
 /* ============================= */
-/* DRAW                         */
+/* DRAW                        */
 /* ============================= */
 
 function draw(time){
@@ -2617,8 +2652,6 @@ function draw(time){
     drawHearts(time);
 
 
-    /* phone */
-
     drawPhone(
         335,
         250,
@@ -2626,25 +2659,17 @@ function draw(time){
     );
 
 
-    /* Tom */
-
     drawTom(
         tom.x,
         tom.y
     );
 
 
-    /* Maëva */
+    drawPlayer();
 
-    drawPlayer(time);
-
-
-    /* normal particles */
 
     drawParticles();
 
-
-    /* finale particles */
 
     if(finalSequenceStarted){
 
@@ -2664,12 +2689,19 @@ function draw(time){
 
 
 /* ============================= */
-/* GAME LOOP                    */
+/* GAME LOOP                   */
 /* ============================= */
 
 function loop(time){
 
-    const dt=
+    if(!lastTime){
+
+        lastTime=time;
+
+    }
+
+
+    const dt =
         Math.min(
             (time-lastTime)/1000,
             .035
@@ -2690,10 +2722,43 @@ function loop(time){
 
 
 /* ============================= */
-/* START                        */
+/* START GAME                  */
 /* ============================= */
 
 function startGame(){
+
+    running=true;
+
+    finished=false;
+
+    finalSequenceStarted=false;
+
+
+    keys.up=false;
+    keys.down=false;
+    keys.left=false;
+    keys.right=false;
+
+
+    player.x=95;
+    player.y=615;
+
+
+    collected =
+        new Array(
+            hearts.length
+        ).fill(false);
+
+
+    particles.length=0;
+
+    finalHearts=[];
+
+
+    heartButtonCooldown=false;
+
+    phoneCooldown=false;
+
 
     document
         .getElementById(
@@ -2722,42 +2787,44 @@ function startGame(){
         );
 
 
-    running=true;
-
-    finished=false;
-
-    finalSequenceStarted=false;
-
-
-    player.x=95;
-
-    player.y=615;
+    document
+        .getElementById(
+            "finalText"
+        )
+        .classList.remove(
+            "show"
+        );
 
 
-    collected = new Array(hearts.length).fill(false);
+    document
+        .getElementById(
+            "finalContinue"
+        )
+        .classList.remove(
+            "show"
+        );
 
-    particles.length=0;
 
-    finalHearts=[];
-
-
-    heartButtonCooldown=false;
-
-    phoneCooldown=false;
+    document
+        .getElementById(
+            "finalMessage"
+        )
+        .textContent =
+        "Maybe one day, this won't just be a little pixel world.";
 
 
     document
         .getElementById(
             "heartCounter"
         )
-        .textContent=
+        .textContent =
         "♡ 0 / 10";
 
 }
 
 
 /* ============================= */
-/* RESTART                      */
+/* RESTART                    */
 /* ============================= */
 
 function restartGame(){
@@ -2768,11 +2835,13 @@ function restartGame(){
 
 
 /* ============================= */
-/* START BUTTON                 */
+/* START BUTTON                */
 /* ============================= */
 
 const startBtn =
-    document.getElementById("startBtn");
+    document.getElementById(
+        "startBtn"
+    );
 
 
 startBtn.addEventListener(
@@ -2804,28 +2873,11 @@ startBtn.addEventListener(
 );
 
 
-startBtn.addEventListener(
-    "touchend",
-    function(e){
-
-        e.preventDefault();
-
-        e.stopPropagation();
-
-        startGame();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
 /* ============================= */
-/* AGAIN BUTTON                 */
+/* AGAIN BUTTON                */
 /* ============================= */
 
-const againBtn=
+const againBtn =
     document.getElementById(
         "againBtn"
     );
@@ -2836,7 +2888,6 @@ againBtn.addEventListener(
     function(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
         restartGame();
@@ -2850,7 +2901,6 @@ againBtn.addEventListener(
     function(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
         restartGame();
@@ -2863,14 +2913,14 @@ againBtn.addEventListener(
 
 
 /* ============================= */
-/* KEYBOARD                     */
+/* KEYBOARD                    */
 /* ============================= */
 
 window.addEventListener(
     "keydown",
-    (e)=>{
+    function(e){
 
-        const key=
+        const key =
             e.key.toLowerCase();
 
 
@@ -2919,9 +2969,9 @@ window.addEventListener(
 
 window.addEventListener(
     "keyup",
-    (e)=>{
+    function(e){
 
-        const key=
+        const key =
             e.key.toLowerCase();
 
 
@@ -2972,305 +3022,240 @@ window.addEventListener(
 /* D-PAD                       */
 /* ============================= */
 
-/* ============================= */
-/* D-PAD - HOLD TO MOVE         */
-/* ============================= */
-
-function bindControl(id, direction){
+function bindControl(id,direction){
 
     const element =
         document.getElementById(id);
 
-    if(!element) return;
 
+    if(!element){
 
-    /* Start movement */
+        return;
+
+    }
+
 
     function start(e){
 
         e.preventDefault();
         e.stopPropagation();
 
-        keys[direction] = true;
 
-        /* Keep receiving the touch/finger */
-        if(e.pointerId !== undefined){
+        if(
+            !running ||
+            finished
+        ){
+
+            return;
+
+        }
+
+
+        keys[direction]=true;
+
+
+        if(
+            e.pointerId !== undefined
+        ){
 
             try{
-                element.setPointerCapture(e.pointerId);
-            }catch(err){}
+
+                element.setPointerCapture(
+                    e.pointerId
+                );
+
+            }catch(error){}
 
         }
 
     }
 
 
-    /* Stop movement */
-
     function stop(e){
 
         e.preventDefault();
         e.stopPropagation();
 
-        keys[direction] = false;
+        keys[direction]=false;
 
     }
 
 
-    /* Modern touch + mouse control */
-
     element.addEventListener(
         "pointerdown",
         start,
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
 
     element.addEventListener(
         "pointerup",
         stop,
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
 
     element.addEventListener(
         "pointercancel",
         stop,
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
 
     element.addEventListener(
         "lostpointercapture",
         stop,
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
 
     element.addEventListener(
         "pointerleave",
-        (e)=>{
+        function(e){
 
-            /*
-             * On touch devices we DON'T stop
-             * when the finger moves slightly.
-             *
-             * The pointer is captured above.
-             */
+            if(
+                e.pointerType==="mouse"
+            ){
 
-            if(e.pointerType === "mouse"){
-
-                stop(e);
+                keys[direction]=false;
 
             }
 
         },
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
 }
 
 
-/* Connect D-Pad */
+/* Bind once */
 
 bindControl("up","up");
-
 bindControl("down","down");
-
 bindControl("left","left");
-
 bindControl("right","right");
 
 
-/* Safety:
-   releasing the finger anywhere stops movement */
-
 /* ============================= */
-/* D-PAD - HOLD TO MOVE         */
+/* HEART BUTTON                */
 /* ============================= */
 
-function stopAllMovement(){
-
-    keys.up = false;
-    keys.down = false;
-    keys.left = false;
-    keys.right = false;
-
-}
-
-
-function bindControl(id, direction){
-
-    const element =
-        document.getElementById(id);
-
-    if(!element) return;
-
-
-    function start(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        if(!running || finished){
-            return;
-        }
-
-        keys[direction] = true;
-
-        if(e.pointerId !== undefined){
-
-            try{
-                element.setPointerCapture(
-                    e.pointerId
-                );
-            }catch(err){}
-
-        }
-
-    }
-
-
-    function stop(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        keys[direction] = false;
-
-    }
-
-
-    element.addEventListener(
-        "pointerdown",
-        start,
-        {passive:false}
-    );
-
-
-    element.addEventListener(
-        "pointerup",
-        stop,
-        {passive:false}
-    );
-
-
-    element.addEventListener(
-        "pointercancel",
-        stop,
-        {passive:false}
-    );
-
-
-    element.addEventListener(
-        "lostpointercapture",
-        stop,
-        {passive:false}
-    );
-
-
-    /*
-     * Mouse:
-     * stop when the mouse leaves the button.
-     */
-
-    element.addEventListener(
-        "mouseleave",
-        (e)=>{
-
-            if(e.pointerType === "mouse"){
-                keys[direction] = false;
-            }
-
-        }
-    );
-
-}
-
-
-/* Connect D-Pad */
-
-bindControl("up","up");
-
-bindControl("down","down");
-
-bindControl("left","left");
-
-bindControl("right","right");
-
-
-/*
- * If the user releases the finger somewhere
- * outside the game, stop movement.
- *
- * IMPORTANT:
- * This listener does NOT preventDefault
- * and does NOT interfere with buttons.
- */
-
-document.addEventListener(
-    "pointerup",
-    ()=>{
-        stopAllMovement();
-    },
-    {passive:true}
-);
-
-document.addEventListener(
-    "pointercancel",
-    ()=>{
-        stopAllMovement();
-    },
-    {passive:true}
-);
-
-
-/* ============================= */
-/* HEART BUTTON                 */
-/* ============================= */
-
-const heartButton=
+const heartButton =
     document.getElementById(
         "heartButton"
     );
 
 
 heartButton.addEventListener(
-    "touchstart",
-    (e)=>{
+    "pointerdown",
+    function(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
         heartButtonEffect();
 
     },
-    {passive:false}
-);
-
-
-heartButton.addEventListener(
-    "click",
-    (e)=>{
-
-        e.preventDefault();
-
-        e.stopPropagation();
-
-        heartButtonEffect();
-
+    {
+        passive:false
     }
 );
 
 
 /* ============================= */
-/* PHONE - PC                   */
+/* PHONE                       */
 /* ============================= */
+
+function handlePhoneInteraction(clientX,clientY){
+
+    if(
+        !running ||
+        finished
+    ){
+
+        return;
+
+    }
+
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    const scaleX =
+        W/rect.width;
+
+
+    const scaleY =
+        H/rect.height;
+
+
+    const x =
+        (clientX-rect.left)*
+        scaleX;
+
+
+    const y =
+        (clientY-rect.top)*
+        scaleY;
+
+
+    const phoneX=335;
+    const phoneY=250;
+
+
+    const d =
+        Math.sqrt(
+            Math.pow(
+                x-phoneX,
+                2
+            )+
+            Math.pow(
+                y-phoneY,
+                2
+            )
+        );
+
+
+    if(d<65){
+
+        phoneEffect();
+
+    }
+
+}
+
+
+/* PC / mouse */
 
 canvas.addEventListener(
     "click",
-    (e)=>{
+    function(e){
+
+        handlePhoneInteraction(
+            e.clientX,
+            e.clientY
+        );
+
+    }
+);
+
+
+/* iPhone / touch */
+
+canvas.addEventListener(
+    "touchend",
+    function(e){
 
         if(
             !running ||
@@ -3282,112 +3267,21 @@ canvas.addEventListener(
         }
 
 
-        const rect=
-            canvas.getBoundingClientRect();
+        const touch =
+            e.changedTouches[0];
 
 
-        const scaleX=
-            W/rect.width;
-
-
-        const scaleY=
-            H/rect.height;
-
-
-        const x=
-            (e.clientX-rect.left)*
-            scaleX;
-
-
-        const y=
-            (e.clientY-rect.top)*
-            scaleY;
-
-
-        const phoneX=335;
-
-        const phoneY=250;
-
-
-        const d=
-            Math.sqrt(
-                Math.pow(x-phoneX,2)+
-                Math.pow(y-phoneY,2)
-            );
-
-
-        if(d<65){
-
-            phoneEffect();
-
-        }
-
-    }
-);
-
-
-/* ============================= */
-/* PHONE - IPHONE               */
-/* ============================= */
-
-canvas.addEventListener(
-    "touchstart",
-    (e)=>{
-
-        if(
-            !running ||
-            finished
-        ){
+        if(!touch){
 
             return;
 
         }
 
 
-        const touch=e.touches[0];
-
-        if(!touch) return;
-
-
-        const rect=
-            canvas.getBoundingClientRect();
-
-
-        const scaleX=
-            W/rect.width;
-
-
-        const scaleY=
-            H/rect.height;
-
-
-        const x=
-            (touch.clientX-rect.left)*
-            scaleX;
-
-
-        const y=
-            (touch.clientY-rect.top)*
-            scaleY;
-
-
-        const phoneX=335;
-
-        const phoneY=250;
-
-
-        const d=
-            Math.sqrt(
-                Math.pow(x-phoneX,2)+
-                Math.pow(y-phoneY,2)
-            );
-
-
-        if(d<65){
-
-            phoneEffect();
-
-        }
+        handlePhoneInteraction(
+            touch.clientX,
+            touch.clientY
+        );
 
     },
     {
@@ -3397,7 +3291,7 @@ canvas.addEventListener(
 
 
 /* ============================= */
-/* START LOOP                   */
+/* START LOOP                  */
 /* ============================= */
 
 requestAnimationFrame(loop);
