@@ -156,38 +156,56 @@ button:hover{
 
 #controls{
     position:absolute;
-    left:0;
-    right:0;
+    left:18px;
     bottom:18px;
-    display:flex;
-    justify-content:space-between;
-    padding:0 18px;
+    z-index:20;
     pointer-events:none;
-    z-index:7;
 }
 
-.controlGroup{
-    display:flex;
-    gap:7px;
+.dpad{
+    display:grid;
+    grid-template-columns:58px 58px 58px;
+    grid-template-rows:58px 58px 58px;
+    gap:5px;
     pointer-events:auto;
 }
 
 .control{
-    width:50px;
-    height:50px;
-    border:1px solid rgba(255,190,205,.3);
-    background:rgba(25,9,15,.72);
-    color:#ffe8ed;
+    width:58px;
+    height:58px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:20px;
+
+    border:1px solid rgba(255,190,205,.45);
+    border-radius:12px;
+
+    background:rgba(28,10,17,.82);
+
+    color:#ffe8ed;
+    font-family:Arial,sans-serif;
+    font-size:25px;
+
     user-select:none;
+    -webkit-user-select:none;
     touch-action:none;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.35),
+        inset 0 0 12px rgba(255,120,150,.06);
 }
 
 .control:active{
-    background:rgba(150,50,75,.72);
+    background:rgba(155,48,76,.9);
+    transform:scale(.94);
+}
+
+.control.center{
+    background:rgba(80,25,40,.55);
+    color:#d77a91;
+    font-size:20px;
+    pointer-events:none;
 }
 
 #photoPlaceholder{
@@ -224,11 +242,18 @@ button:hover{
 <div id="message"></div>
 
 <div id="controls">
-    <div class="controlGroup">
-        <div class="control" id="left">←</div>
-        <div class="control" id="down">↓</div>
+    <div class="dpad">
+        <div></div>
         <div class="control" id="up">↑</div>
+        <div></div>
+
+        <div class="control" id="left">←</div>
+        <div class="control center">♡</div>
         <div class="control" id="right">→</div>
+
+        <div></div>
+        <div class="control" id="down">↓</div>
+        <div></div>
     </div>
 </div>
 
