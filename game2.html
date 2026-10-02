@@ -156,54 +156,62 @@ button:hover{
 
 #controls{
     position:fixed;
-    left:16px;
-    bottom:calc(18px + env(safe-area-inset-bottom));
+    left:14px;
+    bottom:calc(14px + env(safe-area-inset-bottom));
     z-index:9999;
     pointer-events:auto;
 }
 
 .dpad{
     display:grid;
-    grid-template-columns:64px 64px 64px;
-    grid-template-rows:64px 64px 64px;
-    gap:6px;
+    grid-template-columns:44px 44px 44px;
+    grid-template-rows:44px 44px 44px;
+    gap:3px;
+    pointer-events:auto;
 }
 
 .control{
-    width:64px;
-    height:64px;
+    width:44px;
+    height:44px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    border:2px solid rgba(255,190,205,.55);
-    border-radius:14px;
+    border:1px solid rgba(255,185,205,.28);
+    border-radius:11px;
 
-    background:rgba(35,10,20,.92);
+    background:rgba(35,10,20,.52);
 
-    color:#fff0f3;
+    color:rgba(255,230,236,.78);
     font-family:Arial,sans-serif;
-    font-size:28px;
-    font-weight:bold;
+    font-size:20px;
+    font-weight:normal;
 
     user-select:none;
     -webkit-user-select:none;
     touch-action:none;
 
     box-shadow:
-        0 4px 15px rgba(0,0,0,.5),
-        0 0 12px rgba(190,70,100,.15);
+        0 2px 8px rgba(0,0,0,.25),
+        inset 0 0 10px rgba(255,120,150,.04);
+
+    transition:
+        transform .08s,
+        background .08s,
+        color .08s;
 }
 
 .control:active{
-    background:rgba(165,50,80,.95);
-    transform:scale(.92);
+    background:rgba(150,50,78,.72);
+    color:#fff;
+    transform:scale(.91);
 }
 
 .control.center{
-    background:rgba(80,25,40,.75);
-    color:#e57b94;
+    background:rgba(100,30,50,.38);
+    color:rgba(236,116,145,.85);
+    font-size:17px;
     pointer-events:none;
 }
 #photoPlaceholder{
@@ -241,6 +249,7 @@ button:hover{
 
 <div id="controls">
     <div class="dpad">
+
         <div></div>
         <div class="control" id="up">↑</div>
         <div></div>
@@ -252,9 +261,9 @@ button:hover{
         <div></div>
         <div class="control" id="down">↓</div>
         <div></div>
+
     </div>
 </div>
-
 <div class="overlay" id="startOverlay">
     <div class="card">
         <h1>A Little Journey to You ♡</h1>
