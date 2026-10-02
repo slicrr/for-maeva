@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <title>A Little Journey to You ♡</title>
 
@@ -18,9 +19,9 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #080609;
-    font-family: Georgia, serif;
+    background: #07050a;
     color: #f7eee9;
+    font-family: Georgia, serif;
 }
 
 body {
@@ -34,17 +35,18 @@ body {
     width: min(100vw, 1100px);
     height: min(100vh, 750px);
     overflow: hidden;
-    background: #0b080d;
+    background: #09070c;
 }
 
 canvas {
     width: 100%;
     height: 100%;
     display: block;
-    image-rendering: pixelated;
 }
 
-/* ---------- SCREENS ---------- */
+/* =========================
+   OVERLAYS
+========================= */
 
 .overlay {
     position: absolute;
@@ -52,86 +54,112 @@ canvas {
     z-index: 20;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     text-align: center;
 
     background:
         radial-gradient(
-            circle at center,
-            rgba(100,30,55,.28),
+            circle at 50% 45%,
+            rgba(125,38,68,.30),
             rgba(5,4,7,.94)
         );
 }
 
 .panel {
     width: min(88%, 650px);
-    padding: 38px 26px;
 
-    border: 1px solid rgba(201,107,118,.4);
-    border-radius: 24px;
+    padding: 38px 28px;
 
-    background: rgba(13,8,12,.9);
+    border-radius: 25px;
+
+    border: 1px solid rgba(205,108,125,.40);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24,12,20,.95),
+            rgba(9,7,11,.94)
+        );
 
     box-shadow:
-        0 25px 100px rgba(0,0,0,.7),
-        0 0 70px rgba(140,40,70,.12);
+        0 25px 100px rgba(0,0,0,.75),
+        0 0 80px rgba(125,38,68,.12);
 }
 
-.title-heart {
+.heart-title {
     font-size: 48px;
     margin-bottom: 8px;
-    animation: heartbeat 1.8s infinite;
+
+    animation: pulse 1.8s infinite;
 }
 
 h1 {
     margin: 0 0 14px;
-    font-size: clamp(32px,7vw,60px);
+
+    font-size: clamp(34px,7vw,62px);
+
     font-weight: 400;
 }
 
 h2 {
-    margin: 0 0 16px;
-    font-size: 34px;
+    margin: 0 0 15px;
+
+    font-size: 36px;
+
     font-weight: 400;
 }
 
 p {
-    color: #c9b8b2;
+    color: #cdbdb8;
     line-height: 1.6;
-    margin: 8px 0;
 }
 
 button {
-    border: 1px solid rgba(201,107,118,.55);
-    border-radius: 999px;
-
-    padding: 14px 27px;
     margin-top: 20px;
 
-    background: #241118;
+    padding: 14px 28px;
+
+    border-radius: 999px;
+
+    border: 1px solid rgba(205,108,125,.55);
+
+    background: #28131c;
+
     color: #f7eee9;
 
     font-family: Georgia, serif;
     font-size: 16px;
-
-    cursor: pointer;
 }
 
 button:active {
     transform: scale(.96);
-    background: #351824;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* ---------- HUD ---------- */
+@keyframes pulse {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+}
+
+/* =========================
+   HUD
+========================= */
 
 #hud {
     position: absolute;
+
     z-index: 10;
 
     top: 15px;
@@ -139,6 +167,7 @@ button:active {
     right: 15px;
 
     display: flex;
+
     justify-content: space-between;
 
     pointer-events: none;
@@ -149,16 +178,20 @@ button:active {
 
     border-radius: 999px;
 
-    background: rgba(8,6,9,.68);
-    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(8,6,10,.70);
+
+    border: 1px solid rgba(255,255,255,.10);
 
     font-size: 14px;
 }
 
-/* ---------- TOUCH ---------- */
+/* =========================
+   MOBILE CONTROLS
+========================= */
 
 #touch {
     position: absolute;
+
     z-index: 11;
 
     left: 0;
@@ -166,6 +199,7 @@ button:active {
     bottom: 18px;
 
     display: flex;
+
     justify-content: space-between;
 
     padding: 0 18px;
@@ -191,28 +225,28 @@ button:active {
 
     pointer-events: auto;
 
-    background: rgba(18,10,16,.76);
-    border-color: rgba(255,255,255,.12);
+    background: rgba(20,10,17,.78);
+
+    border-color: rgba(255,255,255,.13);
 
     font-family: Arial,sans-serif;
-    font-size: 19px;
 }
 
-.pad .up {
+.up {
     grid-column: 2;
 }
 
-.pad .left {
+.left {
     grid-column: 1;
     grid-row: 2;
 }
 
-.pad .down {
+.down {
     grid-column: 2;
     grid-row: 2;
 }
 
-.pad .right {
+.right {
     grid-column: 3;
     grid-row: 2;
 }
@@ -220,61 +254,48 @@ button:active {
 #hint {
     align-self: flex-end;
 
-    max-width: 200px;
-
-    text-align: right;
-
     color: rgba(247,238,233,.55);
 
     font-size: 12px;
-    line-height: 1.4;
-}
 
-@keyframes heartbeat {
-    0%,100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.12);
-    }
-}
-
-@media (min-width:800px) {
-    #touch {
-        opacity: .35;
-    }
-
-    #touch:hover {
-        opacity: 1;
-    }
+    text-align: right;
 }
 </style>
 </head>
+
 
 <body>
 
 <div id="game">
 
-<canvas id="canvas" width="1100" height="750"></canvas>
+<canvas id="canvas"
+        width="1100"
+        height="750">
+</canvas>
 
 
-<!-- START -->
+<!-- =========================
+     START SCREEN
+========================= -->
 
 <div id="start" class="overlay">
 
     <div class="panel">
 
-        <div class="title-heart">♡</div>
+        <div class="heart-title">
+            ♡
+        </div>
 
-        <h1>A Little Journey to You</h1>
+        <h1>
+            A Little Journey to You
+        </h1>
 
         <p>
             A tiny world made for Maëva.
         </p>
 
         <p>
-            Collect every heart.<br>
+            Collect every little heart.<br>
             Follow the path.<br>
             Find me at the end.
         </p>
@@ -288,15 +309,22 @@ button:active {
 </div>
 
 
-<!-- FINISH -->
+<!-- =========================
+     FINISH
+========================= -->
 
-<div id="finish" class="overlay hidden">
+<div id="finish"
+     class="overlay hidden">
 
     <div class="panel">
 
-        <div class="title-heart">♥</div>
+        <div class="heart-title">
+            ♥
+        </div>
 
-        <h2>You found me.</h2>
+        <h2>
+            You found me.
+        </h2>
 
         <p>
             Every little step was worth it.
@@ -305,7 +333,7 @@ button:active {
         <p style="
             color:#f7eee9;
             font-size:19px;
-            margin-top:20px;
+            margin-top:22px;
         ">
             “No matter the distance<br>
             between Germany and France,<br>
@@ -328,12 +356,21 @@ button:active {
 </div>
 
 
-<!-- HUD -->
+<!-- =========================
+     HUD
+========================= -->
 
-<div id="hud" class="hidden">
+<div id="hud"
+     class="hidden">
 
     <div class="badge">
-        ♥ <span id="count">0</span> / 10
+
+        ♥
+        <span id="count">
+            0
+        </span>
+        / 10
+
     </div>
 
     <div class="badge">
@@ -343,25 +380,42 @@ button:active {
 </div>
 
 
-<!-- TOUCH -->
+<!-- =========================
+     TOUCH CONTROLS
+========================= -->
 
-<div id="touch" class="hidden">
+<div id="touch"
+     class="hidden">
 
     <div class="pad">
 
-        <button class="up" data-key="ArrowUp">▲</button>
+        <button class="up"
+                data-key="ArrowUp">
+            ▲
+        </button>
 
-        <button class="left" data-key="ArrowLeft">◀</button>
+        <button class="left"
+                data-key="ArrowLeft">
+            ◀
+        </button>
 
-        <button class="down" data-key="ArrowDown">▼</button>
+        <button class="down"
+                data-key="ArrowDown">
+            ▼
+        </button>
 
-        <button class="right" data-key="ArrowRight">▶</button>
+        <button class="right"
+                data-key="ArrowRight">
+            ▶
+        </button>
 
     </div>
 
     <div id="hint">
-        Use the arrows<br>
-        or WASD.
+
+        Arrow keys<br>
+        or WASD
+
     </div>
 
 </div>
@@ -371,246 +425,298 @@ button:active {
 
 <script>
 
-/* =====================================================
-   SETUP
-===================================================== */
+/* =========================================================
+   BASIC SETUP
+========================================================= */
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+    document.getElementById("canvas");
+
+const ctx =
+    canvas.getContext("2d");
 
 const W = 1100;
 const H = 750;
 
-const startScreen = document.getElementById("start");
-const finishScreen = document.getElementById("finish");
 
-const hud = document.getElementById("hud");
-const touch = document.getElementById("touch");
+/* =========================================================
+   UI
+========================================================= */
 
-const countEl = document.getElementById("count");
+const start =
+    document.getElementById("start");
+
+const finish =
+    document.getElementById("finish");
+
+const hud =
+    document.getElementById("hud");
+
+const touch =
+    document.getElementById("touch");
+
+const count =
+    document.getElementById("count");
 
 
-/* =====================================================
+/* =========================================================
    GAME STATE
-===================================================== */
+========================================================= */
 
 let running = false;
+
 let keys = {};
 
 let hearts = [];
+
 let particles = [];
+
 let fireflies = [];
 
 let collected = 0;
-let lastTime = 0;
+
+let last = 0;
 
 
-/* =====================================================
+/* =========================================================
    PLAYER
-===================================================== */
+========================================================= */
 
 const player = {
 
-    x: 100,
-    y: 610,
+    x: 95,
+    y: 615,
 
-    speed: 220,
+    speed: 215,
 
-    direction: 1,
+    walk: 0,
 
-    step: 0
+    direction: 1
 
 };
 
 
-/* =====================================================
+/* =========================================================
    TOM
-===================================================== */
+========================================================= */
 
 const tom = {
 
-    x: 930,
-    y: 120
+    x: 945,
+    y: 125
 
 };
 
 
-/* =====================================================
-   HEART POSITIONS
-===================================================== */
+/* =========================================================
+   HEARTS
+========================================================= */
 
 const heartPositions = [
 
-    [180,570],
-    [300,640],
-    [420,555],
-    [540,650],
-    [650,545],
-    [735,420],
-    [650,300],
-    [760,235],
-    [850,180],
-    [900,125]
+    [170,565],
+    [290,635],
+    [410,550],
+    [520,640],
+    [640,540],
+    [735,430],
+    [655,315],
+    [760,245],
+    [855,180],
+    [905,125]
 
 ];
 
 
-/* =====================================================
+/* =========================================================
+   FIREFLIES
+========================================================= */
+
+for(let i=0;i<45;i++){
+
+    fireflies.push({
+
+        x: Math.random()*W,
+
+        y: 400 + Math.random()*310,
+
+        phase: Math.random()*Math.PI*2,
+
+        speed: .4 + Math.random()*.8
+
+    });
+
+}
+
+
+/* =========================================================
    RESET
-===================================================== */
+========================================================= */
 
-function resetGame() {
+function reset(){
 
-    player.x = 100;
-    player.y = 610;
+    player.x = 95;
+    player.y = 615;
 
-    player.step = 0;
+    player.walk = 0;
 
     collected = 0;
 
-    countEl.textContent = "0";
+    count.textContent = "0";
 
-    hearts = heartPositions.map(([x,y],i) => ({
+    hearts =
+        heartPositions.map(
+            ([x,y],i)=>({
 
-        x:x,
-        y:y,
+                x:x,
+                y:y,
 
-        taken:false,
+                taken:false,
 
-        phase:i * 0.8
+                phase:i*.8
 
-    }));
+            })
+        );
 
     particles = [];
 
 }
 
 
-/* =====================================================
-   FIREflies
-===================================================== */
-
-for(let i=0;i<35;i++){
-
-    fireflies.push({
-
-        x:Math.random()*W,
-        y:380+Math.random()*300,
-
-        phase:Math.random()*Math.PI*2,
-
-        speed:.4+Math.random()*.8
-
-    });
-
-}
-
-
-/* =====================================================
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
 function startGame(){
 
-    resetGame();
+    reset();
 
     running = true;
 
-    startScreen.classList.add("hidden");
-    finishScreen.classList.add("hidden");
+    start.classList.add("hidden");
+
+    finish.classList.add("hidden");
 
     hud.classList.remove("hidden");
+
     touch.classList.remove("hidden");
 
-    lastTime = performance.now();
+    last = performance.now();
 
     requestAnimationFrame(loop);
 
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-document.getElementById("startBtn").onclick = startGame;
-
-document.getElementById("againBtn").onclick = startGame;
+document
+    .getElementById("startBtn")
+    .onclick = startGame;
 
 
-/* =====================================================
+document
+    .getElementById("againBtn")
+    .onclick = startGame;
+
+
+/* =========================================================
    KEYBOARD
-===================================================== */
+========================================================= */
 
-window.addEventListener("keydown",function(e){
+window.addEventListener(
+    "keydown",
+    e => {
 
-    keys[e.key] = true;
+        keys[e.key] = true;
 
-    if([
-        "ArrowUp",
-        "ArrowDown",
-        "ArrowLeft",
-        "ArrowRight",
-        " "
-    ].includes(e.key)){
+        if([
+            "ArrowUp",
+            "ArrowDown",
+            "ArrowLeft",
+            "ArrowRight",
+            " "
+        ].includes(e.key)){
 
-        e.preventDefault();
+            e.preventDefault();
+
+        }
 
     }
-
-});
-
-
-window.addEventListener("keyup",function(e){
-
-    keys[e.key] = false;
-
-});
+);
 
 
-/* =====================================================
+window.addEventListener(
+    "keyup",
+    e => {
+
+        keys[e.key] = false;
+
+    }
+);
+
+
+/* =========================================================
    TOUCH
-===================================================== */
+========================================================= */
 
-document.querySelectorAll("[data-key]").forEach(button => {
+document
+    .querySelectorAll("[data-key]")
+    .forEach(button => {
 
-    const key = button.dataset.key;
+        const key =
+            button.dataset.key;
 
-    button.addEventListener("pointerdown",function(e){
+        button.addEventListener(
+            "pointerdown",
+            e => {
 
-        e.preventDefault();
+                e.preventDefault();
 
-        keys[key] = true;
+                keys[key] = true;
 
-    });
+            }
+        );
 
-    ["pointerup","pointercancel","pointerleave"].forEach(event => {
+        [
+            "pointerup",
+            "pointercancel",
+            "pointerleave"
+        ].forEach(event => {
 
-        button.addEventListener(event,function(){
+            button.addEventListener(
+                event,
+                () => {
 
-            keys[key] = false;
+                    keys[key] = false;
+
+                }
+            );
 
         });
 
     });
 
-});
 
+/* =========================================================
+   HELPER
+========================================================= */
 
-/* =====================================================
-   CLAMP
-===================================================== */
+function clamp(
+    value,
+    min,
+    max
+){
 
-function clamp(value,min,max){
-
-    return Math.max(min,Math.min(max,value));
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    UPDATE
-===================================================== */
+========================================================= */
 
 function update(dt){
 
@@ -618,78 +724,115 @@ function update(dt){
     let dy = 0;
 
 
-    if(keys.ArrowRight || keys.d || keys.D){
-        dx += 1;
+    if(
+        keys.ArrowRight ||
+        keys.d ||
+        keys.D
+    ){
+
+        dx++;
+
     }
 
-    if(keys.ArrowLeft || keys.a || keys.A){
-        dx -= 1;
+
+    if(
+        keys.ArrowLeft ||
+        keys.a ||
+        keys.A
+    ){
+
+        dx--;
+
     }
 
-    if(keys.ArrowDown || keys.s || keys.S){
-        dy += 1;
+
+    if(
+        keys.ArrowDown ||
+        keys.s ||
+        keys.S
+    ){
+
+        dy++;
+
     }
 
-    if(keys.ArrowUp || keys.w || keys.W){
-        dy -= 1;
+
+    if(
+        keys.ArrowUp ||
+        keys.w ||
+        keys.W
+    ){
+
+        dy--;
+
     }
 
 
     if(dx || dy){
 
-        const length = Math.hypot(dx,dy);
+        const length =
+            Math.hypot(dx,dy);
 
         dx /= length;
         dy /= length;
 
-        player.step += dt * 12;
+        player.walk +=
+            dt * 12;
 
         if(dx !== 0){
+
             player.direction = dx;
+
         }
 
     }
 
 
-    player.x = clamp(
-        player.x + dx * player.speed * dt,
-        35,
-        W-35
-    );
+    player.x =
+        clamp(
+            player.x +
+            dx * player.speed * dt,
+
+            35,
+            W-35
+        );
 
 
-    player.y = clamp(
-        player.y + dy * player.speed * dt,
-        70,
-        H-40
-    );
+    player.y =
+        clamp(
+            player.y +
+            dy * player.speed * dt,
+
+            70,
+            H-40
+        );
 
 
-    /* HEARTS */
+    /* HEART COLLECTION */
 
-    for(const heart of hearts){
+    for(
+        const heart of hearts
+    ){
 
-        if(!heart.taken){
-
-            const distance = Math.hypot(
+        if(
+            !heart.taken &&
+            Math.hypot(
                 player.x-heart.x,
                 player.y-heart.y
+            ) < 35
+        ){
+
+            heart.taken = true;
+
+            collected++;
+
+            count.textContent =
+                collected;
+
+            createParticles(
+                heart.x,
+                heart.y
             );
-
-            if(distance < 34){
-
-                heart.taken = true;
-
-                collected++;
-
-                countEl.textContent = collected;
-
-                createParticles(
-                    heart.x,
-                    heart.y
-                );
-
-            }
 
         }
 
@@ -698,21 +841,29 @@ function update(dt){
 
     /* PARTICLES */
 
-    for(const p of particles){
+    for(
+        const particle of particles
+    ){
 
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
+        particle.x +=
+            particle.vx * dt;
 
-        p.vy += 70 * dt;
+        particle.y +=
+            particle.vy * dt;
 
-        p.life -= dt;
+        particle.vy +=
+            65 * dt;
+
+        particle.life -=
+            dt;
 
     }
 
 
-    particles = particles.filter(
-        p => p.life > 0
-    );
+    particles =
+        particles.filter(
+            p => p.life > 0
+        );
 
 
     /* FINISH */
@@ -728,31 +879,37 @@ function update(dt){
         running = false;
 
         hud.classList.add("hidden");
+
         touch.classList.add("hidden");
 
-        finishScreen.classList.remove("hidden");
+        finish.classList.remove(
+            "hidden"
+        );
 
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    PARTICLES
-===================================================== */
+========================================================= */
 
 function createParticles(x,y){
 
-    for(let i=0;i<16;i++){
+    for(let i=0;i<18;i++){
 
         particles.push({
 
             x:x,
+
             y:y,
 
-            vx:(Math.random()-.5)*100,
+            vx:
+                (Math.random()-.5)*110,
 
-            vy:(Math.random()-.8)*100,
+            vy:
+                (Math.random()-.8)*110,
 
             life:.8
 
@@ -763,27 +920,31 @@ function createParticles(x,y){
 }
 
 
-/* =====================================================
+/* =========================================================
    BACKGROUND
-===================================================== */
+========================================================= */
 
 function drawBackground(time){
 
     /* SKY */
 
-    const sky = ctx.createLinearGradient(
-        0,0,
-        0,H
-    );
+    const sky =
+        ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            H
+        );
+
 
     sky.addColorStop(
         0,
-        "#080b17"
+        "#080b18"
     );
 
     sky.addColorStop(
         .45,
-        "#180d1b"
+        "#180c1c"
     );
 
     sky.addColorStop(
@@ -791,54 +952,66 @@ function drawBackground(time){
         "#080609"
     );
 
+
     ctx.fillStyle = sky;
 
     ctx.fillRect(
-        0,0,W,H
+        0,
+        0,
+        W,
+        H
     );
 
 
     /* MOON GLOW */
 
-    const glow = ctx.createRadialGradient(
-        875,
-        105,
-        10,
-        875,
-        105,
-        150
-    );
+    const moonGlow =
+        ctx.createRadialGradient(
+            875,
+            105,
+            10,
+            875,
+            105,
+            180
+        );
 
-    glow.addColorStop(
+
+    moonGlow.addColorStop(
         0,
-        "rgba(247,238,233,.16)"
+        "rgba(247,238,233,.17)"
     );
 
-    glow.addColorStop(
+
+    moonGlow.addColorStop(
         1,
         "rgba(247,238,233,0)"
     );
 
-    ctx.fillStyle = glow;
+
+    ctx.fillStyle =
+        moonGlow;
+
 
     ctx.fillRect(
-        700,
+        680,
         0,
-        300,
-        300
+        380,
+        330
     );
 
 
     /* MOON */
 
-    ctx.fillStyle = "#f7eee9";
+    ctx.fillStyle =
+        "#f7eee9";
+
 
     ctx.beginPath();
 
     ctx.arc(
         875,
         105,
-        37,
+        38,
         0,
         Math.PI*2
     );
@@ -846,14 +1019,18 @@ function drawBackground(time){
     ctx.fill();
 
 
-    ctx.fillStyle = "#080b17";
+    /* CRESCENT */
+
+    ctx.fillStyle =
+        "#080b18";
+
 
     ctx.beginPath();
 
     ctx.arc(
-        892,
+        893,
         91,
-        36,
+        37,
         0,
         Math.PI*2
     );
@@ -863,19 +1040,26 @@ function drawBackground(time){
 
     /* STARS */
 
-    for(let i=0;i<100;i++){
+    for(let i=0;i<110;i++){
 
-        const x = (i*137)%W;
-        const y = (i*71)%390;
+        const x =
+            (i*137)%W;
 
-        const alpha =
-            .15 +
-            .18*Math.sin(
+        const y =
+            (i*71)%390;
+
+
+        const opacity =
+            .12 +
+            .18*
+            Math.sin(
                 time/900+i
             );
 
+
         ctx.fillStyle =
-            `rgba(247,238,233,${alpha})`;
+            `rgba(247,238,233,${opacity})`;
+
 
         ctx.fillRect(
             x,
@@ -889,7 +1073,9 @@ function drawBackground(time){
 
     /* GROUND */
 
-    ctx.fillStyle = "#0c090f";
+    ctx.fillStyle =
+        "#0c090f";
+
 
     ctx.fillRect(
         0,
@@ -901,24 +1087,42 @@ function drawBackground(time){
 
     /* DISTANT HILLS */
 
-    ctx.fillStyle = "#100b16";
+    ctx.fillStyle =
+        "#100b16";
+
 
     ctx.beginPath();
 
-    ctx.moveTo(0,440);
+    ctx.moveTo(
+        0,
+        450
+    );
 
-    for(let x=0;x<=W;x+=80){
+
+    for(
+        let x=0;
+        x<=W;
+        x+=70
+    ){
 
         ctx.lineTo(
             x,
-            400 + Math.sin(x*.009)*35
+            410+
+            Math.sin(x*.009)*30
         );
 
     }
 
-    ctx.lineTo(W,H);
 
-    ctx.lineTo(0,H);
+    ctx.lineTo(
+        W,
+        H
+    );
+
+    ctx.lineTo(
+        0,
+        H
+    );
 
     ctx.closePath();
 
@@ -936,90 +1140,135 @@ function drawBackground(time){
 }
 
 
-/* =====================================================
+/* =========================================================
    PATH
-===================================================== */
+========================================================= */
 
 function drawPath(){
 
     ctx.save();
 
-    ctx.lineCap = "round";
+    ctx.lineCap =
+        "round";
 
-    ctx.lineWidth = 115;
 
-    ctx.strokeStyle = "#241722";
+    /* MAIN PATH */
+
+    ctx.lineWidth =
+        118;
+
+    ctx.strokeStyle =
+        "#241622";
+
 
     ctx.beginPath();
 
-    ctx.moveTo(80,620);
-
-    ctx.bezierCurveTo(
-        270,560,
-        370,700,
-        500,610
+    ctx.moveTo(
+        70,
+        620
     );
 
-    ctx.bezierCurveTo(
-        650,505,
-        570,380,
-        700,300
-    );
 
     ctx.bezierCurveTo(
-        780,250,
-        820,180,
-        930,125
+        260,
+        560,
+        370,
+        700,
+        500,
+        610
     );
+
+
+    ctx.bezierCurveTo(
+        650,
+        505,
+        570,
+        380,
+        700,
+        300
+    );
+
+
+    ctx.bezierCurveTo(
+        790,
+        245,
+        820,
+        175,
+        945,
+        125
+    );
+
 
     ctx.stroke();
 
 
-    ctx.lineWidth = 3;
+    /* PATH EDGE */
 
-    ctx.strokeStyle = "#4a303d";
+    ctx.lineWidth =
+        3;
+
+    ctx.strokeStyle =
+        "#4b303d";
+
 
     ctx.beginPath();
 
-    ctx.moveTo(80,620);
-
-    ctx.bezierCurveTo(
-        270,560,
-        370,700,
-        500,610
+    ctx.moveTo(
+        70,
+        620
     );
 
-    ctx.bezierCurveTo(
-        650,505,
-        570,380,
-        700,300
-    );
 
     ctx.bezierCurveTo(
-        780,250,
-        820,180,
-        930,125
+        260,
+        560,
+        370,
+        700,
+        500,
+        610
     );
+
+
+    ctx.bezierCurveTo(
+        650,
+        505,
+        570,
+        380,
+        700,
+        300
+    );
+
+
+    ctx.bezierCurveTo(
+        790,
+        245,
+        820,
+        175,
+        945,
+        125
+    );
+
 
     ctx.stroke();
+
 
     ctx.restore();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    TREES
-===================================================== */
+========================================================= */
 
 function drawTrees(){
 
     const trees = [
 
-        [60,430,1],
-        [150,470,1.2],
+        [55,430,1],
+        [145,465,1.2],
         [250,425,.8],
-        [360,460,1.1],
+        [355,455,1.1],
         [470,430,.9],
         [580,455,1.2],
         [700,420,.9],
@@ -1030,54 +1279,76 @@ function drawTrees(){
     ];
 
 
-    for(const [x,y,s] of trees){
+    for(
+        const [x,y,s]
+        of trees
+    ){
 
         ctx.save();
 
-        ctx.translate(x,y);
-        ctx.scale(s,s);
+        ctx.translate(
+            x,
+            y
+        );
+
+        ctx.scale(
+            s,
+            s
+        );
 
 
         /* TRUNK */
 
-        ctx.fillStyle = "#0a080c";
+        ctx.fillStyle =
+            "#09070b";
+
 
         ctx.fillRect(
             -5,
             -10,
             10,
-            70
+            72
         );
 
 
-        /* TREE */
+        /* TREE CROWN */
 
-        ctx.fillStyle = "#09070c";
+        ctx.fillStyle =
+            "#08070b";
 
-        for(let i=0;i<3;i++){
+
+        for(
+            let i=0;
+            i<3;
+            i++
+        ){
 
             ctx.beginPath();
 
             ctx.moveTo(
                 0,
-                -95+i*28
+                -100+i*29
             );
 
-            ctx.lineTo(
-                -38,
-                -20+i*28
-            );
 
             ctx.lineTo(
-                38,
-                -20+i*28
+                -40,
+                -18+i*29
             );
+
+
+            ctx.lineTo(
+                40,
+                -18+i*29
+            );
+
 
             ctx.closePath();
 
             ctx.fill();
 
         }
+
 
         ctx.restore();
 
@@ -1086,9 +1357,9 @@ function drawTrees(){
 }
 
 
-/* =====================================================
+/* =========================================================
    LANTERNS
-===================================================== */
+========================================================= */
 
 function drawLanterns(){
 
@@ -1103,46 +1374,46 @@ function drawLanterns(){
     ];
 
 
-    for(const [x,y] of lanterns){
+    for(
+        const [x,y]
+        of lanterns
+    ){
 
-        ctx.fillStyle = "#09070a";
+        /* GLOW */
 
-        ctx.fillRect(
-            x-2,
-            y,
-            4,
-            35
-        );
-
-
-        const light =
+        const glow =
             ctx.createRadialGradient(
                 x,
                 y,
                 2,
                 x,
                 y,
-                40
+                45
             );
 
-        light.addColorStop(
+
+        glow.addColorStop(
             0,
-            "rgba(255,190,140,.32)"
+            "rgba(255,185,135,.32)"
         );
 
-        light.addColorStop(
+
+        glow.addColorStop(
             1,
-            "rgba(255,190,140,0)"
+            "rgba(255,185,135,0)"
         );
 
-        ctx.fillStyle = light;
+
+        ctx.fillStyle =
+            glow;
+
 
         ctx.beginPath();
 
         ctx.arc(
             x,
             y,
-            40,
+            45,
             0,
             Math.PI*2
         );
@@ -1150,13 +1421,31 @@ function drawLanterns(){
         ctx.fill();
 
 
-        ctx.fillStyle = "#d8a477";
+        /* POST */
+
+        ctx.fillStyle =
+            "#09070a";
+
 
         ctx.fillRect(
-            x-5,
-            y-8,
-            10,
-            13
+            x-2,
+            y,
+            4,
+            38
+        );
+
+
+        /* LIGHT */
+
+        ctx.fillStyle =
+            "#d9a276";
+
+
+        ctx.fillRect(
+            x-6,
+            y-9,
+            12,
+            14
         );
 
     }
@@ -1164,24 +1453,30 @@ function drawLanterns(){
 }
 
 
-/* =====================================================
+/* =========================================================
    FIREFLIES
-===================================================== */
+========================================================= */
 
 function drawFireflies(time){
 
-    for(const f of fireflies){
+    for(
+        const f
+        of fireflies
+    ){
 
         const alpha =
-            .25 +
-            .3 *
+            .18+
+            .28*
             Math.sin(
-                time/700*f.speed+
+                time/700*
+                f.speed+
                 f.phase
             );
 
+
         ctx.fillStyle =
             `rgba(255,190,150,${alpha})`;
+
 
         ctx.beginPath();
 
@@ -1200,48 +1495,128 @@ function drawFireflies(time){
 }
 
 
-/* =====================================================
+/* =========================================================
    HEART
-===================================================== */
+========================================================= */
 
-function drawHeart(x,y,scale=1,alpha=1){
+function drawHeart(
+    x,
+    y,
+    scale=1,
+    alpha=1
+){
 
     ctx.save();
 
-    ctx.translate(x,y);
-    ctx.scale(scale,scale);
+    ctx.translate(
+        x,
+        y
+    );
 
-    ctx.globalAlpha = alpha;
+    ctx.scale(
+        scale,
+        scale
+    );
 
-    ctx.fillStyle = "#d86f7d";
+    ctx.globalAlpha =
+        alpha;
+
+
+    /* GLOW */
+
+    const glow =
+        ctx.createRadialGradient(
+            0,
+            -3,
+            2,
+            0,
+            -3,
+            30
+        );
+
+
+    glow.addColorStop(
+        0,
+        "rgba(216,111,125,.28)"
+    );
+
+
+    glow.addColorStop(
+        1,
+        "rgba(216,111,125,0)"
+    );
+
+
+    ctx.fillStyle =
+        glow;
+
 
     ctx.beginPath();
 
-    ctx.moveTo(0,13);
-
-    ctx.bezierCurveTo(
-        -27,-4,
-        -20,-22,
-        -9,-22
+    ctx.arc(
+        0,
+        -3,
+        30,
+        0,
+        Math.PI*2
     );
 
-    ctx.bezierCurveTo(
-        -3,-22,
-        0,-17,
-        0,-12
+    ctx.fill();
+
+
+    /* HEART */
+
+    ctx.fillStyle =
+        "#d86f7d";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        14
     );
 
-    ctx.bezierCurveTo(
-        0,-17,
-        3,-22,
-        9,-22
-    );
 
     ctx.bezierCurveTo(
-        20,-22,
-        27,-4,
-        0,13
+        -27,
+        -4,
+        -20,
+        -23,
+        -9,
+        -23
     );
+
+
+    ctx.bezierCurveTo(
+        -3,
+        -23,
+        0,
+        -17,
+        0,
+        -12
+    );
+
+
+    ctx.bezierCurveTo(
+        0,
+        -17,
+        3,
+        -23,
+        9,
+        -23
+    );
+
+
+    ctx.bezierCurveTo(
+        20,
+        -23,
+        27,
+        -4,
+        0,
+        14
+    );
+
 
     ctx.fill();
 
@@ -1250,40 +1625,47 @@ function drawHeart(x,y,scale=1,alpha=1){
 }
 
 
-/* =====================================================
+/* =========================================================
    MAËVA
-===================================================== */
+========================================================= */
 
 function drawMaeva(){
 
-    const x = player.x;
-    const y = player.y;
-
     const bounce =
         Math.abs(
-            Math.sin(player.step)
-        ) * 2;
+            Math.sin(
+                player.walk
+            )
+        )*2;
+
+
+    const x =
+        player.x;
+
+    const y =
+        player.y-bounce;
 
 
     ctx.save();
 
     ctx.translate(
         x,
-        y-bounce
+        y
     );
 
 
     /* SHADOW */
 
     ctx.fillStyle =
-        "rgba(0,0,0,.45)";
+        "rgba(0,0,0,.48)";
+
 
     ctx.beginPath();
 
     ctx.ellipse(
         0,
-        27,
-        21,
+        29,
+        22,
         7,
         0,
         0,
@@ -1293,30 +1675,34 @@ function drawMaeva(){
     ctx.fill();
 
 
-    /* HAIR BACK */
+    /* LONG HAIR */
 
-    ctx.fillStyle = "#24171b";
+    ctx.fillStyle =
+        "#25181c";
+
 
     ctx.beginPath();
 
     ctx.roundRect(
-        -17,
-        -32,
-        34,
-        45,
+        -18,
+        -34,
+        36,
+        50,
         10
     );
 
     ctx.fill();
 
 
-    /* BODY / CARDIGAN */
+    /* CARDIGAN */
 
-    ctx.fillStyle = "#a95c6c";
+    ctx.fillStyle =
+        "#a95d6c";
+
 
     ctx.fillRect(
         -15,
-        2,
+        3,
         30,
         27
     );
@@ -1324,11 +1710,13 @@ function drawMaeva(){
 
     /* SHIRT */
 
-    ctx.fillStyle = "#f3e5df";
+    ctx.fillStyle =
+        "#f4e6df";
+
 
     ctx.fillRect(
         -7,
-        3,
+        4,
         14,
         17
     );
@@ -1336,13 +1724,15 @@ function drawMaeva(){
 
     /* FACE */
 
-    ctx.fillStyle = "#e5ad99";
+    ctx.fillStyle =
+        "#e5ad99";
+
 
     ctx.beginPath();
 
     ctx.roundRect(
         -11,
-        -20,
+        -21,
         22,
         25,
         7
@@ -1351,28 +1741,33 @@ function drawMaeva(){
     ctx.fill();
 
 
-    /* HAIR FRONT */
+    /* HAIR */
 
-    ctx.fillStyle = "#24171b";
+    ctx.fillStyle =
+        "#25181c";
+
 
     ctx.fillRect(
-        -12,
-        -22,
-        24,
-        7
+        -13,
+        -24,
+        26,
+        8
     );
 
+
     ctx.fillRect(
-        -16,
-        -18,
+        -17,
+        -19,
         6,
-        20
+        22
     );
 
 
     /* EYES */
 
-    ctx.fillStyle = "#38262b";
+    ctx.fillStyle =
+        "#38262b";
+
 
     ctx.fillRect(
         -7,
@@ -1380,6 +1775,7 @@ function drawMaeva(){
         3,
         3
     );
+
 
     ctx.fillRect(
         4,
@@ -1391,9 +1787,13 @@ function drawMaeva(){
 
     /* SMILE */
 
-    ctx.strokeStyle = "#9d5961";
+    ctx.strokeStyle =
+        "#99555e";
 
-    ctx.lineWidth = 1.5;
+
+    ctx.lineWidth =
+        1.5;
+
 
     ctx.beginPath();
 
@@ -1410,18 +1810,21 @@ function drawMaeva(){
 
     /* ARMS */
 
-    ctx.fillStyle = "#e5ad99";
+    ctx.fillStyle =
+        "#e5ad99";
+
 
     ctx.fillRect(
         -20,
-        5,
+        6,
         6,
         19
     );
 
+
     ctx.fillRect(
         14,
-        5,
+        6,
         6,
         19
     );
@@ -1429,37 +1832,49 @@ function drawMaeva(){
 
     /* LEGS */
 
-    ctx.fillStyle = "#28232d";
+    ctx.fillStyle =
+        "#28232d";
+
+
+    const leg =
+        Math.sin(
+            player.walk
+        )*3;
+
 
     ctx.fillRect(
         -10,
-        28,
+        29,
         8,
-        17
+        17+leg
     );
+
 
     ctx.fillRect(
         2,
-        28,
+        29,
         8,
-        17
+        17-leg
     );
 
 
     /* SHOES */
 
-    ctx.fillStyle = "#eee8e5";
+    ctx.fillStyle =
+        "#eee8e5";
+
 
     ctx.fillRect(
         -12,
-        43,
+        44+leg,
         11,
         5
     );
 
+
     ctx.fillRect(
         1,
-        43,
+        44-leg,
         11,
         5
     );
@@ -1470,14 +1885,17 @@ function drawMaeva(){
 }
 
 
-/* =====================================================
+/* =========================================================
    TOM
-===================================================== */
+========================================================= */
 
 function drawTom(time){
 
-    const x = tom.x;
-    const y = tom.y;
+    const x =
+        tom.x;
+
+    const y =
+        tom.y;
 
 
     /* GLOW */
@@ -1489,27 +1907,32 @@ function drawTom(time){
             5,
             x,
             y,
-            90
+            100
         );
+
 
     glow.addColorStop(
         0,
-        "rgba(201,107,118,.24)"
+        "rgba(201,107,118,.25)"
     );
+
 
     glow.addColorStop(
         1,
         "rgba(201,107,118,0)"
     );
 
-    ctx.fillStyle = glow;
+
+    ctx.fillStyle =
+        glow;
+
 
     ctx.beginPath();
 
     ctx.arc(
         x,
         y,
-        90,
+        100,
         0,
         Math.PI*2
     );
@@ -1519,13 +1942,17 @@ function drawTom(time){
 
     ctx.save();
 
-    ctx.translate(x,y);
+    ctx.translate(
+        x,
+        y
+    );
 
 
     /* SHADOW */
 
     ctx.fillStyle =
         "rgba(0,0,0,.45)";
+
 
     ctx.beginPath();
 
@@ -1544,15 +1971,17 @@ function drawTom(time){
 
     /* HAIR */
 
-    ctx.fillStyle = "#21181c";
+    ctx.fillStyle =
+        "#21181c";
+
 
     ctx.beginPath();
 
     ctx.roundRect(
-        -17,
-        -34,
-        34,
-        43,
+        -18,
+        -35,
+        36,
+        44,
         9
     );
 
@@ -1561,13 +1990,15 @@ function drawTom(time){
 
     /* FACE */
 
-    ctx.fillStyle = "#d9a28e";
+    ctx.fillStyle =
+        "#d9a28e";
+
 
     ctx.beginPath();
 
     ctx.roundRect(
         -11,
-        -23,
+        -24,
         22,
         26,
         7
@@ -1578,19 +2009,23 @@ function drawTom(time){
 
     /* HAIR FRONT */
 
-    ctx.fillStyle = "#21181c";
+    ctx.fillStyle =
+        "#21181c";
+
 
     ctx.fillRect(
         -14,
-        -27,
+        -28,
         28,
-        8
+        9
     );
 
 
     /* BODY */
 
-    ctx.fillStyle = "#17151c";
+    ctx.fillStyle =
+        "#17151c";
+
 
     ctx.fillRect(
         -16,
@@ -1609,6 +2044,7 @@ function drawTom(time){
         21
     );
 
+
     ctx.fillRect(
         15,
         7,
@@ -1619,7 +2055,9 @@ function drawTom(time){
 
     /* SHOES */
 
-    ctx.fillStyle = "#eee8e5";
+    ctx.fillStyle =
+        "#eee8e5";
+
 
     ctx.fillRect(
         -12,
@@ -1627,6 +2065,7 @@ function drawTom(time){
         11,
         15
     );
+
 
     ctx.fillRect(
         1,
@@ -1636,16 +2075,19 @@ function drawTom(time){
     );
 
 
-    /* HEART */
+    /* HEART ABOVE TOM */
 
     const pulse =
-        1 +
-        Math.sin(time/300)*.08;
+        1+
+        Math.sin(
+            time/300
+        )*.08;
+
 
     drawHeart(
         0,
-        -58,
-        .42*pulse
+        -61,
+        .43*pulse
     );
 
 
@@ -1654,33 +2096,42 @@ function drawTom(time){
 }
 
 
-/* =====================================================
-   DRAW
-===================================================== */
+/* =========================================================
+   MAIN DRAW
+========================================================= */
 
 function draw(time){
 
     drawBackground(time);
 
-    /* DESTINATION */
 
-    if(collected === hearts.length){
+    /* DESTINATION RING */
 
-        const pulse =
-            55 +
-            Math.sin(time/300)*7;
+    if(
+        collected ===
+        hearts.length
+    ){
+
+        const radius =
+            55+
+            Math.sin(
+                time/300
+            )*8;
+
 
         ctx.strokeStyle =
-            "rgba(216,111,125,.7)";
+            "rgba(216,111,125,.72)";
+
 
         ctx.lineWidth = 2;
+
 
         ctx.beginPath();
 
         ctx.arc(
             tom.x,
             tom.y,
-            pulse,
+            radius,
             0,
             Math.PI*2
         );
@@ -1695,20 +2146,34 @@ function draw(time){
 
     /* HEARTS */
 
-    for(const heart of hearts){
+    for(
+        const heart
+        of hearts
+    ){
 
-        if(!heart.taken){
+        if(
+            !heart.taken
+        ){
 
             const float =
                 Math.sin(
                     time/400+
                     heart.phase
-                )*5;
+                )*6;
+
+
+            const scale =
+                .60+
+                Math.sin(
+                    time/500+
+                    heart.phase
+                )*.04;
+
 
             drawHeart(
                 heart.x,
                 heart.y+float,
-                .62
+                scale
             );
 
         }
@@ -1718,13 +2183,16 @@ function draw(time){
 
     /* PARTICLES */
 
-    for(const p of particles){
+    for(
+        const particle
+        of particles
+    ){
 
         drawHeart(
-            p.x,
-            p.y,
-            .2,
-            p.life/.8
+            particle.x,
+            particle.y,
+            .20,
+            particle.life/.8
         );
 
     }
@@ -1733,16 +2201,24 @@ function draw(time){
     drawMaeva();
 
 
-    /* TEXT */
+    /* INSTRUCTION */
 
-    ctx.textAlign = "center";
+    ctx.textAlign =
+        "center";
 
-    ctx.font = "16px Georgia";
 
-    if(collected < hearts.length){
+    ctx.font =
+        "16px Georgia";
 
-        ctx.fillStyle =
-            "rgba(247,238,233,.65)";
+
+    ctx.fillStyle =
+        "rgba(247,238,233,.68)";
+
+
+    if(
+        collected <
+        hearts.length
+    ){
 
         ctx.fillText(
             "Collect every heart to open the way ♡",
@@ -1750,10 +2226,12 @@ function draw(time){
             40
         );
 
-    }else{
+    }
+    else{
 
         ctx.fillStyle =
-            "rgba(247,238,233,.9)";
+            "rgba(247,238,233,.92)";
+
 
         ctx.fillText(
             "The way is open. Go to Tom ♡",
@@ -1766,9 +2244,9 @@ function draw(time){
 }
 
 
-/* =====================================================
-   LOOP
-===================================================== */
+/* =========================================================
+   GAME LOOP
+========================================================= */
 
 function loop(time){
 
@@ -1779,28 +2257,31 @@ function loop(time){
 
     const dt =
         Math.min(
-            (time-lastTime)/1000,
+            (time-last)/1000,
             .033
         );
 
 
-    lastTime = time;
+    last = time;
 
 
     update(dt);
 
     draw(time);
 
-    requestAnimationFrame(loop);
+
+    requestAnimationFrame(
+        loop
+    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    INITIAL DRAW
-===================================================== */
+========================================================= */
 
-resetGame();
+reset();
 
 draw(0);
 
