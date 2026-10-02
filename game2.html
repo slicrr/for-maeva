@@ -2771,10 +2771,8 @@ function restartGame(){
 /* START BUTTON                 */
 /* ============================= */
 
-const startBtn=
-    document.getElementById(
-        "startBtn"
-    );
+const startBtn =
+    document.getElementById("startBtn");
 
 
 startBtn.addEventListener(
@@ -2782,11 +2780,26 @@ startBtn.addEventListener(
     function(e){
 
         e.preventDefault();
-
         e.stopPropagation();
 
         startGame();
 
+    }
+);
+
+
+startBtn.addEventListener(
+    "touchend",
+    function(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        startGame();
+
+    },
+    {
+        passive:false
     }
 );
 
@@ -3072,24 +3085,143 @@ bindControl("right","right");
 /* Safety:
    releasing the finger anywhere stops movement */
 
-window.addEventListener(
+/* ============================= */
+/* D-PAD - HOLD TO MOVE         */
+/* ============================= */
+
+function stopAllMovement(){
+
+    keys.up = false;
+    keys.down = false;
+    keys.left = false;
+    keys.right = false;
+
+}
+
+
+function bindControl(id, direction){
+
+    const element =
+        document.getElementById(id);
+
+    if(!element) return;
+
+
+    function start(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if(!running || finished){
+            return;
+        }
+
+        keys[direction] = true;
+
+        if(e.pointerId !== undefined){
+
+            try{
+                element.setPointerCapture(
+                    e.pointerId
+                );
+            }catch(err){}
+
+        }
+
+    }
+
+
+    function stop(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        keys[direction] = false;
+
+    }
+
+
+    element.addEventListener(
+        "pointerdown",
+        start,
+        {passive:false}
+    );
+
+
+    element.addEventListener(
+        "pointerup",
+        stop,
+        {passive:false}
+    );
+
+
+    element.addEventListener(
+        "pointercancel",
+        stop,
+        {passive:false}
+    );
+
+
+    element.addEventListener(
+        "lostpointercapture",
+        stop,
+        {passive:false}
+    );
+
+
+    /*
+     * Mouse:
+     * stop when the mouse leaves the button.
+     */
+
+    element.addEventListener(
+        "mouseleave",
+        (e)=>{
+
+            if(e.pointerType === "mouse"){
+                keys[direction] = false;
+            }
+
+        }
+    );
+
+}
+
+
+/* Connect D-Pad */
+
+bindControl("up","up");
+
+bindControl("down","down");
+
+bindControl("left","left");
+
+bindControl("right","right");
+
+
+/*
+ * If the user releases the finger somewhere
+ * outside the game, stop movement.
+ *
+ * IMPORTANT:
+ * This listener does NOT preventDefault
+ * and does NOT interfere with buttons.
+ */
+
+document.addEventListener(
     "pointerup",
     ()=>{
-        keys.up=false;
-        keys.down=false;
-        keys.left=false;
-        keys.right=false;
-    }
+        stopAllMovement();
+    },
+    {passive:true}
 );
 
-window.addEventListener(
+document.addEventListener(
     "pointercancel",
     ()=>{
-        keys.up=false;
-        keys.down=false;
-        keys.left=false;
-        keys.right=false;
-    }
+        stopAllMovement();
+    },
+    {passive:true}
 );
 
 
