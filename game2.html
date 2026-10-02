@@ -7,7 +7,7 @@
 <meta name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<meta name="theme-color" content="#090708">
+<meta name="theme-color" content="#08070c">
 
 <title>A Little Journey to You ♡</title>
 
@@ -18,14 +18,13 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
     margin:0;
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#090708;
-    font-family:Georgia, "Times New Roman", serif;
+    background:#08070c;
+    font-family:Georgia,"Times New Roman",serif;
 }
 
 body{
@@ -39,7 +38,7 @@ body{
     width:100vw;
     height:100vh;
     overflow:hidden;
-    background:#090708;
+    background:#08070c;
 }
 
 canvas{
@@ -51,12 +50,16 @@ canvas{
     touch-action:none;
 }
 
+/* =========================
+   START / FINAL SCREENS
+========================= */
+
 #startScreen,
 #finishScreen,
 #finalScene{
     position:absolute;
     inset:0;
-    z-index:20;
+    z-index:30;
 
     display:flex;
     flex-direction:column;
@@ -64,212 +67,285 @@ canvas{
     align-items:center;
 
     text-align:center;
-
-    padding:30px;
+    padding:28px;
 
     background:
         radial-gradient(
-            circle at center,
-            rgba(90,35,55,.28),
-            rgba(9,7,8,.97) 72%
+            ellipse at 50% 45%,
+            rgba(105,35,72,.32) 0%,
+            rgba(35,14,27,.65) 38%,
+            rgba(5,5,9,.97) 100%
         );
+
+    backdrop-filter:blur(2px);
 }
 
 #finalScene{
-    z-index:19;
     display:none;
+    z-index:28;
     pointer-events:none;
 }
 
 #finishScreen{
-    z-index:30;
     display:none;
+    z-index:40;
 }
 
 .title{
-    color:#f7dfe7;
-    font-size:clamp(30px,7vw,64px);
-    margin-bottom:14px;
+    color:#f9dfe9;
+    font-size:clamp(32px,7vw,68px);
+    line-height:1.1;
+
+    margin-bottom:16px;
+
     text-shadow:
-        0 0 20px rgba(255,150,180,.25);
+        0 0 12px rgba(255,150,190,.28),
+        0 0 35px rgba(130,35,80,.35);
 }
 
 .subtitle{
-    color:#d9bfc8;
-    font-size:clamp(15px,3.5vw,21px);
-    line-height:1.6;
     max-width:650px;
+
+    color:#d7c0c9;
+
+    font-size:clamp(15px,3.7vw,21px);
+    line-height:1.65;
+
     margin-bottom:30px;
 }
 
 .smallText{
-    color:#a98c96;
+    color:#a98e99;
     font-size:14px;
-    margin-top:18px;
-}
-
-button{
-    font-family:inherit;
+    line-height:1.6;
 }
 
 #startBtn,
 #playAgain{
+
     appearance:none;
-    border:1px solid rgba(255,190,210,.35);
-    border-radius:999px;
-
-    padding:15px 28px;
-
-    color:#fff1f5;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(120,45,70,.95),
-            rgba(75,25,45,.95)
-        );
-
-    font-size:17px;
-
-    box-shadow:
-        0 0 25px rgba(120,35,65,.3),
-        inset 0 1px rgba(255,255,255,.08);
-
-    cursor:pointer;
 
     position:relative;
     z-index:100;
+
+    border:1px solid rgba(255,205,225,.35);
+    border-radius:999px;
+
+    padding:15px 30px;
+
+    color:#fff2f6;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(126,47,76,.98),
+            rgba(69,23,44,.98)
+        );
+
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:17px;
+
+    box-shadow:
+        0 0 20px rgba(145,42,80,.28),
+        0 0 50px rgba(100,25,65,.12),
+        inset 0 1px rgba(255,255,255,.1);
+
+    cursor:pointer;
 
     pointer-events:auto;
     touch-action:manipulation;
 
     user-select:none;
     -webkit-user-select:none;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
 }
 
 #startBtn:active,
 #playAgain:active{
-    transform:scale(.96);
+    transform:scale(.95);
+
+    box-shadow:
+        0 0 12px rgba(145,42,80,.35);
 }
 
+/* =========================
+   HUD
+========================= */
+
 #hud{
+
     position:absolute;
+
     top:15px;
     left:15px;
-    z-index:10;
 
-    color:#f7dfe7;
+    z-index:15;
 
-    background:rgba(20,10,15,.65);
-
-    border:1px solid rgba(255,200,215,.14);
+    padding:9px 14px;
 
     border-radius:999px;
 
-    padding:8px 13px;
+    border:1px solid rgba(255,205,220,.14);
+
+    color:#f5dce5;
+
+    background:rgba(17,9,14,.62);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.2);
+
+    backdrop-filter:blur(10px);
 
     font-size:14px;
 
-    backdrop-filter:blur(8px);
+    opacity:0;
+
+    transition:opacity .5s ease;
 }
 
+/* =========================
+   MESSAGE
+========================= */
+
 #message{
+
     position:absolute;
+
     left:50%;
-    bottom:115px;
+    bottom:120px;
 
-    transform:translateX(-50%);
+    z-index:20;
 
-    z-index:12;
+    width:min(88vw,600px);
 
-    width:min(88vw,560px);
+    padding:14px 19px;
 
-    padding:13px 18px;
+    transform:
+        translateX(-50%)
+        translateY(10px);
 
     border-radius:18px;
 
-    background:rgba(20,10,15,.84);
+    border:1px solid rgba(255,205,220,.17);
 
-    border:1px solid rgba(255,190,210,.18);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(30,14,22,.88),
+            rgba(13,8,12,.9)
+        );
 
-    color:#f7e8ed;
-
-    text-align:center;
+    color:#f8e7ed;
 
     font-size:15px;
-    line-height:1.45;
+    line-height:1.5;
+
+    text-align:center;
 
     opacity:0;
 
     pointer-events:none;
 
     transition:
-        opacity .25s ease,
-        transform .25s ease;
+        opacity .3s ease,
+        transform .3s ease;
 
-    backdrop-filter:blur(10px);
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.3);
+
+    backdrop-filter:blur(12px);
 }
 
 #message.show{
+
     opacity:1;
-    transform:translateX(-50%) translateY(-4px);
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+
 }
 
+/* =========================
+   D-PAD
+========================= */
+
 #dpad{
+
     position:absolute;
 
-    left:18px;
-    bottom:18px;
+    left:17px;
+    bottom:17px;
 
-    z-index:15;
+    z-index:25;
 
-    width:155px;
-    height:155px;
+    width:165px;
+    height:165px;
 
     display:grid;
 
-    grid-template-columns:52px 52px 52px;
-    grid-template-rows:52px 52px 52px;
+    grid-template-columns:54px 54px 54px;
+    grid-template-rows:54px 54px 54px;
 
     gap:2px;
 
     touch-action:none;
+
     user-select:none;
     -webkit-user-select:none;
 }
 
 .dpadBtn{
-    width:52px;
-    height:52px;
 
-    border-radius:15px;
+    width:54px;
+    height:54px;
 
-    border:1px solid rgba(255,210,220,.18);
+    border-radius:17px;
 
-    background:rgba(40,20,28,.78);
+    border:1px solid rgba(255,210,225,.14);
 
-    color:#f6dce5;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(47,25,36,.86),
+            rgba(22,12,19,.92)
+        );
+
+    color:#f3d9e2;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
     font-size:22px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.22),
+        inset 0 1px rgba(255,255,255,.035);
 
     touch-action:none;
 
     user-select:none;
     -webkit-user-select:none;
 
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.2);
+    transition:
+        transform .08s ease,
+        background .1s ease;
 }
 
 .dpadBtn.active{
-    transform:scale(.91);
 
-    background:rgba(110,40,65,.9);
+    transform:scale(.9);
 
-    border-color:rgba(255,180,205,.35);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(119,42,69,.95),
+            rgba(62,21,39,.95)
+        );
 }
 
 #up{
@@ -286,13 +362,13 @@ button{
     grid-column:2;
     grid-row:2;
 
-    font-size:25px;
+    font-size:26px;
 
     background:
         radial-gradient(
-            circle,
-            rgba(130,45,75,.8),
-            rgba(55,20,35,.85)
+            circle at center,
+            rgba(137,48,79,.85),
+            rgba(43,18,30,.92)
         );
 }
 
@@ -306,78 +382,90 @@ button{
     grid-row:3;
 }
 
+/* =========================
+   FUTURE PHOTO
+========================= */
+
 #futurePicture{
-    width:min(82vw,520px);
-    aspect-ratio:4 / 3;
 
-    border-radius:20px;
+    width:min(84vw,560px);
 
-    border:1px solid rgba(255,200,215,.25);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(100,35,60,.25),
-            rgba(20,10,15,.75)
-        );
-
-    box-shadow:
-        0 0 50px rgba(100,30,60,.18),
-        inset 0 0 35px rgba(255,255,255,.025);
-
-    display:flex;
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
+    aspect-ratio:4/3;
 
     position:relative;
 
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
     overflow:hidden;
 
-    margin:25px 0;
+    margin:22px 0;
+
+    border-radius:21px;
+
+    border:1px solid rgba(255,205,220,.25);
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(122,47,78,.23),
+            rgba(17,9,15,.88)
+        );
+
+    box-shadow:
+        0 0 45px rgba(105,28,64,.18),
+        inset 0 0 50px rgba(255,255,255,.025);
 }
 
-#futurePicture::before{
+#futurePicture:before{
     content:"♡";
 
-    font-size:65px;
+    color:rgba(255,202,220,.17);
 
-    color:rgba(255,200,215,.18);
+    font-size:75px;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 }
 
 .futureMain{
-    color:#f4dfe6;
+
+    color:#f4dce5;
 
     font-size:clamp(17px,4vw,25px);
 
-    line-height:1.4;
+    line-height:1.45;
 
     padding:0 25px;
+
+    text-shadow:
+        0 0 15px rgba(255,150,190,.15);
 }
 
 .futureSmall{
-    color:#b99da7;
+
+    color:#b89ba6;
 
     font-size:14px;
 
-    margin-top:10px;
+    line-height:1.6;
+
+    margin-top:11px;
 }
 
 #finalText{
-    color:#f6e1e7;
 
-    font-size:clamp(18px,4.5vw,28px);
+    max-width:760px;
 
-    line-height:1.6;
+    color:#f8e5eb;
 
-    max-width:700px;
-}
+    font-size:clamp(19px,4.5vw,31px);
 
-#finishScreen .title{
-    margin-bottom:8px;
+    line-height:1.65;
+
+    text-shadow:
+        0 0 22px rgba(255,160,190,.2);
 }
 
 </style>
@@ -395,7 +483,10 @@ button{
 
 <div id="message"></div>
 
-<!-- START SCREEN -->
+
+<!-- =========================
+     START
+========================= -->
 
 <div id="startScreen">
 
@@ -421,7 +512,9 @@ button{
 </div>
 
 
-<!-- FINAL CINEMATIC -->
+<!-- =========================
+     FINAL CINEMATIC
+========================= -->
 
 <div id="finalScene">
 
@@ -430,7 +523,9 @@ button{
 </div>
 
 
-<!-- FINISH SCREEN -->
+<!-- =========================
+     FINISH
+========================= -->
 
 <div id="finishScreen">
 
@@ -467,58 +562,44 @@ button{
         From Germany 🇩🇪 to France 🇫🇷
     </div>
 
-    <br>
-
-    <div class="smallText">
+    <div class="smallText" style="margin-top:8px;">
         For Maëva — with love, Tom ♡
     </div>
 
-    <br>
-
-    <button id="playAgain" type="button">
+    <button
+        id="playAgain"
+        type="button"
+        style="margin-top:20px;">
         Play again
     </button>
 
 </div>
 
 
-<!-- D-PAD -->
+<!-- =========================
+     D-PAD
+========================= -->
 
 <div id="dpad">
 
-    <div
-        id="up"
-        class="dpadBtn"
-        data-dir="up">
-        ↑
-    </div>
+    <div id="up"
+         class="dpadBtn"
+         data-dir="up">↑</div>
 
-    <div
-        id="left"
-        class="dpadBtn"
-        data-dir="left">
-        ←
-    </div>
+    <div id="left"
+         class="dpadBtn"
+         data-dir="left">←</div>
 
-    <div
-        id="heartButton"
-        class="dpadBtn">
-        ♡
-    </div>
+    <div id="heartButton"
+         class="dpadBtn">♡</div>
 
-    <div
-        id="right"
-        class="dpadBtn"
-        data-dir="right">
-        →
-    </div>
+    <div id="right"
+         class="dpadBtn"
+         data-dir="right">→</div>
 
-    <div
-        id="down"
-        class="dpadBtn"
-        data-dir="down">
-        ↓
-    </div>
+    <div id="down"
+         class="dpadBtn"
+         data-dir="down">↓</div>
 
 </div>
 
@@ -527,75 +608,113 @@ button{
 
 <script>
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+/* =====================================================
+   CANVAS
+===================================================== */
 
-const startScreen = document.getElementById("startScreen");
-const startBtn = document.getElementById("startBtn");
+const canvas =
+    document.getElementById("game");
 
-const finishScreen = document.getElementById("finishScreen");
-const playAgain = document.getElementById("playAgain");
+const ctx =
+    canvas.getContext("2d");
 
-const finalScene = document.getElementById("finalScene");
-const finalText = document.getElementById("finalText");
+const startScreen =
+    document.getElementById("startScreen");
 
-const message = document.getElementById("message");
-const heartCount = document.getElementById("heartCount");
+const startBtn =
+    document.getElementById("startBtn");
 
-let W = 1100;
-let H = 750;
+const finishScreen =
+    document.getElementById("finishScreen");
+
+const playAgain =
+    document.getElementById("playAgain");
+
+const finalScene =
+    document.getElementById("finalScene");
+
+const finalText =
+    document.getElementById("finalText");
+
+const message =
+    document.getElementById("message");
+
+const heartCount =
+    document.getElementById("heartCount");
+
+const hud =
+    document.getElementById("hud");
+
+
+let W=1100;
+let H=750;
 
 function resize(){
 
-    const rect = canvas.getBoundingClientRect();
+    const rect =
+        canvas.getBoundingClientRect();
 
-    const dpr = Math.min(window.devicePixelRatio || 1,2);
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width =
+        rect.width*dpr;
 
-    W = rect.width;
-    H = rect.height;
+    canvas.height =
+        rect.height*dpr;
+
+    W=rect.width;
+    H=rect.height;
 
     ctx.setTransform(
-        canvas.width / W,
+        canvas.width/W,
         0,
         0,
-        canvas.height / H,
+        canvas.height/H,
         0,
         0
     );
 }
 
-window.addEventListener("resize",resize);
+window.addEventListener(
+    "resize",
+    resize
+);
 
 resize();
 
 
-/* ------------------------------------------------ */
-/* GAME STATE */
-/* ------------------------------------------------ */
+/* =====================================================
+   GAME STATE
+===================================================== */
 
-let running = false;
-let finished = false;
-let finalSequenceStarted = false;
+let running=false;
+let finished=false;
+let finalSequenceStarted=false;
 
-let lastTime = 0;
+let lastTime=0;
 
-const player = {
+const player={
     x:95,
     y:615,
     speed:180,
     size:18
 };
 
-const tom = {
+const tom={
     x:950,
     y:125
 };
 
+const phone={
+    x:335,
+    y:250
+};
 
-const hearts = [
+const hearts=[
 
     {x:170,y:565},
     {x:290,y:635},
@@ -611,21 +730,21 @@ const hearts = [
 
 ];
 
+let collected =
+    new Array(hearts.length)
+    .fill(false);
 
-let collected = new Array(hearts.length).fill(false);
 
+/* =====================================================
+   MOVEMENT
+===================================================== */
 
-/* ------------------------------------------------ */
-/* MOVEMENT */
-/* ------------------------------------------------ */
-
-const keys = {
+const keys={
     up:false,
     down:false,
     left:false,
     right:false
 };
-
 
 function stopMovement(){
 
@@ -634,79 +753,110 @@ function stopMovement(){
     keys.left=false;
     keys.right=false;
 
-    document.querySelectorAll(".dpadBtn")
-        .forEach(btn => btn.classList.remove("active"));
+    document
+        .querySelectorAll(".dpadBtn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
 }
 
 
-document.addEventListener("keydown",e => {
+document.addEventListener(
+    "keydown",
+    e=>{
 
-    if(e.key === "ArrowUp" || e.key.toLowerCase() === "w"){
-        keys.up=true;
+        const k=e.key.toLowerCase();
+
+        if(
+            e.key==="ArrowUp" ||
+            k==="w"
+        ) keys.up=true;
+
+        if(
+            e.key==="ArrowDown" ||
+            k==="s"
+        ) keys.down=true;
+
+        if(
+            e.key==="ArrowLeft" ||
+            k==="a"
+        ) keys.left=true;
+
+        if(
+            e.key==="ArrowRight" ||
+            k==="d"
+        ) keys.right=true;
+
     }
+);
 
-    if(e.key === "ArrowDown" || e.key.toLowerCase() === "s"){
-        keys.down=true;
+
+document.addEventListener(
+    "keyup",
+    e=>{
+
+        const k=e.key.toLowerCase();
+
+        if(
+            e.key==="ArrowUp" ||
+            k==="w"
+        ) keys.up=false;
+
+        if(
+            e.key==="ArrowDown" ||
+            k==="s"
+        ) keys.down=false;
+
+        if(
+            e.key==="ArrowLeft" ||
+            k==="a"
+        ) keys.left=false;
+
+        if(
+            e.key==="ArrowRight" ||
+            k==="d"
+        ) keys.right=false;
+
     }
-
-    if(e.key === "ArrowLeft" || e.key.toLowerCase() === "a"){
-        keys.left=true;
-    }
-
-    if(e.key === "ArrowRight" || e.key.toLowerCase() === "d"){
-        keys.right=true;
-    }
-
-});
+);
 
 
-document.addEventListener("keyup",e => {
+/* =====================================================
+   D-PAD
+===================================================== */
 
-    if(e.key === "ArrowUp" || e.key.toLowerCase() === "w"){
-        keys.up=false;
-    }
+document
+.querySelectorAll(".dpadBtn[data-dir]")
+.forEach(btn=>{
 
-    if(e.key === "ArrowDown" || e.key.toLowerCase() === "s"){
-        keys.down=false;
-    }
+    const dir=
+        btn.dataset.dir;
 
-    if(e.key === "ArrowLeft" || e.key.toLowerCase() === "a"){
-        keys.left=false;
-    }
+    btn.addEventListener(
+        "pointerdown",
+        e=>{
 
-    if(e.key === "ArrowRight" || e.key.toLowerCase() === "d"){
-        keys.right=false;
-    }
+            e.preventDefault();
 
-});
+            if(!running || finished)
+                return;
 
+            keys[dir]=true;
 
-/* ------------------------------------------------ */
-/* D-PAD */
-/* ------------------------------------------------ */
+            btn.classList.add("active");
 
-document.querySelectorAll(".dpadBtn[data-dir]").forEach(btn => {
+            try{
+                btn.setPointerCapture(
+                    e.pointerId
+                );
+            }catch(err){}
 
-    const dir = btn.dataset.dir;
-
-    btn.addEventListener("pointerdown",e => {
-
-        e.preventDefault();
-
-        if(!running || finished) return;
-
-        keys[dir]=true;
-
-        btn.classList.add("active");
-
-        try{
-            btn.setPointerCapture(e.pointerId);
-        }catch(err){}
-
-    });
+        },
+        {passive:false}
+    );
 
 
-    const release = e => {
+    const release=e=>{
 
         e.preventDefault();
 
@@ -717,59 +867,34 @@ document.querySelectorAll(".dpadBtn[data-dir]").forEach(btn => {
     };
 
 
-    btn.addEventListener("pointerup",release);
-    btn.addEventListener("pointercancel",release);
-    btn.addEventListener("lostpointercapture",release);
+    btn.addEventListener(
+        "pointerup",
+        release
+    );
+
+    btn.addEventListener(
+        "pointercancel",
+        release
+    );
+
+    btn.addEventListener(
+        "lostpointercapture",
+        release
+    );
 
 });
 
 
-/* ------------------------------------------------ */
-/* HEART BUTTON */
-/* ------------------------------------------------ */
-
-let heartButtonCooldown = false;
-
-const heartButton = document.getElementById("heartButton");
-
-heartButton.addEventListener("pointerdown",e => {
-
-    e.preventDefault();
-
-    if(!running || finished || heartButtonCooldown) return;
-
-    heartButtonCooldown=true;
-
-    heartButton.classList.add("active");
-
-    spawnParticles(
-        player.x,
-        player.y,
-        10
-    );
-
-    showMessage(
-        "A little heart for you. ♡",
-        1400
-    );
-
-    setTimeout(() => {
-
-        heartButton.classList.remove("active");
-        heartButtonCooldown=false;
-
-    },500);
-
-});
-
-
-/* ------------------------------------------------ */
-/* MESSAGE */
-/* ------------------------------------------------ */
+/* =====================================================
+   MESSAGE
+===================================================== */
 
 let messageTimer=null;
 
-function showMessage(text,duration=2200){
+function showMessage(
+    text,
+    duration=2200
+){
 
     message.textContent=text;
 
@@ -777,42 +902,59 @@ function showMessage(text,duration=2200){
 
     clearTimeout(messageTimer);
 
-    messageTimer=setTimeout(() => {
-
-        message.classList.remove("show");
-
-    },duration);
+    messageTimer=
+        setTimeout(
+            ()=>{
+                message.classList.remove("show");
+            },
+            duration
+        );
 
 }
 
 
-/* ------------------------------------------------ */
-/* PARTICLES */
-/* ------------------------------------------------ */
+/* =====================================================
+   PARTICLES
+===================================================== */
 
 const particles=[];
 
+function spawnParticles(
+    x,
+    y,
+    count=12
+){
 
-function spawnParticles(x,y,count=12){
-
-    for(let i=0;i<count;i++){
+    for(
+        let i=0;
+        i<count;
+        i++
+    ){
 
         particles.push({
 
             x:x,
             y:y,
 
-            vx:(Math.random()-.5)*70,
+            vx:
+                (Math.random()-.5)*80,
 
-            vy:-20-Math.random()*60,
+            vy:
+                -25-
+                Math.random()*70,
 
-            life:.7+Math.random()*.6,
+            life:
+                .7+
+                Math.random()*.7,
 
-            maxLife:1.2,
+            maxLife:1.4,
 
-            size:4+Math.random()*5,
+            size:
+                3+
+                Math.random()*6,
 
-            heart:Math.random()<.75
+            heart:
+                Math.random()<.75
 
         });
 
@@ -823,16 +965,24 @@ function spawnParticles(x,y,count=12){
 
 function updateParticles(dt){
 
-    for(let i=particles.length-1;i>=0;i--){
+    for(
+        let i=particles.length-1;
+        i>=0;
+        i--
+    ){
 
-        const p=particles[i];
+        const p=
+            particles[i];
 
         p.life-=dt;
 
         p.x+=p.vx*dt;
+
         p.y+=p.vy*dt;
 
         p.vy+=55*dt;
+
+        p.vx*=.99;
 
         if(p.life<=0){
 
@@ -847,16 +997,22 @@ function updateParticles(dt){
 
 function drawParticles(){
 
-    for(const p of particles){
+    for(
+        const p of particles
+    ){
 
-        const alpha=Math.max(
-            0,
-            p.life/p.maxLife
-        );
+        const alpha=
+            Math.max(
+                0,
+                p.life/p.maxLife
+            );
 
         ctx.globalAlpha=alpha;
 
-        ctx.fillStyle="#f4a8bd";
+        ctx.fillStyle="#ef9ab5";
+
+        ctx.shadowColor="#ef739d";
+        ctx.shadowBlur=10;
 
         if(p.heart){
 
@@ -885,15 +1041,20 @@ function drawParticles(){
     }
 
     ctx.globalAlpha=1;
+    ctx.shadowBlur=0;
 
 }
 
 
-/* ------------------------------------------------ */
-/* HEART DRAWING */
-/* ------------------------------------------------ */
+/* =====================================================
+   HEART
+===================================================== */
 
-function drawHeart(x,y,size){
+function drawHeart(
+    x,
+    y,
+    size
+){
 
     ctx.save();
 
@@ -901,24 +1062,27 @@ function drawHeart(x,y,size){
 
     ctx.beginPath();
 
-    ctx.moveTo(0,size*.35);
+    ctx.moveTo(
+        0,
+        size*.38
+    );
 
     ctx.bezierCurveTo(
-        -size*.9,
-        -size*.15,
+        -size*.95,
+        -size*.12,
         -size*.55,
-        -size*.85,
+        -size*.9,
         0,
         -size*.3
     );
 
     ctx.bezierCurveTo(
         size*.55,
-        -size*.85,
-        size*.9,
-        -size*.15,
+        -size*.9,
+        size*.95,
+        -size*.12,
         0,
-        size*.35
+        size*.38
     );
 
     ctx.fill();
@@ -928,86 +1092,1581 @@ function drawHeart(x,y,size){
 }
 
 
-/* ------------------------------------------------ */
-/* PHONE */
-/* ------------------------------------------------ */
+/* =====================================================
+   BACKGROUND
+===================================================== */
 
-let phoneCooldown=false;
+function drawBackground(){
 
-const phone = {
-    x:335,
-    y:250
-};
+    const sky=
+        ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            H
+        );
 
-
-function phoneEffect(){
-
-    if(!running || finished || phoneCooldown) return;
-
-    phoneCooldown=true;
-
-    spawnParticles(
-        phone.x,
-        phone.y,
-        15
+    sky.addColorStop(
+        0,
+        "#070914"
     );
 
-    showMessage(
-        "I'd never get tired of talking to you. ♡",
-        2500
+    sky.addColorStop(
+        .28,
+        "#111225"
     );
 
-    setTimeout(() => {
+    sky.addColorStop(
+        .62,
+        "#211322"
+    );
 
-        phoneCooldown=false;
+    sky.addColorStop(
+        1,
+        "#08070b"
+    );
 
-    },2600);
+    ctx.fillStyle=sky;
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* subtle horizon glow */
+
+    const glow=
+        ctx.createRadialGradient(
+            W*.52,
+            H*.55,
+            20,
+            W*.52,
+            H*.55,
+            W*.65
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(100,35,72,.15)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(100,35,72,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    drawStars();
+
+    drawMoon();
 
 }
 
 
-/* ------------------------------------------------ */
-/* CANVAS INTERACTION */
-/* ------------------------------------------------ */
+/* =====================================================
+   STARS
+===================================================== */
 
-function canvasPosition(e){
+function drawStars(){
 
-    const rect=canvas.getBoundingClientRect();
+    const t=
+        performance.now()/1000;
 
-    return {
+    for(
+        let i=0;
+        i<65;
+        i++
+    ){
 
-        x:(e.clientX-rect.left) *
-          (W/rect.width),
+        const x=
+            (i*137.73)%W;
 
-        y:(e.clientY-rect.top) *
-          (H/rect.height)
+        const y=
+            20+
+            ((i*71.19)%(H*.52));
 
-    };
+        const pulse=
+            .35+
+            Math.sin(
+                t*(.7+(i%3)*.25)+i
+            )*.18;
 
-}
+        ctx.fillStyle=
+            `rgba(246,220,232,${pulse})`;
 
+        ctx.beginPath();
 
-canvas.addEventListener("pointerdown",e => {
+        ctx.arc(
+            x,
+            y,
+            i%9===0 ? 1.7 : .9,
+            0,
+            Math.PI*2
+        );
 
-    if(!running || finished) return;
-
-    const pos=canvasPosition(e);
-
-    const dx=pos.x-phone.x;
-    const dy=pos.y-phone.y;
-
-    if(Math.sqrt(dx*dx+dy*dy)<65){
-
-        phoneEffect();
+        ctx.fill();
 
     }
 
-});
+}
 
 
-/* ------------------------------------------------ */
-/* HELPERS */
-/* ------------------------------------------------ */
+/* =====================================================
+   MOON
+===================================================== */
+
+function drawMoon(){
+
+    const x=W*.79;
+    const y=H*.15;
+
+    const halo=
+        ctx.createRadialGradient(
+            x,
+            y,
+            20,
+            x,
+            y,
+            90
+        );
+
+    halo.addColorStop(
+        0,
+        "rgba(255,230,225,.18)"
+    );
+
+    halo.addColorStop(
+        1,
+        "rgba(255,230,225,0)"
+    );
+
+    ctx.fillStyle=halo;
+
+    ctx.fillRect(
+        x-100,
+        y-100,
+        200,
+        200
+    );
+
+
+    ctx.fillStyle=
+        "rgba(247,235,225,.88)";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        38,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle="#0b0c18";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x+15,
+        y-10,
+        37,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+}
+
+
+/* =====================================================
+   PATH
+===================================================== */
+
+function drawPath(){
+
+    /* outer shadow */
+
+    ctx.strokeStyle=
+        "rgba(0,0,0,.25)";
+
+    ctx.lineWidth=105;
+
+    ctx.lineCap="round";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        65,
+        H*.84
+    );
+
+    ctx.bezierCurveTo(
+        W*.25,
+        H*.91,
+        W*.39,
+        H*.70,
+        W*.49,
+        H*.58
+    );
+
+    ctx.bezierCurveTo(
+        W*.64,
+        H*.39,
+        W*.72,
+        H*.29,
+        W*.88,
+        H*.16
+    );
+
+    ctx.stroke();
+
+
+    /* actual path */
+
+    const path=
+        ctx.createLinearGradient(
+            0,
+            H,
+            W,
+            0
+        );
+
+    path.addColorStop(
+        0,
+        "rgba(84,42,57,.82)"
+    );
+
+    path.addColorStop(
+        .5,
+        "rgba(102,51,67,.65)"
+    );
+
+    path.addColorStop(
+        1,
+        "rgba(76,42,59,.58)"
+    );
+
+    ctx.strokeStyle=path;
+
+    ctx.lineWidth=88;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        65,
+        H*.84
+    );
+
+    ctx.bezierCurveTo(
+        W*.25,
+        H*.91,
+        W*.39,
+        H*.70,
+        W*.49,
+        H*.58
+    );
+
+    ctx.bezierCurveTo(
+        W*.64,
+        H*.39,
+        W*.72,
+        H*.29,
+        W*.88,
+        H*.16
+    );
+
+    ctx.stroke();
+
+
+    /* center highlight */
+
+    ctx.strokeStyle=
+        "rgba(220,150,165,.07)";
+
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        65,
+        H*.84
+    );
+
+    ctx.bezierCurveTo(
+        W*.25,
+        H*.91,
+        W*.39,
+        H*.70,
+        W*.49,
+        H*.58
+    );
+
+    ctx.bezierCurveTo(
+        W*.64,
+        H*.39,
+        W*.72,
+        H*.29,
+        W*.88,
+        H*.16
+    );
+
+    ctx.stroke();
+
+}
+
+
+/* =====================================================
+   TREES
+===================================================== */
+
+function drawTree(
+    x,
+    y,
+    s
+){
+
+    /* trunk */
+
+    ctx.fillStyle="#161014";
+
+    ctx.fillRect(
+        x-s*.065,
+        y,
+        s*.13,
+        s*.55
+    );
+
+
+    /* branches */
+
+    ctx.strokeStyle="#161014";
+
+    ctx.lineWidth=s*.07;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        y+s*.15
+    );
+
+    ctx.lineTo(
+        x-s*.27,
+        y-s*.03
+    );
+
+    ctx.moveTo(
+        x,
+        y+s*.10
+    );
+
+    ctx.lineTo(
+        x+s*.27,
+        y-s*.05
+    );
+
+    ctx.stroke();
+
+
+    /* foliage */
+
+    const foliage=[
+        [-.24,-.10,.28],
+        [.23,-.14,.29],
+        [0,-.34,.36],
+        [-.05,-.58,.31]
+    ];
+
+    foliage.forEach(f=>{
+
+        ctx.fillStyle=
+            "#10121a";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x+f[0]*s,
+            y+f[1]*s,
+            f[2]*s,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    });
+
+}
+
+
+function drawTrees(){
+
+    drawTree(
+        W*.08,
+        H*.42,
+        125
+    );
+
+    drawTree(
+        W*.19,
+        H*.28,
+        105
+    );
+
+    drawTree(
+        W*.94,
+        H*.43,
+        125
+    );
+
+    drawTree(
+        W*.98,
+        H*.27,
+        90
+    );
+
+    drawTree(
+        W*.57,
+        H*.16,
+        70
+    );
+
+    drawTree(
+        W*.37,
+        H*.22,
+        72
+    );
+
+}
+
+
+/* =====================================================
+   FLOWERS / LILIES
+===================================================== */
+
+function drawFlower(
+    x,
+    y,
+    scale=1
+){
+
+    ctx.save();
+
+    ctx.translate(x,y);
+    ctx.scale(scale,scale);
+
+
+    /* stem */
+
+    ctx.strokeStyle="#56724f";
+
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,3);
+
+    ctx.quadraticCurveTo(
+        3,
+        14,
+        -1,
+        26
+    );
+
+    ctx.stroke();
+
+
+    /* leaves */
+
+    ctx.fillStyle="#587750";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        -6,
+        16,
+        8,
+        3,
+        -.45,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        6,
+        20,
+        8,
+        3,
+        .45,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* petals */
+
+    ctx.fillStyle="#e8d5dc";
+
+    for(
+        let i=0;
+        i<6;
+        i++
+    ){
+
+        const a=
+            i*Math.PI*2/6;
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            Math.cos(a)*7,
+            Math.sin(a)*7,
+            6,
+            11,
+            a,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    /* flower center */
+
+    ctx.fillStyle="#d8ad6a";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        0,
+        3,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+function drawFlowers(){
+
+    const flowers=[
+
+        [135,470,1],
+        [205,520,.8],
+        [350,472,.9],
+        [450,585,1],
+        [580,465,.8],
+        [690,365,1],
+        [795,300,.8],
+        [870,220,.9],
+        [615,590,.7],
+        [285,575,.65]
+
+    ];
+
+    flowers.forEach(
+        f =>
+            drawFlower(
+                f[0],
+                f[1],
+                f[2]
+            )
+    );
+
+}
+
+
+/* =====================================================
+   LANTERNS
+===================================================== */
+
+function drawLantern(
+    x,
+    y,
+    scale=1
+){
+
+    const glow=
+        ctx.createRadialGradient(
+            x,
+            y,
+            2,
+            x,
+            y,
+            45*scale
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(255,191,120,.18)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(255,191,120,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        x-50*scale,
+        y-50*scale,
+        100*scale,
+        100*scale
+    );
+
+
+    ctx.strokeStyle="#3b2730";
+
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        y-24*scale
+    );
+
+    ctx.lineTo(
+        x,
+        y-6*scale
+    );
+
+    ctx.stroke();
+
+
+    ctx.fillStyle=
+        "rgba(235,176,105,.95)";
+
+    ctx.fillRect(
+        x-5*scale,
+        y-5*scale,
+        10*scale,
+        12*scale
+    );
+
+
+    ctx.strokeStyle=
+        "rgba(255,218,160,.65)";
+
+    ctx.strokeRect(
+        x-7*scale,
+        y-7*scale,
+        14*scale,
+        16*scale
+    );
+
+}
+
+
+function drawLanterns(){
+
+    drawLantern(
+        245,
+        450,
+        1
+    );
+
+    drawLantern(
+        550,
+        420,
+        .9
+    );
+
+    drawLantern(
+        805,
+        275,
+        .85
+    );
+
+    drawLantern(
+        675,
+        350,
+        .65
+    );
+
+}
+
+
+/* =====================================================
+   FIREFLIES
+===================================================== */
+
+function drawFireflies(){
+
+    const t=
+        performance.now()/1000;
+
+    for(
+        let i=0;
+        i<30;
+        i++
+    ){
+
+        const baseX=
+            (i*173.13)%W;
+
+        const baseY=
+            100+
+            ((i*91.37)%(H*.65));
+
+        const x=
+            baseX+
+            Math.sin(
+                t*.55+i
+            )*15;
+
+        const y=
+            baseY+
+            Math.cos(
+                t*.7+i*1.7
+            )*12;
+
+        const alpha=
+            .3+
+            Math.sin(
+                t*2+i
+            )*.22;
+
+        const glow=
+            ctx.createRadialGradient(
+                x,
+                y,
+                0,
+                x,
+                y,
+                12
+            );
+
+        glow.addColorStop(
+            0,
+            `rgba(255,221,133,${Math.max(.1,alpha)})`
+        );
+
+        glow.addColorStop(
+            1,
+            "rgba(255,221,133,0)"
+        );
+
+        ctx.fillStyle=glow;
+
+        ctx.fillRect(
+            x-14,
+            y-14,
+            28,
+            28
+        );
+
+        ctx.fillStyle=
+            `rgba(255,232,150,${Math.max(.15,alpha+.15)})`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            1.7,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =====================================================
+   PHONE
+===================================================== */
+
+function drawPhone(){
+
+    const x=phone.x;
+    const y=phone.y;
+
+
+    const glow=
+        ctx.createRadialGradient(
+            x,
+            y,
+            5,
+            x,
+            y,
+            75
+        );
+
+    glow.addColorStop(
+        0,
+        "rgba(213,103,145,.13)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(213,103,145,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        x-80,
+        y-80,
+        160,
+        160
+    );
+
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y
+    );
+
+
+    /* antenna */
+
+    ctx.strokeStyle="#6e5360";
+
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        -43
+    );
+
+    ctx.lineTo(
+        0,
+        -53
+    );
+
+    ctx.stroke();
+
+
+    /* phone body */
+
+    ctx.fillStyle="#15131a";
+
+    ctx.strokeStyle="#765364";
+
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -27,
+        -43,
+        54,
+        86,
+        11
+    );
+
+    ctx.fill();
+
+    ctx.stroke();
+
+
+    /* screen */
+
+    const screen=
+        ctx.createLinearGradient(
+            -20,
+            -30,
+            20,
+            25
+        );
+
+    screen.addColorStop(
+        0,
+        "#221724"
+    );
+
+    screen.addColorStop(
+        1,
+        "#100d15"
+    );
+
+    ctx.fillStyle=screen;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -20,
+        -29,
+        40,
+        55,
+        6
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle=
+        phoneCooldown
+        ? "#e18da8"
+        : "#c8a1b1";
+
+    ctx.font="8px Arial";
+
+    ctx.textAlign="center";
+
+    ctx.fillText(
+        phoneCooldown
+        ? "CALLING..."
+        : "call me",
+        0,
+        3
+    );
+
+
+    /* speaker */
+
+    ctx.fillStyle="#59404b";
+
+    ctx.fillRect(
+        -7,
+        -35,
+        14,
+        2
+    );
+
+
+    /* button */
+
+    ctx.fillStyle="#73505e";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        33,
+        4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   TOM
+===================================================== */
+
+function drawTom(){
+
+    const x=tom.x;
+    const y=tom.y;
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y
+    );
+
+
+    /* shadow */
+
+    ctx.fillStyle=
+        "rgba(0,0,0,.3)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        0,
+        60,
+        26,
+        7,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* legs */
+
+    ctx.fillStyle="#101013";
+
+    ctx.fillRect(
+        -13,
+        17,
+        10,
+        38
+    );
+
+    ctx.fillRect(
+        3,
+        17,
+        10,
+        38
+    );
+
+
+    /* shoes */
+
+    ctx.fillStyle="#08080a";
+
+    ctx.fillRect(
+        -17,
+        51,
+        16,
+        7
+    );
+
+    ctx.fillRect(
+        2,
+        51,
+        16,
+        7
+    );
+
+
+    /* oversized shirt */
+
+    ctx.fillStyle="#111114";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -21,
+        -18,
+        42,
+        48,
+        5
+    );
+
+    ctx.fill();
+
+
+    /* arms */
+
+    ctx.fillRect(
+        -27,
+        -10,
+        8,
+        34
+    );
+
+    ctx.fillRect(
+        19,
+        -10,
+        8,
+        34
+    );
+
+
+    /* neck */
+
+    ctx.fillStyle="#d7a08e";
+
+    ctx.fillRect(
+        -5,
+        -23,
+        10,
+        10
+    );
+
+
+    /* face */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -38,
+        18,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* hair */
+
+    ctx.fillStyle="#2a1d1b";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -45,
+        21,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* mullet sides */
+
+    ctx.fillRect(
+        -20,
+        -47,
+        7,
+        26
+    );
+
+    ctx.fillRect(
+        13,
+        -47,
+        7,
+        26
+    );
+
+
+    /* eyes */
+
+    ctx.fillStyle="#281c1c";
+
+    ctx.fillRect(
+        -7,
+        -40,
+        3,
+        3
+    );
+
+    ctx.fillRect(
+        4,
+        -40,
+        3,
+        3
+    );
+
+
+    /* smile */
+
+    ctx.strokeStyle="#6b363e";
+
+    ctx.lineWidth=1.5;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -34,
+        5,
+        .15,
+        Math.PI-.15
+    );
+
+    ctx.stroke();
+
+
+    /* floating heart */
+
+    ctx.fillStyle="#e58da9";
+
+    ctx.shadowColor="#e8799e";
+    ctx.shadowBlur=12;
+
+    drawHeart(
+        0,
+        -72,
+        7
+    );
+
+    ctx.shadowBlur=0;
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   MAËVA
+===================================================== */
+
+function drawPlayer(){
+
+    const x=player.x;
+    const y=player.y;
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y
+    );
+
+
+    /* shadow */
+
+    ctx.fillStyle=
+        "rgba(0,0,0,.35)";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        0,
+        41,
+        22,
+        6,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* legs */
+
+    ctx.fillStyle="#161619";
+
+    ctx.fillRect(
+        -9,
+        12,
+        7,
+        27
+    );
+
+    ctx.fillRect(
+        2,
+        12,
+        7,
+        27
+    );
+
+
+    /* white adidas-style shoes */
+
+    ctx.fillStyle="#eee";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -12,
+        35,
+        12,
+        6,
+        2
+    );
+
+    ctx.fill();
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        1,
+        35,
+        12,
+        6,
+        2
+    );
+
+    ctx.fill();
+
+
+    /* pink cardigan */
+
+    ctx.fillStyle="#b86c83";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -15,
+        -15,
+        30,
+        32,
+        5
+    );
+
+    ctx.fill();
+
+
+    /* light shirt */
+
+    ctx.fillStyle="#eadfe0";
+
+    ctx.fillRect(
+        -7,
+        -12,
+        14,
+        27
+    );
+
+
+    /* arms */
+
+    ctx.fillStyle="#c88b79";
+
+    ctx.fillRect(
+        -20,
+        -9,
+        6,
+        27
+    );
+
+    ctx.fillRect(
+        14,
+        -9,
+        6,
+        27
+    );
+
+
+    /* hands */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        -17,
+        20,
+        4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.beginPath();
+
+    ctx.arc(
+        17,
+        20,
+        4,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* neck */
+
+    ctx.fillRect(
+        -5,
+        -22,
+        10,
+        9
+    );
+
+
+    /* face */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -33,
+        16,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* long dark hair */
+
+    ctx.fillStyle="#251d1d";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -39,
+        20,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    /* hair */
+
+    ctx.fillRect(
+        -19,
+        -41,
+        7,
+        48
+    );
+
+    ctx.fillRect(
+        12,
+        -41,
+        7,
+        48
+    );
+
+
+    /* eyes */
+
+    ctx.fillStyle="#33201f";
+
+    ctx.fillRect(
+        -7,
+        -35,
+        3,
+        3
+    );
+
+    ctx.fillRect(
+        4,
+        -35,
+        3,
+        3
+    );
+
+
+    /* little smile */
+
+    ctx.strokeStyle="#713943";
+
+    ctx.lineWidth=1.5;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -28,
+        5,
+        .15,
+        Math.PI-.15
+    );
+
+    ctx.stroke();
+
+
+    /* tiny highlight */
+
+    ctx.fillStyle=
+        "rgba(255,220,230,.65)";
+
+    ctx.fillRect(
+        5,
+        -34,
+        1,
+        1
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   HEARTS
+===================================================== */
+
+function drawHearts(){
+
+    hearts.forEach(
+        (heart,i)=>{
+
+            if(collected[i])
+                return;
+
+            const t=
+                performance.now()/1000;
+
+            const pulse=
+                1+
+                Math.sin(
+                    t*3+i
+                )*.12;
+
+            const glow=
+                ctx.createRadialGradient(
+                    heart.x,
+                    heart.y,
+                    1,
+                    heart.x,
+                    heart.y,
+                    30
+                );
+
+            glow.addColorStop(
+                0,
+                "rgba(239,105,151,.28)"
+            );
+
+            glow.addColorStop(
+                1,
+                "rgba(239,105,151,0)"
+            );
+
+            ctx.fillStyle=glow;
+
+            ctx.fillRect(
+                heart.x-35,
+                heart.y-35,
+                70,
+                70
+            );
+
+
+            ctx.save();
+
+            ctx.fillStyle="#ed91ad";
+
+            ctx.shadowColor="#ec709b";
+            ctx.shadowBlur=13;
+
+            drawHeart(
+                heart.x,
+                heart.y,
+                12*pulse
+            );
+
+            ctx.restore();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   DISTANCE
+===================================================== */
 
 function distance(a,b){
 
@@ -1021,799 +2680,16 @@ function distance(a,b){
 }
 
 
-/* ------------------------------------------------ */
-/* DRAW BACKGROUND */
-/* ------------------------------------------------ */
-
-function drawBackground(){
-
-    const gradient=ctx.createLinearGradient(
-        0,
-        0,
-        0,
-        H
-    );
-
-    gradient.addColorStop(
-        0,
-        "#0b101d"
-    );
-
-    gradient.addColorStop(
-        .55,
-        "#17101a"
-    );
-
-    gradient.addColorStop(
-        1,
-        "#090708"
-    );
-
-    ctx.fillStyle=gradient;
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    /* moon */
-
-    ctx.fillStyle="rgba(245,230,215,.88)";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        W*.78,
-        H*.16,
-        38,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    ctx.fillStyle="#0b101d";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        W*.80,
-        H*.145,
-        38,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    /* stars */
-
-    for(let i=0;i<45;i++){
-
-        const x=(i*97)%W;
-        const y=(i*53)%H*.7;
-
-        const alpha=.2+
-            ((i*13)%50)/100;
-
-        ctx.fillStyle=
-            `rgba(255,225,235,${alpha})`;
-
-        ctx.fillRect(
-            x,
-            y,
-            2,
-            2
-        );
-
-    }
-
-}
-
-
-/* ------------------------------------------------ */
-/* PATH */
-/* ------------------------------------------------ */
-
-function drawPath(){
-
-    ctx.strokeStyle="rgba(125,65,80,.25)";
-    ctx.lineWidth=85;
-    ctx.lineCap="round";
-
-    ctx.beginPath();
-
-    ctx.moveTo(75,H*.84);
-
-    ctx.bezierCurveTo(
-        W*.27,
-        H*.90,
-        W*.40,
-        H*.68,
-        W*.48,
-        H*.58
-    );
-
-    ctx.bezierCurveTo(
-        W*.65,
-        H*.37,
-        W*.70,
-        H*.30,
-        W*.86,
-        H*.17
-    );
-
-    ctx.stroke();
-
-
-    ctx.strokeStyle="rgba(210,145,155,.08)";
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    ctx.moveTo(75,H*.84);
-
-    ctx.bezierCurveTo(
-        W*.27,
-        H*.90,
-        W*.40,
-        H*.68,
-        W*.48,
-        H*.58
-    );
-
-    ctx.bezierCurveTo(
-        W*.65,
-        H*.37,
-        W*.70,
-        H*.30,
-        W*.86,
-        H*.17
-    );
-
-    ctx.stroke();
-
-}
-
-
-/* ------------------------------------------------ */
-/* TREES */
-/* ------------------------------------------------ */
-
-function drawTree(x,y,s){
-
-    ctx.fillStyle="#171019";
-
-    ctx.fillRect(
-        x-s*.08,
-        y,
-        s*.16,
-        s*.65
-    );
-
-
-    ctx.fillStyle="#10151a";
-
-    for(let i=0;i<4;i++){
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x + Math.sin(i*4)*s*.08,
-            y-i*s*.16,
-            s*.30,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    }
-
-}
-
-
-function drawTrees(){
-
-    drawTree(W*.10,H*.25,80);
-    drawTree(W*.20,H*.18,100);
-    drawTree(W*.90,H*.40,95);
-    drawTree(W*.96,H*.25,70);
-    drawTree(W*.58,H*.13,65);
-
-}
-
-
-/* ------------------------------------------------ */
-/* LILIES / FLOWERS */
-/* ------------------------------------------------ */
-
-function drawFlower(x,y){
-
-    ctx.save();
-
-    ctx.translate(x,y);
-
-    ctx.fillStyle="#78956e";
-
-    ctx.fillRect(
-        -2,
-        5,
-        4,
-        20
-    );
-
-
-    ctx.fillStyle="#e7d6dc";
-
-    for(let i=0;i<5;i++){
-
-        const a=i*Math.PI*2/5;
-
-        ctx.beginPath();
-
-        ctx.ellipse(
-            Math.cos(a)*7,
-            Math.sin(a)*7,
-            7,
-            11,
-            a,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    }
-
-
-    ctx.fillStyle="#d6aa65";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        0,
-        3,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.restore();
-
-}
-
-
-function drawFlowers(){
-
-    const flowers=[
-        [140,470],
-        [210,520],
-        [350,470],
-        [460,585],
-        [585,465],
-        [700,360],
-        [810,300],
-        [875,215]
-    ];
-
-    flowers.forEach(f =>
-        drawFlower(f[0],f[1])
-    );
-
-}
-
-
-/* ------------------------------------------------ */
-/* LANTERNS */
-/* ------------------------------------------------ */
-
-function drawLantern(x,y){
-
-    ctx.fillStyle="rgba(245,170,120,.12)";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        x,
-        y,
-        24,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    ctx.fillStyle="#f2c88d";
-
-    ctx.fillRect(
-        x-4,
-        y-5,
-        8,
-        10
-    );
-
-}
-
-
-function drawLanterns(){
-
-    drawLantern(250,455);
-    drawLantern(555,420);
-    drawLantern(805,260);
-
-}
-
-
-/* ------------------------------------------------ */
-/* FIREFLIES */
-/* ------------------------------------------------ */
-
-function drawFireflies(){
-
-    const t=performance.now()/1000;
-
-    for(let i=0;i<22;i++){
-
-        const x=
-            ((i*151)%W)+
-            Math.sin(t*.7+i)*12;
-
-        const y=
-            100+
-            ((i*83)%(H*.65))+
-            Math.cos(t+i)*10;
-
-        const alpha=
-            .25+
-            Math.sin(t*2+i)*.15;
-
-        ctx.fillStyle=
-            `rgba(250,220,130,${alpha})`;
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x,
-            y,
-            2.2,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    }
-
-}
-
-
-/* ------------------------------------------------ */
-/* PHONE DRAWING */
-/* ------------------------------------------------ */
-
-function drawPhone(){
-
-    ctx.save();
-
-    ctx.translate(
-        phone.x,
-        phone.y
-    );
-
-
-    ctx.fillStyle="#17151a";
-
-    ctx.strokeStyle="#7d5968";
-
-    ctx.lineWidth=2;
-
-    ctx.beginPath();
-
-    ctx.roundRect(
-        -25,
-        -43,
-        50,
-        86,
-        10
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    ctx.fillStyle=
-        phoneCooldown
-        ? "#d989a5"
-        : "#cfa7b6";
-
-    ctx.font="9px Arial";
-
-    ctx.textAlign="center";
-
-    ctx.fillText(
-        phoneCooldown
-        ? "CALLING"
-        : "call me",
-        0,
-        4
-    );
-
-
-    ctx.fillStyle="#7b5361";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        30,
-        4,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    ctx.restore();
-
-}
-
-
-/* ------------------------------------------------ */
-/* TOM */
-/* ------------------------------------------------ */
-
-function drawTom(){
-
-    ctx.save();
-
-    ctx.translate(
-        tom.x,
-        tom.y
-    );
-
-
-    /* legs */
-
-    ctx.fillStyle="#111";
-
-    ctx.fillRect(
-        -13,
-        20,
-        10,
-        35
-    );
-
-    ctx.fillRect(
-        3,
-        20,
-        10,
-        35
-    );
-
-
-    /* body */
-
-    ctx.fillStyle="#111";
-
-    ctx.fillRect(
-        -19,
-        -18,
-        38,
-        45
-    );
-
-
-    /* head */
-
-    ctx.fillStyle="#e4b09a";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        -34,
-        17,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    /* hair */
-
-    ctx.fillStyle="#39251f";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        -40,
-        19,
-        Math.PI,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    /* shoes */
-
-    ctx.fillStyle="#171717";
-
-    ctx.fillRect(
-        -16,
-        52,
-        14,
-        6
-    );
-
-    ctx.fillRect(
-        2,
-        52,
-        14,
-        6
-    );
-
-
-    /* small heart */
-
-    ctx.fillStyle="#e58da9";
-
-    drawHeart(
-        0,
-        -68,
-        7
-    );
-
-
-    ctx.restore();
-
-}
-
-
-/* ------------------------------------------------ */
-/* MAËVA PLAYER */
-/* ------------------------------------------------ */
-
-function drawPlayer(){
-
-    ctx.save();
-
-    ctx.translate(
-        player.x,
-        player.y
-    );
-
-
-    /* legs */
-
-    ctx.fillStyle="#171719";
-
-    ctx.fillRect(
-        -9,
-        12,
-        7,
-        25
-    );
-
-    ctx.fillRect(
-        2,
-        12,
-        7,
-        25
-    );
-
-
-    /* shoes */
-
-    ctx.fillStyle="#eee";
-
-    ctx.fillRect(
-        -11,
-        35,
-        10,
-        5
-    );
-
-    ctx.fillRect(
-        2,
-        35,
-        10,
-        5
-    );
-
-
-    /* pink cardigan */
-
-    ctx.fillStyle="#b96882";
-
-    ctx.fillRect(
-        -14,
-        -13,
-        28,
-        29
-    );
-
-
-    /* arms */
-
-    ctx.fillStyle="#c88976";
-
-    ctx.fillRect(
-        -19,
-        -7,
-        6,
-        25
-    );
-
-    ctx.fillRect(
-        13,
-        -7,
-        6,
-        25
-    );
-
-
-    /* neck */
-
-    ctx.fillStyle="#c88976";
-
-    ctx.fillRect(
-        -5,
-        -20,
-        10,
-        8
-    );
-
-
-    /* face */
-
-    ctx.fillStyle="#c88976";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        -31,
-        16,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    /* long dark hair */
-
-    ctx.fillStyle="#241c1b";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        -37,
-        19,
-        Math.PI,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    ctx.fillRect(
-        -19,
-        -38,
-        7,
-        43
-    );
-
-    ctx.fillRect(
-        12,
-        -38,
-        7,
-        43
-    );
-
-
-    /* eyes */
-
-    ctx.fillStyle="#33201f";
-
-    ctx.fillRect(
-        -7,
-        -33,
-        3,
-        3
-    );
-
-    ctx.fillRect(
-        4,
-        -33,
-        3,
-        3
-    );
-
-
-    /* smile */
-
-    ctx.strokeStyle="#6b353d";
-
-    ctx.lineWidth=1.5;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        -27,
-        5,
-        .2,
-        Math.PI-.2
-    );
-
-    ctx.stroke();
-
-
-    ctx.restore();
-
-}
-
-
-/* ------------------------------------------------ */
-/* HEARTS */
-/* ------------------------------------------------ */
-
-function drawHearts(){
-
-    hearts.forEach((heart,i) => {
-
-        if(collected[i]) return;
-
-        const pulse=
-            1+
-            Math.sin(
-                performance.now()/300+i
-            )*.12;
-
-        ctx.save();
-
-        ctx.fillStyle="#ed91ad";
-
-        ctx.shadowColor="#e86e98";
-
-        ctx.shadowBlur=15;
-
-        drawHeart(
-            heart.x,
-            heart.y,
-            12*pulse
-        );
-
-        ctx.restore();
-
-    });
-
-}
-
-
-/* ------------------------------------------------ */
-/* UPDATE */
-/* ------------------------------------------------ */
+/* =====================================================
+   UPDATE
+===================================================== */
 
 function update(dt){
 
-    if(!running || finished) return;
+    if(
+        !running ||
+        finished
+    ) return;
 
 
     let dx=0;
@@ -1826,99 +2702,116 @@ function update(dt){
     if(keys.right) dx+=1;
 
 
-    if(dx!==0 || dy!==0){
+    if(
+        dx!==0 ||
+        dy!==0
+    ){
 
-        const len=Math.sqrt(
-            dx*dx+dy*dy
-        );
+        const len=
+            Math.sqrt(
+                dx*dx+dy*dy
+            );
 
         dx/=len;
         dy/=len;
 
-
         player.x +=
-            dx *
-            player.speed *
+            dx*
+            player.speed*
             dt;
 
         player.y +=
-            dy *
-            player.speed *
+            dy*
+            player.speed*
             dt;
 
     }
 
 
-    /* boundaries */
+    player.x=
+        Math.max(
+            35,
+            Math.min(
+                W-35,
+                player.x
+            )
+        );
 
-    player.x=Math.max(
-        35,
-        Math.min(W-35,player.x)
-    );
-
-    player.y=Math.max(
-        70,
-        Math.min(H-55,player.y)
-    );
+    player.y=
+        Math.max(
+            70,
+            Math.min(
+                H-55,
+                player.y
+            )
+        );
 
 
     /* collect hearts */
 
-    hearts.forEach((heart,i) => {
+    hearts.forEach(
+        (heart,i)=>{
 
-        if(collected[i]) return;
+            if(collected[i])
+                return;
 
+            if(
+                distance(
+                    player,
+                    heart
+                )<48
+            ){
 
-        if(distance(player,heart)<48){
+                collected[i]=true;
 
-            collected[i]=true;
-
-            spawnParticles(
-                heart.x,
-                heart.y,
-                18
-            );
-
-            heartCount.textContent=
-                collected.filter(Boolean).length;
-
-
-            const messages=[
-
-                "Every conversation with you makes my day a little brighter.",
-
-                "I love the way you make me smile.",
-
-                "You notice the little things. I notice that about you.",
-
-                "I hope you know how beautiful your smile is.",
-
-                "You could probably talk to me for hours... and honestly, I wouldn't mind.",
-
-                "Maybe sushi tastes even better when we can share it someday.",
-
-                "You make it very difficult not to compliment you.",
-
-                "You look cute. Seriously.",
-
-                "Even from far away, you somehow make everything feel closer.",
-
-                "Okay... one last step. Go find me. ♡"
-
-            ];
+                spawnParticles(
+                    heart.x,
+                    heart.y,
+                    20
+                );
 
 
-            showMessage(
-                messages[i],
-                3000
-            );
+                heartCount.textContent=
+                    collected.filter(
+                        Boolean
+                    ).length;
+
+
+                const messages=[
+
+                    "Every conversation with you makes my day a little brighter.",
+
+                    "I love the way you make me smile.",
+
+                    "You notice the little things. I notice that about you.",
+
+                    "I hope you know how beautiful your smile is.",
+
+                    "You could probably talk to me for hours... and honestly, I wouldn't mind.",
+
+                    "Maybe sushi tastes even better when we can share it someday.",
+
+                    "You make it very difficult not to compliment you.",
+
+                    "You look cute. Seriously.",
+
+                    "Even from far away, you somehow make everything feel closer.",
+
+                    "Okay... one last step. Go find me. ♡"
+
+                ];
+
+
+                showMessage(
+                    messages[i],
+                    3200
+                );
+
+            }
 
         }
+    );
 
-    });
-
-
-    /* final */
 
     const allHeartsCollected=
         collected.every(Boolean);
@@ -1926,7 +2819,10 @@ function update(dt){
 
     if(
         allHeartsCollected &&
-        distance(player,tom)<58
+        distance(
+            player,
+            tom
+        )<58
     ){
 
         startFinalSequence();
@@ -1939,9 +2835,9 @@ function update(dt){
 }
 
 
-/* ------------------------------------------------ */
-/* DRAW */
-/* ------------------------------------------------ */
+/* =====================================================
+   DRAW
+===================================================== */
 
 function draw(){
 
@@ -1951,7 +2847,6 @@ function draw(){
         W,
         H
     );
-
 
     drawBackground();
 
@@ -1978,13 +2873,105 @@ function draw(){
 }
 
 
-/* ------------------------------------------------ */
-/* FINAL SEQUENCE */
-/* ------------------------------------------------ */
+/* =====================================================
+   PHONE INTERACTION
+===================================================== */
+
+let phoneCooldown=false;
+
+function phoneEffect(){
+
+    if(
+        !running ||
+        finished ||
+        phoneCooldown
+    ) return;
+
+    phoneCooldown=true;
+
+    spawnParticles(
+        phone.x,
+        phone.y,
+        18
+    );
+
+    showMessage(
+        "I'd never get tired of talking to you. ♡",
+        2700
+    );
+
+
+    setTimeout(
+        ()=>{
+            phoneCooldown=false;
+        },
+        2700
+    );
+
+}
+
+
+function canvasPosition(e){
+
+    const rect=
+        canvas.getBoundingClientRect();
+
+    return {
+
+        x:
+            (e.clientX-rect.left)*
+            (W/rect.width),
+
+        y:
+            (e.clientY-rect.top)*
+            (H/rect.height)
+
+    };
+
+}
+
+
+canvas.addEventListener(
+    "pointerdown",
+    e=>{
+
+        if(
+            !running ||
+            finished
+        ) return;
+
+        const pos=
+            canvasPosition(e);
+
+        const dx=
+            pos.x-phone.x;
+
+        const dy=
+            pos.y-phone.y;
+
+        if(
+            Math.sqrt(
+                dx*dx+
+                dy*dy
+            )<68
+        ){
+
+            phoneEffect();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FINAL SEQUENCE
+===================================================== */
 
 function startFinalSequence(){
 
-    if(finalSequenceStarted) return;
+    if(finalSequenceStarted)
+        return;
 
     finalSequenceStarted=true;
     finished=true;
@@ -2011,15 +2998,20 @@ function startFinalSequence(){
 
     function next(){
 
-        if(index>=words.length){
+        if(
+            index>=words.length
+        ){
 
-            setTimeout(() => {
+            setTimeout(
+                ()=>{
 
-                finalScene.style.display="none";
+                    finalScene.style.display="none";
 
-                finishScreen.style.display="flex";
+                    finishScreen.style.display="flex";
 
-            },1800);
+                },
+                1800
+            );
 
             return;
 
@@ -2029,24 +3021,24 @@ function startFinalSequence(){
         finalText.style.opacity="0";
 
 
-        setTimeout(() => {
+        setTimeout(
+            ()=>{
 
-            finalText.textContent=
-                words[index];
+                finalText.textContent=
+                    words[index];
 
-            finalText.style.transition=
-                "opacity .7s ease";
+                finalText.style.opacity="1";
 
-            finalText.style.opacity="1";
+                index++;
 
-            index++;
+                setTimeout(
+                    next,
+                    3200
+                );
 
-            setTimeout(
-                next,
-                3000
-            );
-
-        },500);
+            },
+            600
+        );
 
     }
 
@@ -2056,9 +3048,9 @@ function startFinalSequence(){
 }
 
 
-/* ------------------------------------------------ */
-/* START GAME */
-/* ------------------------------------------------ */
+/* =====================================================
+   START GAME
+===================================================== */
 
 function startGame(){
 
@@ -2070,8 +3062,9 @@ function startGame(){
     player.y=615;
 
     collected=
-        new Array(hearts.length)
-        .fill(false);
+        new Array(
+            hearts.length
+        ).fill(false);
 
     heartCount.textContent="0";
 
@@ -2085,32 +3078,23 @@ function startGame(){
 
     startScreen.style.display="none";
 
+    hud.style.opacity="1";
+
     showMessage(
         "Germany 🇩🇪 → France 🇫🇷",
-        2200
+        2300
     );
 
 }
 
 
-/* ------------------------------------------------ */
-/* START BUTTON */
-/* ------------------------------------------------ */
-
-/*
-   IMPORTANT:
-   Only ONE event is used here.
-   pointerdown works with:
-   - iPhone
-   - iPad
-   - Android
-   - mouse
-   - trackpad
-*/
+/* =====================================================
+   START BUTTON
+===================================================== */
 
 startBtn.addEventListener(
     "pointerdown",
-    function(e){
+    e=>{
 
         e.preventDefault();
         e.stopPropagation();
@@ -2118,17 +3102,19 @@ startBtn.addEventListener(
         startGame();
 
     },
-    {passive:false}
+    {
+        passive:false
+    }
 );
 
 
-/* ------------------------------------------------ */
-/* PLAY AGAIN */
-/* ------------------------------------------------ */
+/* =====================================================
+   PLAY AGAIN
+===================================================== */
 
 playAgain.addEventListener(
     "pointerdown",
-    function(e){
+    e=>{
 
         e.preventDefault();
         e.stopPropagation();
@@ -2136,48 +3122,43 @@ playAgain.addEventListener(
         startGame();
 
     },
-    {passive:false}
+    {
+        passive:false
+    }
 );
 
 
-/* ------------------------------------------------ */
-/* GAME LOOP */
-/* ------------------------------------------------ */
+/* =====================================================
+   LOOP
+===================================================== */
 
 function loop(time){
 
-    if(!lastTime){
-
+    if(!lastTime)
         lastTime=time;
 
-    }
-
-
-    const dt=Math.min(
-        (time-lastTime)/1000,
-        .05
-    );
-
+    const dt=
+        Math.min(
+            (time-lastTime)/1000,
+            .05
+        );
 
     lastTime=time;
-
 
     update(dt);
 
     draw();
 
-
     requestAnimationFrame(loop);
 
 }
 
-
 requestAnimationFrame(loop);
 
 
-/* ------------------------------------------------ */
-/* SAFETY */
-/* ------------------------------------------------ */
+/* =====================================================
+   SAFETY
+===================================================== */
 
 window.addEventListener(
     "blur",
@@ -2186,14 +3167,9 @@ window.addEventListener(
 
 document.addEventListener(
     "visibilitychange",
-    () => {
-
-        if(document.hidden){
-
+    ()=>{
+        if(document.hidden)
             stopMovement();
-
-        }
-
     }
 );
 
