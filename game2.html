@@ -134,7 +134,7 @@ button:hover{
 #message{
     position:absolute;
     left:50%;
-    bottom:88px;
+    bottom:145px;
     transform:translateX(-50%);
     width:min(500px,88vw);
     padding:11px 16px;
@@ -145,11 +145,10 @@ button:hover{
     opacity:0;
     transition:.3s;
     pointer-events:none;
-    z-index:6;
+    z-index:10000;
     font-size:14px;
     line-height:1.45;
 }
-
 #message.show{
     opacity:1;
 }
@@ -255,7 +254,7 @@ button:hover{
         <div></div>
 
         <div class="control" id="left">←</div>
-        <div class="control center">♡</div>
+        <div class="control center" id="heartButton">♡</div>
         <div class="control" id="right">→</div>
 
         <div></div>
@@ -439,6 +438,47 @@ for(let i=0;i<80;i++){
 }
 
 const particles = [];
+
+let heartButtonCooldown = false;
+
+function heartButtonEffect(){
+
+    if(!running || finished || heartButtonCooldown) return;
+
+    heartButtonCooldown = true;
+
+    // Kleine Herzexplosion direkt über Maëva
+    for(let i=0;i<8;i++){
+
+        particles.push({
+            x:player.x + (Math.random()-.5)*16,
+            y:player.y - 38,
+            vx:(Math.random()-.5)*25,
+            vy:-35-Math.random()*30,
+            life:1.1+Math.random()*.5,
+            heart:true,
+            size:.22+Math.random()*.18
+        });
+    }
+
+    // Etwas größere Herzen
+    for(let i=0;i<3;i++){
+
+        particles.push({
+            x:player.x + (Math.random()-.5)*12,
+            y:player.y - 42,
+            vx:(Math.random()-.5)*15,
+            vy:-50-Math.random()*20,
+            life:1.4+Math.random()*.4,
+            heart:true,
+            size:.35
+        });
+    }
+
+    setTimeout(()=>{
+        heartButtonCooldown=false;
+    },500);
+}
 
 function resizeCanvas(){
     // CSS handles visual scaling.
@@ -990,8 +1030,13 @@ function drawParticles(){
         ctx.globalAlpha=Math.max(0,p.life);
 
         if(p.heart){
-            drawHeart(p.x,p.y,.25,"#f18ca0");
-        }else{
+    drawHeart(
+        p.x,
+        p.y,
+        p.size || .25,
+        "#f18ca0"
+    );
+}else{
             ctx.fillStyle="#f4b3c0";
             ctx.fillRect(p.x,p.y,3,3);
         }
@@ -1225,6 +1270,18 @@ bindControl("up","up");
 bindControl("down","down");
 bindControl("left","left");
 bindControl("right","right");
+
+const heartButton=document.getElementById("heartButton");
+
+heartButton.addEventListener("touchstart",(e)=>{
+    e.preventDefault();
+    heartButtonEffect();
+},{passive:false});
+
+heartButton.addEventListener("click",(e)=>{
+    e.preventDefault();
+    heartButtonEffect();
+});
 
 
 // Start animation
