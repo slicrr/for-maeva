@@ -39,7 +39,19 @@ section{margin:0 auto 76px;max-width:820px}
 .art-caption{color:var(--muted);font-style:italic;margin:18px 0 0}
 .reasons-box{text-align:center;padding:30px 22px}
 .reason-number{font:11px Arial,sans-serif;letter-spacing:.2em;color:var(--rose);text-transform:uppercase}
-.reason-text{font-size:clamp(21px,4vw,29px);line-height:1.45;min-height:120px;display:flex;align-items:center;justify-content:center;max-width:650px;margin:22px auto;color:var(--cream)}
+.envelope-scene{max-width:690px;margin:26px auto 8px;position:relative;padding:24px 12px 12px}
+.envelope{position:relative;min-height:210px;padding:18px 14px 24px;background:linear-gradient(145deg,#8c5268,#603347);border:1px solid rgba(245,220,226,.32);border-radius:9px 9px 15px 15px;box-shadow:0 15px 35px rgba(0,0,0,.24);overflow:hidden}
+.envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,transparent 49.6%,rgba(30,12,22,.18) 50%,transparent 50.5%),linear-gradient(35deg,transparent 49.6%,rgba(30,12,22,.18) 50%,transparent 50.5%);pointer-events:none}
+.envelope-flap{position:absolute;z-index:2;left:0;right:0;top:0;height:74px;background:linear-gradient(160deg,#b77c91,#875068);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .65s ease;filter:drop-shadow(0 4px 4px rgba(0,0,0,.15))}
+.letter-paper{position:relative;z-index:1;background:linear-gradient(160deg,#fff7ed,#f0dfd7);color:#4b2938;border-radius:5px;min-height:150px;padding:28px 22px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 15px rgba(0,0,0,.16);transform:translateY(24px);transition:transform .65s cubic-bezier(.2,.8,.2,1);}
+.letter-paper:before{content:"♡";font-size:17px;color:#a45e78;position:absolute;top:9px;right:13px}
+.reason-text{font-size:clamp(21px,4vw,29px);line-height:1.45;min-height:100px;display:flex;align-items:center;justify-content:center;max-width:650px;margin:0 auto;color:#4b2938}
+.envelope-scene.opening .envelope-flap{transform:rotateX(180deg);z-index:0}
+.envelope-scene.opening .letter-paper{transform:translateY(-4px);animation:letter-arrive .72s ease both}
+.envelope-seal{position:absolute;z-index:3;left:50%;top:76px;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e7c5cb;color:#69394d;border:1px solid rgba(80,35,53,.25);box-shadow:0 3px 8px rgba(0,0,0,.2);font-size:20px;transition:opacity .25s,transform .4s}
+.envelope-scene.opening .envelope-seal{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+@keyframes letter-arrive{0%{opacity:.7}45%{opacity:1}100%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.envelope-flap,.letter-paper,.envelope-seal{transition:none!important}.envelope-scene.opening .letter-paper{animation:none!important}}
 .controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
 .button{cursor:pointer;padding:12px 19px;font-size:11px}
 .button.primary{background:#633247;color:#fff0f2;border-color:#a66a81}
@@ -105,13 +117,28 @@ section{margin:0 auto 76px;max-width:820px}
 </section>
 
 <section id="reasons">
-  <div class="section-head"><div class="kicker">A hundred little things</div><h2>100 Reasons Why I Love You ❤️</h2><p>One hundred little reasons, written from the heart. Each one will have its own moment here.</p></div>
+  <div class="section-head"><div class="kicker">A hundred little things</div><h2>100 Reasons Why I Love You ❤️</h2><p>Every reason deserves its own little moment. Here are one hundred of the many things I love about you.</p></div>
   <div class="card reasons-box">
-    <div class="reason-number" id="reasonCounter">Waiting for the original list ♡</div>
-    <div class="reason-text" id="reasonText">A hundred little things I love about you. The original list will appear here, one reason at a time. ♡</div>
+    <div class="reason-number" id="reasonCounter">Reason 1 of 100</div>
+    <div class="envelope-scene opening" id="envelopeScene" aria-live="polite">
+      <div class="envelope">
+        <div class="letter-paper"><div class="reason-text" id="reasonText">I love your cute big smile. 😁</div></div>
+        <div class="envelope-flap" aria-hidden="true"></div>
+        <div class="envelope-seal" aria-hidden="true">♡</div>
+      </div>
+    </div>
     <div class="controls"><button class="button" id="prevReason" type="button" disabled>← Previous</button><button class="button primary" id="nextReason" type="button" disabled>Next reason ♡ →</button></div>
     <div class="progress"><span id="reasonProgress"></span></div>
-    <p style="font-size:12px;color:#b99aa5;margin:18px 0 0">Every word, bracket, number and emoji will stay exactly as you wrote it. ♡</p>
+    <p style="font-size:12px;color:#b99aa5;margin:18px 0 0">A hundred little love letters, one at a time. ♡</p>
+  </div>
+</section>
+
+<section id="last-reason">
+  <div class="card letter">
+    <div class="kicker" style="text-align:center;margin-bottom:16px">And one last thing…</div>
+    <p><strong>And if I could give you one last reason, it would be this:</strong></p>
+    <p>I don’t know every chapter of our story yet, but I know that meeting you has already made mine a little more beautiful. And if one day I get to stand next to you, hold your hand, and see that beautiful smile without a screen between us, I’ll have one more reason to be grateful that I met you.</p>
+    <p class="sign">With love,<br>Tom ❤️</p>
   </div>
 </section>
 
@@ -158,7 +185,108 @@ section{margin:0 auto 76px;max-width:820px}
 <div class="footer">Made with love, just for Maëva</div>
 </main>
 <script>
-const reasons = []; // Insert the 100 original reasons here, without changing their wording.
+const reasons = [
+  "I love your cute big smile. 😁",
+  "I love the way your brown eyes light up. 🤩",
+  "I love how you can make me smile without even trying. ☺️",
+  "I love your laugh in all diversity, no matter if loud, quiet or weird. 🤣",
+  "I love how beautiful you are, even when you don’t notice it yourself. 🥰",
+  "I love the way you make my day better just by being in it. 🫂",
+  "I love how cute you are when you’re shy. 🥺",
+  "I love your golden personality. ✨",
+  "I love how funny you can be. (Sometimes) 😂",
+  "I love the way you make me feel. ❤️",
+  "I love how talking to you never feels boring. 🥱",
+  "I love how we can talk for hours, while it feels like minutes. 🗣️",
+  "I love how I never want our calls to end. 📱",
+  "I love hearing your adorable voice. 👂🏻",
+  "I love seeing your 🫵🏼 face on my screen.",
+  "I love the little things you tell me about your day. (Even tho you keep it short mostly) 🤏🏼",
+  "I love how you make ordinary moments feel special. 🫶🏼",
+  "I love how you can make me forget about a bad day. 😢",
+  "I love how I look forward to talking to you. ⏩",
+  "I love how a simple message from you can make me happy. (Yes it does) 🤳🏼",
+  "I love how you notice the little things. 😱",
+  "I love learning French with you or for you. 🤓",
+  "I love your intelligence. 🥸🧠",
+  "I love your sense of humor that matches mine. 😝",
+  "I love how you can be both shy and funny. 🥺🤣",
+  "I love how there’s always something new to discover about you. 🔍",
+  "I love your cute little reactions to things. 😍",
+  "I love that I can be myself around you. 🥹",
+  "I love how you have your own way of seeing things. 👀",
+  "I love all the little details that make you you. 👩🏾",
+  "I love how special you are to me. ✨",
+  "I love that you’re the person I want to tell things to. 🗣️",
+  "I love how you make me curious about your world. 🌍",
+  "I love learning new things about you. 🆕",
+  "I love how you can make me laugh when I least expect it. 🤣",
+  "I love how you make me feel closer to you, even from far away. 🇫🇷➡️🇩🇪",
+  "I love the way I feel when we’re talking. 🦋",
+  "I love how I can get lost in our conversations. 😵‍💫",
+  "I love the little moments when we just look at each other on video call. 👩🏽‍❤️‍💋‍👨🏻",
+  "I love how even silence with you can feel comfortable. 🤫",
+  "I love your beautiful shining eyes. 👁️",
+  "I love your hair. 👩🏾 (the new one even more)",
+  "I love your beautiful face. (Want to kiss everything there) 😍",
+  "I love how adorable you look when you’re concentrating. 🥹",
+  "I love how pretty you are when you smile. 🥰",
+  "I love that I can be freaky around you without you finding me weird by what I say, and you can often feel as comfortable as me 😏",
+  "I love the way you look at me. 👀",
+  "I love how you can make me nervous in the cutest way. 😓",
+  "I love how you can be so pretty without even trying. 🙄",
+  "I love that my favorite view can be your face on my screen. 🫵🏼📱",
+  "I love how you make me want to be a better person. ☹️",
+  "I love how much I care about your happiness. (I really do) 🫂",
+  "I love knowing that I might be able to make you smile. ☺️",
+  "I love making you laugh. 😂",
+  "I love giving you compliments and hoping you believe every word. 🥲",
+  "I love reminding you how beautiful you are. (Yes you are) 🙃",
+  "I love when I can make you feel a little less stressed, when everything else feels so loud. 😣",
+  "I love the thought of being someone you can turn to, and talk to when you feel sad or need to be reassured. 😇",
+  "I love wanting to make your bad days a little easier. 😙",
+  "I love how much your happiness means to me. 🩷",
+  "I love the way I miss you after we stop talking. 😢",
+  "I love how I can still think about you long after our calls end. (Till deep of the night) 🤔",
+  "I love how you randomly pop into my mind. 🧠",
+  "I love the little things that remind me of you. 👚🎀",
+  "I love how one message from you can change my mood. 😊",
+  "I love how I sometimes catch myself smiling because of you. 😄",
+  "I love how excited I get when I see your name appear. 🥰",
+  "I love the feeling of knowing we’ll talk again. 👥",
+  "I love how distance hasn’t stopped you from becoming important to me. 🚨",
+  "I love how Germany and France don’t feel quite so far apart when I’m talking to you. 🇫🇷🇩🇪",
+  "I love imagining the day we finally meet. 👩🏾‍❤️‍👨🏽",
+  "I love imagining seeing your smile in person. (So cuteee) 🥹",
+  "I love imagining hearing your laugh right next to me. 😂",
+  "I love imagining our first hug. (Would feel so warm) 🫂",
+  "I love imagining holding your hand for the first time. 🤝",
+  "I love imagining looking into your eyes without a screen between us. 👁️🧿",
+  "I love imagining making you laugh in person. 😸",
+  "I love imagining taking our first picture together. 📸",
+  "I love imagining sharing sushi with you. (As you insist) 🍱",
+  "I love imagining all the little memories we could make together. 🌃",
+  "I love the thought of walking beside you. 🚶🏽‍➡️🚶🏽‍♀️‍➡️",
+  "I love the thought of making you feel safe and comfortable. 🥰",
+  "I love the thought of being close enough to see your little expressions clearly. 😆",
+  "I love the thought of surprising you with flowers. 💐",
+  "I love the thought of giving you lilies because I know you like them. 🌺",
+  "I love the thought of seeing your reaction to a little surprise. 🥹",
+  "I love the thought of making you laugh until your cheeks hurt. ☺️🤭",
+  "I love the thought of spending an entire day with you. 😫",
+  "I love the thought of turning ordinary days into beautiful memories with you. 🤳🏼",
+  "I love the possibility of discovering what our future could look like. 👴🏻👵🏾",
+  "I love you for being yourself. 👩🏾",
+  "I love all the little things you might think nobody notices. ✨✨✨",
+  "I love that I don’t need a perfect moment to enjoy talking to you. 🤗",
+  "I love how you have become someone I genuinely care about. 👥",
+  "I love how you make the distance feel worth being patient for. 😴",
+  "I love how there’s still so much about you I want to learn. 🧐",
+  "I love the way you make my heart feel a little softer. ❤️‍🩹",
+  "I love that, out of all the people I could have met, I got to meet you. ❤️",
+  "I love that you’re Maëva and not anyone else, just you. 👩🏾",
+  "I love you because, no matter how many reasons I write down, none of them could ever fully explain what you mean to me. ❤️❤️❤️"
+];
 let current = 0;
 const counter = document.getElementById('reasonCounter');
 const reasonText = document.getElementById('reasonText');
@@ -166,11 +294,14 @@ const prev = document.getElementById('prevReason');
 const next = document.getElementById('nextReason');
 const progress = document.getElementById('reasonProgress');
 function renderReason(){
-  if(!reasons.length){counter.textContent='Waiting for the original list ♡';reasonText.textContent='A hundred little things I love about you. The original list will appear here, one reason at a time. ♡';prev.disabled=true;next.disabled=true;progress.style.width='0%';return;}
-  counter.textContent=`Reason ${current+1} of ${reasons.length}`;
+  if(!reasons.length){counter.textContent='Reason 1 of 100';reasonText.textContent='I love your cute big smile. 😁';prev.disabled=true;next.disabled=true;progress.style.width='0%';return;}
+  const scene=document.getElementById('envelopeScene');
+  scene.classList.remove('opening');
+  counter.textContent=`Letter ${current+1} of ${reasons.length}`;
   reasonText.textContent=reasons[current];
   prev.disabled=current===0;next.disabled=current===reasons.length-1;
   progress.style.width=((current+1)/reasons.length*100)+'%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>scene.classList.add('opening')));
 }
 prev.addEventListener('click',()=>{if(current>0){current--;renderReason();}});
 next.addEventListener('click',()=>{if(current<reasons.length-1){current++;renderReason();}});
